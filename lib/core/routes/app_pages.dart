@@ -13,5 +13,10 @@ class AppPages {
     //   page: () => const ProfileView(),
     //   binding: ProfileBinding(),
     // ),
+    // GetPage(
+    //   name: AppRoutes.log,
+    //   page: () => const LogView(),
+    //   binding: LogBinding(),
+    // ),
   ];
 }
