@@ -8,5 +8,10 @@ class AppPages {
     // page: () => const HomeView(),
     //  binding: HomeBinding(),
     // ),
+    // GetPage(
+    //   name: AppRoutes.profile,
+    //   page: () => const ProfileView(),
+    //   binding: ProfileBinding(),
+    // ),
   ];
 }
