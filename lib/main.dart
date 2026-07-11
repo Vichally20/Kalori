@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'core/bindings/initial_binding.dart';
 import 'core/routes/app_pages.dart';
 import 'core/routes/app_routes.dart';
+import 'core/theme/app_theme.dart';
 
 void main() {
   runApp(const KaloriApp());
@@ -18,11 +19,8 @@ class KaloriApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialBinding: InitialBinding(),
       initialRoute: AppRoutes.home,
-     // getPages: AppPages.pages,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        useMaterial3: true,
-      ),
+      getPages: AppPages.pages,
+      theme: KaloriTheme.light,
     );
   }
 }
