@@ -1,24 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../data/model/model.dart';
 import '../../../log/view/controllers/log_controller.dart';
-
-class FoodLogItem {
-  final String title;
-  final String subtitle;
-  final String calories;
-  final IconData icon;
-  final Color iconBgColor;
-  final Color iconColor;
-
-  FoodLogItem({
-    required this.title,
-    required this.subtitle,
-    required this.calories,
-    required this.icon,
-    required this.iconBgColor,
-    required this.iconColor,
-  });
-}
 
 class HomeController extends GetxController {
   // Bottom Nav Bar state (0: Home, 1: Log, 2: History, 3: Profile)

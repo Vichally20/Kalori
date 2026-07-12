@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../controllers/home_controller.dart';
+import '../../data/model/model.dart';
 
 class RecentLogsSection extends StatelessWidget {
   final List<FoodLogItem> logs;

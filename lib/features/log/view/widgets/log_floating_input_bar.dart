@@ -59,16 +59,16 @@ class LogFloatingInputBar extends StatelessWidget {
           ),
           const SizedBox(width: 8.0),
 
-          // Green Send Button
+          // Green Send Button (Square with curved edge)
           GestureDetector(
             onTap: controller.submitInput,
             behavior: HitTestBehavior.opaque,
             child: Container(
               width: 40.0,
               height: 40.0,
-              decoration: const BoxDecoration(
-                color: Color(0xFF006C49),
-                shape: BoxShape.circle,
+              decoration: BoxDecoration(
+                color: const Color(0xFF006C49),
+                borderRadius: BorderRadius.circular(14.0),
               ),
               child: const Icon(
                 Icons.arrow_upward,

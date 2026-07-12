@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../controllers/log_controller.dart';
+import '../../data/model/model.dart';
 
 class MealBreakdownCard extends StatelessWidget {
   final List<MealFoodItem> foodItems;
@@ -8,6 +8,8 @@ class MealBreakdownCard extends StatelessWidget {
   final int protein;
   final int fat;
   final VoidCallback onClose;
+  final bool isExpanded;
+  final VoidCallback? onToggleExpand;
 
   const MealBreakdownCard({
     super.key,
@@ -16,10 +18,76 @@ class MealBreakdownCard extends StatelessWidget {
     required this.protein,
     required this.fat,
     required this.onClose,
+    this.isExpanded = true,
+    this.onToggleExpand,
   });
 
   @override
   Widget build(BuildContext context) {
+    final VoidCallback toggleAction = onToggleExpand ?? onClose;
+
+    // Contracted state: compact card with title and expand icon on the far right
+    if (!isExpanded) {
+      return GestureDetector(
+        onTap: toggleAction,
+        behavior: HitTestBehavior.opaque,
+        child: Container(
+          decoration: BoxDecoration(
+            color: KaloriColors.surfaceContainerLowest,
+            borderRadius: BorderRadius.circular(KaloriRadius.xl),
+            border: Border.all(color: KaloriColors.borderSlate, width: 1.0),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x0F0D1C2F),
+                blurRadius: 16.0,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: KaloriSpacing.containerMargin,
+            vertical: 16.0,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  const Icon(
+                    Icons.restaurant_outlined,
+                    color: Color(0xFF855300),
+                    size: 24.0,
+                  ),
+                  const SizedBox(width: 8.0),
+                  Text(
+                    'Meal Breakdown',
+                    style: context.typography.headlineMd.copyWith(
+                      color: KaloriColors.onSurface,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+              // Far right expand icon
+              Container(
+                padding: const EdgeInsets.all(6.0),
+                decoration: const BoxDecoration(
+                  color: KaloriColors.surfaceContainerHigh,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.keyboard_arrow_down,
+                  size: 20.0,
+                  color: KaloriColors.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Expanded state: full meal breakdown card
     return Container(
       decoration: BoxDecoration(
         color: KaloriColors.surfaceContainerLowest,
@@ -37,7 +105,7 @@ class MealBreakdownCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header Row with closeable button & LOGGED badge
+          // Header Row with close/collapse button & LOGGED badge
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -79,9 +147,9 @@ class MealBreakdownCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8.0),
-                  // Close Button (make the meal breakdown card closeable)
+                  // Close/Collapse Button (contracts the card)
                   GestureDetector(
-                    onTap: onClose,
+                    onTap: toggleAction,
                     behavior: HitTestBehavior.opaque,
                     child: Container(
                       padding: const EdgeInsets.all(6.0),
@@ -90,8 +158,8 @@ class MealBreakdownCard extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
-                        Icons.close,
-                        size: 18.0,
+                        Icons.keyboard_arrow_up,
+                        size: 20.0,
                         color: KaloriColors.onSurfaceVariant,
                       ),
                     ),

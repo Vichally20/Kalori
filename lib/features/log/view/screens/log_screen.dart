@@ -22,115 +22,124 @@ class LogView extends StatelessWidget {
 
     final bool isStandaloneRoute = Get.currentRoute == AppRoutes.log;
 
-    final Widget content = Stack(
-      children: [
-        // Main Scrollable Area
-        SafeArea(
-          child: SingleChildScrollView(
+    final Widget content = SafeArea(
+      child: Column(
+        children: [
+          // Main Scrollable Area
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.only(
+                left: KaloriSpacing.containerMargin,
+                right: KaloriSpacing.containerMargin,
+                top: KaloriSpacing.md,
+                bottom: KaloriSpacing.md,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Top Header Row: Calendar + Profile Avatar
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.calendar_today_outlined,
+                            color: KaloriColors.successGreen,
+                            size: 24.0,
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            'Today, Oct 24',
+                            style: context.typography.headlineMd.copyWith(
+                              color: KaloriColors.onSurface,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        width: 44.0,
+                        height: 44.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: KaloriColors.primaryFixed,
+                            width: 2.5,
+                          ),
+                        ),
+                        child: const CircleAvatar(
+                          backgroundColor: KaloriColors.surfaceContainerHighest,
+                          child: Icon(
+                            Icons.person,
+                            color: KaloriColors.primary,
+                            size: 24.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: KaloriSpacing.lg),
+
+                  // Chat Messages Area
+                  Obx(
+                    () => Column(
+                      children: controller.chatMessages.map((message) {
+                        return ChatBubble(message: message);
+                      }).toList(),
+                    ),
+                  ),
+                  const SizedBox(height: KaloriSpacing.sm),
+
+                  // Contractible Meal Breakdown Card
+                  Obx(
+                    () => Column(
+                      children: [
+                        MealBreakdownCard(
+                          foodItems: controller.foodItems,
+                          carbs: controller.carbsCurrent.value,
+                          protein: controller.proteinCurrent.value,
+                          fat: controller.fatCurrent.value,
+                          onClose: controller.contractMealBreakdown,
+                          isExpanded: controller.isMealBreakdownExpanded.value,
+                          onToggleExpand: controller.toggleMealBreakdown,
+                        ),
+                        const SizedBox(height: KaloriSpacing.lg),
+                      ],
+                    ),
+                  ),
+
+                  // Quick Suggestion Chips (ADD BLACK COFFEE, etc.)
+                  SuggestionChipsRow(
+                    suggestions: const [
+                      'ADD BLACK COFFEE',
+                      'ADD OAT MILK LATTE',
+                      'ADD ESPRESSO',
+                      'ADD AVOCADO',
+                      'EDIT MEAL',
+                    ],
+                    onChipTap: controller.addSuggestion,
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // Pinned Chat Bar right at the bottom of the screen
+          Container(
             padding: const EdgeInsets.only(
               left: KaloriSpacing.containerMargin,
               right: KaloriSpacing.containerMargin,
-              top: KaloriSpacing.md,
-              bottom: 96.0, // Space for bottom floating bar
+              top: 8.0,
+              bottom: 12.0,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Top Header Row: Calendar + Profile Avatar
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.calendar_today_outlined,
-                          color: KaloriColors.successGreen,
-                          size: 24.0,
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          'Today, Oct 24',
-                          style: context.typography.headlineMd.copyWith(
-                            color: KaloriColors.onSurface,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: 44.0,
-                      height: 44.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: KaloriColors.primaryFixed,
-                          width: 2.5,
-                        ),
-                      ),
-                      child: const CircleAvatar(
-                        backgroundColor: KaloriColors.surfaceContainerHighest,
-                        child: Icon(
-                          Icons.person,
-                          color: KaloriColors.primary,
-                          size: 24.0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: KaloriSpacing.lg),
-
-                // Chat Messages Area
-                Obx(
-                  () => Column(
-                    children: controller.chatMessages.map((message) {
-                      return ChatBubble(message: message);
-                    }).toList(),
-                  ),
-                ),
-                const SizedBox(height: KaloriSpacing.sm),
-
-                // Closeable Meal Breakdown Card
-                Obx(() {
-                  if (!controller.showMealBreakdown.value) {
-                    return const SizedBox.shrink();
-                  }
-                  return Column(
-                    children: [
-                      MealBreakdownCard(
-                        foodItems: controller.foodItems,
-                        carbs: controller.carbsCurrent.value,
-                        protein: controller.proteinCurrent.value,
-                        fat: controller.fatCurrent.value,
-                        onClose: controller.dismissMealBreakdown,
-                      ),
-                      const SizedBox(height: KaloriSpacing.lg),
-                    ],
-                  );
-                }),
-
-                // Quick Suggestion Chips (ADD BLACK COFFEE, etc.)
-                SuggestionChipsRow(
-                  suggestions: const [
-                    'ADD BLACK COFFEE',
-                    'ADD AVOCADO',
-                    'EDIT MEAL',
-                  ],
-                  onChipTap: controller.addSuggestion,
-                ),
-              ],
+            decoration: const BoxDecoration(
+              color: KaloriColors.background,
             ),
+            child: LogFloatingInputBar(controller: controller),
           ),
-        ),
-
-        // Floating Input Bar (`What else did you eat?`)
-        Positioned(
-          left: KaloriSpacing.containerMargin,
-          right: KaloriSpacing.containerMargin,
-          bottom: KaloriSpacing.md,
-          child: LogFloatingInputBar(controller: controller),
-        ),
-      ],
+        ],
+      ),
     );
 
     if (!isStandaloneRoute) {

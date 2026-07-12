@@ -1,27 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-class ChatMessage {
-  final String text;
-  final bool isUser;
-
-  ChatMessage({required this.text, required this.isUser});
-}
-
-class MealFoodItem {
-  final String title;
-  final String subtitle;
-  final String calories;
-
-  MealFoodItem({
-    required this.title,
-    required this.subtitle,
-    required this.calories,
-  });
-}
+import '../../data/model/model.dart';
 
 class LogController extends GetxController {
-  // Whether the meal breakdown card is currently open/visible
+  // Whether the meal breakdown card is currently expanded (true) or contracted (false)
+  final RxBool isMealBreakdownExpanded = true.obs;
+  // Kept for backwards compatibility if needed
   final RxBool showMealBreakdown = true.obs;
 
   // Text controller for "What else did you eat?" floating bar
@@ -59,14 +43,29 @@ class LogController extends GetxController {
   final RxInt proteinCurrent = 16.obs;
   final RxInt fatCurrent = 11.obs;
 
-  // Close / dismiss the meal breakdown card
+  // Contract the meal breakdown card
+  void contractMealBreakdown() {
+    isMealBreakdownExpanded.value = false;
+  }
+
+  // Expand the meal breakdown card
+  void expandMealBreakdown() {
+    isMealBreakdownExpanded.value = true;
+  }
+
+  // Toggle meal breakdown expansion
+  void toggleMealBreakdown() {
+    isMealBreakdownExpanded.value = !isMealBreakdownExpanded.value;
+  }
+
+  // Close / dismiss the meal breakdown card (now contracts it instead of hiding)
   void dismissMealBreakdown() {
-    showMealBreakdown.value = false;
+    isMealBreakdownExpanded.value = false;
   }
 
   // Restore or open the meal breakdown card
   void restoreMealBreakdown() {
-    showMealBreakdown.value = true;
+    isMealBreakdownExpanded.value = true;
   }
 
   // Handle quick suggestion chips
@@ -87,6 +86,44 @@ class LogController extends GetxController {
         ),
       );
       showMealBreakdown.value = true;
+      isMealBreakdownExpanded.value = true;
+    } else if (suggestion == 'ADD OAT MILK LATTE') {
+      chatMessages.add(ChatMessage(text: 'Add oat milk latte', isUser: true));
+      chatMessages.add(
+        ChatMessage(
+          text: 'Added Oat Milk Latte (1 medium) • 120 kcal.',
+          isUser: false,
+        ),
+      );
+      foodItems.add(
+        MealFoodItem(
+          title: 'Oat Milk Latte',
+          subtitle: '1 medium cup',
+          calories: '120 kcal',
+        ),
+      );
+      carbsCurrent.value += 14;
+      proteinCurrent.value += 3;
+      fatCurrent.value += 5;
+      showMealBreakdown.value = true;
+      isMealBreakdownExpanded.value = true;
+    } else if (suggestion == 'ADD ESPRESSO') {
+      chatMessages.add(ChatMessage(text: 'Add double espresso', isUser: true));
+      chatMessages.add(
+        ChatMessage(
+          text: 'Added Double Espresso • 3 kcal.',
+          isUser: false,
+        ),
+      );
+      foodItems.add(
+        MealFoodItem(
+          title: 'Double Espresso',
+          subtitle: '2 shots (60ml)',
+          calories: '3 kcal',
+        ),
+      );
+      showMealBreakdown.value = true;
+      isMealBreakdownExpanded.value = true;
     } else if (suggestion == 'ADD AVOCADO') {
       chatMessages.add(ChatMessage(text: 'Add half an avocado', isUser: true));
       chatMessages.add(
@@ -106,6 +143,7 @@ class LogController extends GetxController {
       carbsCurrent.value += 4;
       proteinCurrent.value += 2;
       showMealBreakdown.value = true;
+      isMealBreakdownExpanded.value = true;
     } else if (suggestion == 'EDIT MEAL') {
       Get.snackbar(
         'Edit Meal',
@@ -139,6 +177,7 @@ class LogController extends GetxController {
       proteinCurrent.value += 8;
       fatCurrent.value += 6;
       showMealBreakdown.value = true;
+      isMealBreakdownExpanded.value = true;
     }
   }
 
