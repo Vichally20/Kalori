@@ -14,10 +14,7 @@ class HistoryView extends StatelessWidget {
         elevation: 0,
       ),
       body: Center(
-        child: Text(
-          'Past Calorie & Meal History',
-          style: context.typography.bodyLg,
-        ),
+        child: Text('History Page', style: context.typography.headlineLgMobile),
       ),
     );
   }
