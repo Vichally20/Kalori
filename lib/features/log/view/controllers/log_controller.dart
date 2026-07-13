@@ -58,17 +58,17 @@ class LogController extends GetxController {
     isMealBreakdownExpanded.value = !isMealBreakdownExpanded.value;
   }
 
-  // Close / dismiss the meal breakdown card (now contracts it instead of hiding)
+  // Close the meal breakdown card (now contracts it instead of hiding)
   void dismissMealBreakdown() {
     isMealBreakdownExpanded.value = false;
   }
 
-  // Restore or open the meal breakdown card
+  // Restore the meal breakdown card
   void restoreMealBreakdown() {
     isMealBreakdownExpanded.value = true;
   }
 
-  // Handle quick suggestion chips
+  // Handle suggestion chips
   void addSuggestion(String suggestion) {
     if (suggestion == 'ADD BLACK COFFEE') {
       chatMessages.add(ChatMessage(text: 'Add black coffee', isUser: true));

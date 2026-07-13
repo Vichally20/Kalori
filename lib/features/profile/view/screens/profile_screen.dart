@@ -17,8 +17,8 @@ class ProfileView extends GetView<ProfileController> {
       ),
       body: Center(
         child: Text(
-          'Profile Settings & Goals',
-          style: context.typography.bodyLg,
+          'Profile Page',
+          style: context.typography.headlineLgMobile,
         ),
       ),
     );
