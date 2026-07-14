@@ -15,6 +15,8 @@ import '../widgets/tip_of_the_day_card.dart';
 
 
 class HomeView extends GetView<HomeController> {
+  static String path = '/home';
+
   const HomeView({super.key});
 
   @override

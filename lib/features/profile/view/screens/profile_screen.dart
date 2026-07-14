@@ -4,6 +4,8 @@ import '../../../../core/theme/app_theme.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
+  static String path = '/profile';
+
   const ProfileView({super.key});
 
   @override

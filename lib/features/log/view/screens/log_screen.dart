@@ -11,6 +11,8 @@ import '../widgets/meal_breakdown_card.dart';
 import '../widgets/suggestion_chips_row.dart';
 
 class LogView extends StatelessWidget {
+  static String path = '/log';
+
   const LogView({super.key});
 
   @override
