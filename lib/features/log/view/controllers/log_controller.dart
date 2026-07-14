@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../shared/shared.dart';
 import '../../data/model/model.dart';
 
 class LogController extends GetxController {
@@ -87,6 +88,11 @@ class LogController extends GetxController {
       );
       showMealBreakdown.value = true;
       isMealBreakdownExpanded.value = true;
+      KaloriToast.showSuccess(
+        title: 'Black Coffee Added ☕',
+        message: 'Logged 1 regular cup (without sugar) • 5 kcal.',
+        position: SnackPosition.BOTTOM,
+      );
     } else if (suggestion == 'ADD OAT MILK LATTE') {
       chatMessages.add(ChatMessage(text: 'Add oat milk latte', isUser: true));
       chatMessages.add(
@@ -107,6 +113,11 @@ class LogController extends GetxController {
       fatCurrent.value += 5;
       showMealBreakdown.value = true;
       isMealBreakdownExpanded.value = true;
+      KaloriToast.showSuccess(
+        title: 'Oat Milk Latte Added ☕',
+        message: 'Logged 1 medium cup • 120 kcal.',
+        position: SnackPosition.BOTTOM,
+      );
     } else if (suggestion == 'ADD ESPRESSO') {
       chatMessages.add(ChatMessage(text: 'Add double espresso', isUser: true));
       chatMessages.add(
@@ -124,6 +135,11 @@ class LogController extends GetxController {
       );
       showMealBreakdown.value = true;
       isMealBreakdownExpanded.value = true;
+      KaloriToast.showSuccess(
+        title: 'Double Espresso Added ⚡',
+        message: 'Logged 2 shots (60ml) • 3 kcal.',
+        position: SnackPosition.BOTTOM,
+      );
     } else if (suggestion == 'ADD AVOCADO') {
       chatMessages.add(ChatMessage(text: 'Add half an avocado', isUser: true));
       chatMessages.add(
@@ -144,11 +160,16 @@ class LogController extends GetxController {
       proteinCurrent.value += 2;
       showMealBreakdown.value = true;
       isMealBreakdownExpanded.value = true;
+      KaloriToast.showSuccess(
+        title: 'Avocado Added 🥑',
+        message: 'Logged 1/2 medium sliced • 160 kcal.',
+        position: SnackPosition.BOTTOM,
+      );
     } else if (suggestion == 'EDIT MEAL') {
-      Get.snackbar(
-        'Edit Meal',
-        'You can now tap any item below to edit portions.',
-        snackPosition: SnackPosition.BOTTOM,
+      KaloriToast.showInfo(
+        title: 'Edit Meal',
+        message: 'You can now tap any item below to edit portions.',
+        position: SnackPosition.BOTTOM,
       );
     }
   }

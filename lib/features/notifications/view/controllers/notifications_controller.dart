@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import '../../../../shared/shared.dart';
 import '../../data/model/notification_item.dart';
 import '../../domain/repository/notifications_repository.dart';
 
@@ -83,10 +84,10 @@ class NotificationsController extends GetxController {
     for (final item in notifications) {
       item.isRead.value = true;
     }
-    Get.snackbar(
-      'All Read',
-      'All notifications have been marked as read.',
-      snackPosition: SnackPosition.BOTTOM,
+    KaloriToast.showSuccess(
+      title: 'All Read',
+      message: 'All notifications have been marked as read.',
+      position: SnackPosition.BOTTOM,
       duration: const Duration(seconds: 2),
     );
   }
@@ -98,10 +99,10 @@ class NotificationsController extends GetxController {
     notifications.removeWhere((item) => item.id == id);
 
     if (removed != null) {
-      Get.snackbar(
-        'Notification Removed',
-        removed.title,
-        snackPosition: SnackPosition.BOTTOM,
+      KaloriToast.showInfo(
+        title: 'Notification Removed',
+        message: removed.title,
+        position: SnackPosition.BOTTOM,
         duration: const Duration(seconds: 2),
       );
     }
@@ -112,10 +113,10 @@ class NotificationsController extends GetxController {
     if (notifications.isEmpty) return;
     _repository.clearAll();
     notifications.clear();
-    Get.snackbar(
-      'Cleared',
-      'All notifications have been cleared.',
-      snackPosition: SnackPosition.BOTTOM,
+    KaloriToast.showInfo(
+      title: 'Cleared',
+      message: 'All notifications have been cleared.',
+      position: SnackPosition.BOTTOM,
       duration: const Duration(seconds: 2),
     );
   }
@@ -126,10 +127,10 @@ class NotificationsController extends GetxController {
     if (item.actionRoute != null && item.actionRoute!.isNotEmpty) {
       Get.toNamed(item.actionRoute!);
     } else {
-      Get.snackbar(
-        item.title,
-        item.message,
-        snackPosition: SnackPosition.BOTTOM,
+      KaloriToast.showInfo(
+        title: item.title,
+        message: item.message,
+        position: SnackPosition.BOTTOM,
       );
     }
   }
