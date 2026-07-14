@@ -3,6 +3,8 @@ import '../../features/home/view/bindings/home_binding.dart';
 import '../../features/home/view/screens/home_screen.dart';
 import '../../features/log/view/bindings/log_binding.dart';
 import '../../features/log/view/screens/log_screen.dart';
+import '../../features/notifications/view/bindings/notifications_binding.dart';
+import '../../features/notifications/view/screens/notifications_screen.dart';
 import '../../features/profile/view/bindings/profile_binding.dart';
 import '../../features/profile/view/screens/profile_screen.dart';
 import 'app_routes.dart';
@@ -24,6 +26,12 @@ class AppPages {
       page: () => const LogView(),
       binding: LogBinding(),
     ),
+    GetPage(
+      name: AppRoutes.notifications,
+      page: () => const NotificationsView(),
+      binding: NotificationsBinding(),
+    ),
   ];
 }
+
 
