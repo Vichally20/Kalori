@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
 
 class HistoryView extends StatelessWidget {
+  static String path = '/history';
+
   const HistoryView({super.key});
 
   @override

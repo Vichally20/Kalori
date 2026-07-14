@@ -1,10 +1,17 @@
+import '../../features/history/view/screens/history_screen.dart';
+import '../../features/home/view/screens/home_screen.dart';
+import '../../features/log/view/screens/log_screen.dart';
+import '../../features/notifications/view/screens/notifications_screen.dart';
+import '../../features/profile/view/screens/profile_screen.dart';
+
 abstract class AppRoutes {
-  static const String home = '/home';
-  static const String profile = '/profile';
-  static const String log = '/log';
-  static const String history = '/history';
+  static String home = HomeView.path;
+  static String profile = ProfileView.path;
+  static String log = LogView.path;
+  static String history = HistoryView.path;
+  static String notifications = NotificationsView.path;
+
   static const String settings = '/settings';
-  static const String notifications = '/notifications';
   static const String helpAndFeedback = '/helpAndFeedback';
   static const String account = '/account';
   static const String subscriptions = '/subscriptions';
@@ -14,6 +21,4 @@ abstract class AppRoutes {
   static const String insights = '/insights';
   static const String waterTracker = '/waterTracker';
   static const String foodLibrary = '/foodLibrary';
-  
-  // Add more routes here as features grow
 }

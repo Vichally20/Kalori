@@ -1,37 +1,16 @@
 import 'package:get/get.dart';
-import '../../features/home/view/bindings/home_binding.dart';
-import '../../features/home/view/screens/home_screen.dart';
-import '../../features/log/view/bindings/log_binding.dart';
-import '../../features/log/view/screens/log_screen.dart';
-import '../../features/notifications/view/bindings/notifications_binding.dart';
-import '../../features/notifications/view/screens/notifications_screen.dart';
-import '../../features/profile/view/bindings/profile_binding.dart';
-import '../../features/profile/view/screens/profile_screen.dart';
-import 'app_routes.dart';
+import 'modules/history_routes.dart';
+import 'modules/home_routes.dart';
+import 'modules/log_routes.dart';
+import 'modules/notifications_routes.dart';
+import 'modules/profile_routes.dart';
 
 class AppPages {
-  static final pages = [
-    GetPage(
-      name: AppRoutes.home,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.profile,
-      page: () => const ProfileView(),
-      binding: ProfileBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.log,
-      page: () => const LogView(),
-      binding: LogBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.notifications,
-      page: () => const NotificationsView(),
-      binding: NotificationsBinding(),
-    ),
+  static final List<GetPage<dynamic>> pages = [
+    ...HomeRoutes.routes,
+    ...ProfileRoutes.routes,
+    ...LogRoutes.routes,
+    ...NotificationsRoutes.routes,
+    ...HistoryRoutes.routes,
   ];
 }
-
-

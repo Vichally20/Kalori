@@ -8,6 +8,8 @@ import '../widgets/notifications_filter_bar.dart';
 
 /// Main screen view for Notifications in Kalori.
 class NotificationsView extends GetView<NotificationsController> {
+  static String path = '/notifications';
+
   const NotificationsView({super.key});
 
   @override
