@@ -6,6 +6,10 @@ A new Flutter project.
 
 A calories tracker app for nigerians 
 
+
+/ features 
+- Track daily calorie intake
+- 
 - [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
 - [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
