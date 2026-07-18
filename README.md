@@ -43,6 +43,41 @@ Built with **Flutter** & **GetX**.
 - Optional animated ellipsis label (*"Analysing your meal..."*)
 
 ---
+## 🤖 Upcoming Features
+- **Upcoming Features:**
+    - [ ] **Local-first database (SQLite/Hive)** — faster, offline-first data storage
+    - [ ] **Workout tracking** — log gym sessions and calories burned
+    - [ ] **Recipe builder** — create and save your own recipes
+    - [ ] **Meal planner** — plan your meals for the week
+    - [ ] **Water tracking** — track your daily water intake
+    - [ ] **Advanced analytics** — deeper insights and trends
+    - [ ] **Social features** — share progress with friends
+    - [ ] **Gamification** — badges, streaks, and rewards
+    - [ ] **Dark mode** — implement full dark mode support
+    - [ ] **Biometric lock** — secure your app with fingerprint or Face ID
+    - [ ] **HealthKit/Google Fit integration** — sync with native health platforms
+    - [ ] **Push notifications** — reminders and motivational messages
+    - [ ] **Widget support** — home screen widgets for quick logging
+    - [ ] **Wearable support** — Apple Watch and Wear OS companion apps
+    - [ ] **Voice logging** — speak your meals instead of typing
+    - [ ] **Barcode scanning** — scan food barcodes to add them to your log
+    - [ ] **AI meal recommendations** — personalized suggestions based on your goals
+    - [ ] **Photo logging** — take pictures of your meals to log them
+    - [ ] **Meal sharing** — share your meals with friends and family
+    - [ ] **Recipe sharing** — share your recipes with the community
+    - [ ] **Community features** — connect with other users and share progress
+    - [ ] **Premium features** — subscription-based premium features
+    - [ ] **Monetization** — implement ads and premium subscriptions
+    - [ ] **Localization** — support for multiple languages
+    - [ ] **Accessibility** — improve accessibility for all users
+    - [ ] **Performance optimization** — improve app performance
+    - [ ] **Security enhancements** — improve app security
+    - [ ] **Testing** — add unit and integration tests
+    - [ ] **CI/CD** — set up continuous integration and deployment
+    - [ ] **Analytics** — implement analytics to track app usage
+    - [ ] **Error reporting** — implement error reporting and crash tracking
+    - [ ] **User feedback** — implement a system for collecting user feedback
+
 
 ## 🏗️ Architecture
 
