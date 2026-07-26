@@ -20,6 +20,6 @@ The Home feature is built using Flutter and the GetX state management library. I
 ### Architecture
 
 This feature follows a modular structure:
-*   `view/`: Contains the screens, widgets, controllers, and bindings specific to the Home dashboard.
-*   `domain/`: Intended for domain-specific logic, repository interfaces, and data transfer objects (DTOs).
-*   `data/`: Intended for data sources and models related to the home feature's data needs.
+*   `presentation/`: Contains screens, widgets, controllers, and bindings specific to the Home dashboard.
+*   `domain/`: Contains entities (FoodLogItem), repositories interface (HomeRepository), and usecases (GetDailySummary).
+*   `data/`: Contains data sources (HomeLocalDataSource), models (FoodLogItemModel), and repository implementations.

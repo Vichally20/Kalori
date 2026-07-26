@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import '../../features/notifications/data/datasource/notifications_local_data_source.dart';
-import '../../features/notifications/data/repository/notifications_repository_impl.dart';
-import '../../features/notifications/domain/repository/notifications_repository.dart';
-import '../../features/notifications/view/controllers/notifications_controller.dart';
+import '../../features/notifications/data/datasources/notifications_local_data_source.dart';
+import '../../features/notifications/data/repositories/notifications_repository_impl.dart';
+import '../../features/notifications/domain/repositories/notifications_repository.dart';
+import '../../features/notifications/presentation/controllers/notifications_controller.dart';
 
 class InitialBinding extends Bindings {
   @override

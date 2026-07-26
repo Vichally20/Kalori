@@ -1,8 +1,8 @@
-import '../../features/history/view/screens/history_screen.dart';
-import '../../features/home/view/screens/home_screen.dart';
-import '../../features/log/view/screens/log_screen.dart';
-import '../../features/notifications/view/screens/notifications_screen.dart';
-import '../../features/profile/view/screens/profile_screen.dart';
+import '../../features/history/presentation/screens/history_screen.dart';
+import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/log/presentation/screens/log_screen.dart';
+import '../../features/notifications/presentation/screens/notifications_screen.dart';
+import '../../features/profile/presentation/screens/profile_screen.dart';
 
 abstract class AppRoutes {
   static String home = HomeView.path;

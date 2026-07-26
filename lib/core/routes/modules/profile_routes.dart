@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '../../../../features/profile/view/bindings/profile_binding.dart';
-import '../../../../features/profile/view/screens/profile_screen.dart';
+import '../../../../features/profile/presentation/bindings/profile_binding.dart';
+import '../../../../features/profile/presentation/screens/profile_screen.dart';
 
 class ProfileRoutes {
   static List<GetPage<dynamic>> routes = [

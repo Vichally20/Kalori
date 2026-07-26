@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '../../../../features/home/view/bindings/home_binding.dart';
-import '../../../../features/home/view/screens/home_screen.dart';
+import '../../../../features/home/presentation/bindings/home_binding.dart';
+import '../../../../features/home/presentation/screens/home_screen.dart';
 
 class HomeRoutes {
   static List<GetPage<dynamic>> routes = [
