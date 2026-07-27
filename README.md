@@ -78,7 +78,7 @@ Built with **Flutter** & **GetX**.
     - [ ] **Error reporting** — implement error reporting and crash tracking
     - [ ] **User feedback** — implement a system for collecting user feedback
 
-
+## Author is Ifeoluwakitan
 ## 🏗️ Architecture
 
 ```
