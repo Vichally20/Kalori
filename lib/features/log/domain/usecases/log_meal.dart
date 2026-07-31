@@ -1,4 +1,4 @@
-import '../entities/meal_food_item.dart';
+import '../entities/food_item.dart';
 import '../repositories/log_repository.dart';
 
 /// Usecase for logging a meal item
@@ -7,7 +7,7 @@ class LogMeal {
 
   LogMeal(this.logRepository);
 
-  Future<void> execute(MealFoodItem item) async {
+  Future<void> execute(FoodItem item) async {
     await logRepository.saveMealItem(item);
   }
 }

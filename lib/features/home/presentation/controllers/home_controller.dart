@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../domain/entities/food_log_item.dart';
+import '../models/generic_meal_widget_model.dart';
 import '../../../log/presentation/controllers/log_controller.dart';
+import '../../../log/domain/entities/food_item.dart';
+import '../../../log/domain/entities/nutritional_info.dart';
 
 class HomeController extends GetxController {
   // Bottom Nav Bar state (0: Home, 1: Log, 2: History, 3: Profile)
@@ -29,24 +31,55 @@ class HomeController extends GetxController {
   final RxString chatText = ''.obs;
 
   // Recent Logs State
-  final RxList<FoodLogItem> recentLogs = <FoodLogItem>[
-    FoodLogItem(
-      title: 'Boiled Eggs (2)',
-      subtitle: 'Breakfast • 8:15 AM',
-      calories: '155 kcal',
-      icon: Icons.egg_alt_outlined,
-      iconBgColor: const Color(0xFFEFF4FF),
-      iconColor: const Color(0xFF0D1C2F),
-    ),
-    FoodLogItem(
-      title: 'Oat Milk Latte',
-      subtitle: 'Snack • 11:30 AM',
-      calories: '120 kcal',
-      icon: Icons.coffee_outlined,
-      iconBgColor: const Color(0xFFEFF4FF),
-      iconColor: const Color(0xFF0D1C2F),
-    ),
-  ].obs;
+  late final RxList<GenericMealWidgetModel> recentLogs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    final initialItems = [
+      const FoodItem(
+        title: 'Boiled Eggs (2)',
+        subtitle: 'Breakfast • 8:15 AM',
+        nutritionalInfo: NutritionalInfo(calories: 155, carbs: 1, protein: 12, fat: 10),
+      ),
+      const FoodItem(
+        title: 'Oat Milk Latte',
+        subtitle: 'Snack • 11:30 AM',
+        nutritionalInfo: NutritionalInfo(calories: 120, carbs: 14, protein: 3, fat: 5),
+      ),
+    ];
+    recentLogs = initialItems.map(_mapFoodItemToUiModel).toList().obs;
+  }
+
+  GenericMealWidgetModel _mapFoodItemToUiModel(FoodItem item) {
+    // Dynamic icon assignment based on title (user requested "yes" to this logic)
+    IconData icon = Icons.fastfood_outlined;
+    Color iconBgColor = const Color(0xFFEFF4FF);
+    Color iconColor = const Color(0xFF0D1C2F);
+
+    final lowercaseTitle = item.title.toLowerCase();
+    if (lowercaseTitle.contains('egg')) {
+      icon = Icons.egg_alt_outlined;
+    } else if (lowercaseTitle.contains('coffee') || lowercaseTitle.contains('latte')) {
+      icon = Icons.coffee_outlined;
+    } else if (lowercaseTitle.contains('fruit') || lowercaseTitle.contains('apple')) {
+      icon = Icons.apple;
+    } else if (lowercaseTitle.contains('pizza')) {
+      icon = Icons.local_pizza_outlined;
+    } else if (lowercaseTitle.contains('avocado')) {
+      icon = Icons.eco_outlined;
+      iconColor = const Color(0xFF006C49);
+    }
+
+    return GenericMealWidgetModel(
+      title: item.title,
+      subtitle: item.subtitle,
+      trailingText: '${item.nutritionalInfo.calories} kcal',
+      icon: icon,
+      iconBgColor: iconBgColor,
+      iconColor: iconColor,
+    );
+  }
 
   void changeTab(int index) {
     currentTab.value = index;
@@ -56,17 +89,13 @@ class HomeController extends GetxController {
     if (chatController.text.trim().isNotEmpty) {
       final text = chatController.text.trim();
       // Add custom entry to recentLogs list
-      recentLogs.insert(
-        0,
-        FoodLogItem(
-          title: text,
-          subtitle: 'Just now',
-          calories: '200 kcal',
-          icon: Icons.fastfood_outlined,
-          iconBgColor: const Color(0xFFEFF4FF),
-          iconColor: const Color(0xFF006C49),
-        ),
+      final newItem = FoodItem(
+        title: text,
+        subtitle: 'Just now',
+        nutritionalInfo: const NutritionalInfo(calories: 200, carbs: 10, protein: 5, fat: 5),
       );
+      recentLogs.insert(0, _mapFoodItemToUiModel(newItem));
+      
       chatController.clear();
       chatText.value = '';
 

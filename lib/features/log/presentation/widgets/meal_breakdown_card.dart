@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../domain/entities/meal_food_item.dart';
+import '../../domain/entities/food_item.dart';
 
 class MealBreakdownCard extends StatelessWidget {
-  final List<MealFoodItem> foodItems;
+  final List<FoodItem> foodItems;
   final int carbs;
   final int protein;
   final int fat;
@@ -173,7 +173,7 @@ class MealBreakdownCard extends StatelessWidget {
           // Food Items List
           ...foodItems.asMap().entries.map((entry) {
             final int idx = entry.key;
-            final MealFoodItem item = entry.value;
+            final FoodItem item = entry.value;
             final bool isLast = idx == foodItems.length - 1;
 
             return Column(
@@ -207,7 +207,7 @@ class MealBreakdownCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 12),
                       Text(
-                        item.calories,
+                        '${item.nutritionalInfo.calories} kcal',
                         style: context.typography.bodyLg.copyWith(
                           fontWeight: FontWeight.w700,
                           color: KaloriColors.onSurface,

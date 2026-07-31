@@ -1,7 +1,7 @@
-import '../../domain/entities/food_log_item.dart';
+import '../../../log/domain/entities/food_item.dart';
 import '../../domain/repositories/home_repository.dart';
 import '../datasources/home_local_data_source.dart';
-import '../models/food_log_item_model.dart';
+import '../../../log/data/models/food_item_model.dart';
 
 /// Data repository implementation for [HomeRepository]
 class HomeRepositoryImpl implements HomeRepository {
@@ -10,12 +10,12 @@ class HomeRepositoryImpl implements HomeRepository {
   HomeRepositoryImpl({required this.localDataSource});
 
   @override
-  Future<List<FoodLogItem>> getRecentLogs() async {
+  Future<List<FoodItem>> getRecentLogs() async {
     return await localDataSource.getRecentLogs();
   }
 
   @override
-  Future<void> saveFoodLog(FoodLogItem item) async {
-    await localDataSource.cacheRecentLog(FoodLogItemModel.fromEntity(item));
+  Future<void> saveFoodLog(FoodItem item) async {
+    await localDataSource.cacheRecentLog(FoodItemModel.fromEntity(item));
   }
 }

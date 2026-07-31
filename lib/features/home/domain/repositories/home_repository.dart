@@ -1,7 +1,7 @@
-import '../entities/food_log_item.dart';
+import '../../../log/domain/entities/food_item.dart';
 
 /// Domain repository contract for Home feature
 abstract class HomeRepository {
-  Future<List<FoodLogItem>> getRecentLogs();
-  Future<void> saveFoodLog(FoodLogItem item);
+  Future<List<FoodItem>> getRecentLogs();
+  Future<void> saveFoodLog(FoodItem item);
 }

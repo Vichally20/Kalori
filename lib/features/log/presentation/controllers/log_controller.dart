@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../shared/shared.dart';
 import '../../domain/entities/chat_message.dart';
-import '../../domain/entities/meal_food_item.dart';
+import '../../domain/entities/food_item.dart';
+import '../../domain/entities/nutritional_info.dart';
 
 class LogController extends GetxController {
   // Whether the meal breakdown card is currently expanded (true) or contracted (false)
@@ -27,16 +28,16 @@ class LogController extends GetxController {
   ].obs;
 
   // Food items inside the current meal breakdown card
-  final RxList<MealFoodItem> foodItems = <MealFoodItem>[
-    MealFoodItem(
+  final RxList<FoodItem> foodItems = <FoodItem>[
+    FoodItem(
       title: 'Large Eggs (2)',
       subtitle: 'Boiled or Poached',
-      calories: '140 kcal',
+      nutritionalInfo: const NutritionalInfo(calories: 140, carbs: 1, protein: 12, fat: 10),
     ),
-    MealFoodItem(
+    FoodItem(
       title: 'Whole Grain Toast',
       subtitle: '1 regular slice',
-      calories: '100 kcal',
+      nutritionalInfo: const NutritionalInfo(calories: 100, carbs: 13, protein: 4, fat: 1),
     ),
   ].obs;
 
@@ -81,10 +82,10 @@ class LogController extends GetxController {
         ),
       );
       foodItems.add(
-        MealFoodItem(
+        FoodItem(
           title: 'Black Coffee',
           subtitle: '1 regular cup (without sugar)',
-          calories: '5 kcal',
+          nutritionalInfo: const NutritionalInfo(calories: 5, carbs: 0, protein: 0, fat: 0),
         ),
       );
       showMealBreakdown.value = true;
@@ -103,10 +104,10 @@ class LogController extends GetxController {
         ),
       );
       foodItems.add(
-        MealFoodItem(
+        FoodItem(
           title: 'Oat Milk Latte',
           subtitle: '1 medium cup',
-          calories: '120 kcal',
+          nutritionalInfo: const NutritionalInfo(calories: 120, carbs: 14, protein: 3, fat: 5),
         ),
       );
       carbsCurrent.value += 14;
@@ -128,10 +129,10 @@ class LogController extends GetxController {
         ),
       );
       foodItems.add(
-        MealFoodItem(
+        FoodItem(
           title: 'Double Espresso',
           subtitle: '2 shots (60ml)',
-          calories: '3 kcal',
+          nutritionalInfo: const NutritionalInfo(calories: 3, carbs: 1, protein: 0, fat: 0),
         ),
       );
       showMealBreakdown.value = true;
@@ -150,10 +151,10 @@ class LogController extends GetxController {
         ),
       );
       foodItems.add(
-        MealFoodItem(
+        FoodItem(
           title: 'Avocado',
           subtitle: '1/2 medium sliced',
-          calories: '160 kcal',
+          nutritionalInfo: const NutritionalInfo(calories: 160, carbs: 4, protein: 2, fat: 15),
         ),
       );
       fatCurrent.value += 15;
@@ -189,10 +190,10 @@ class LogController extends GetxController {
         ),
       );
       foodItems.add(
-        MealFoodItem(
+        FoodItem(
           title: cleanText,
           subtitle: 'Added just now',
-          calories: '180 kcal',
+          nutritionalInfo: const NutritionalInfo(calories: 180, carbs: 12, protein: 8, fat: 6),
         ),
       );
       carbsCurrent.value += 12;

@@ -1,4 +1,4 @@
-import '../entities/meal_food_item.dart';
+import '../entities/food_item.dart';
 import '../repositories/food_parser_repository.dart';
 
 /// Usecase for analyzing natural language or image food input (can act as MCP Tool)
@@ -7,7 +7,7 @@ class AnalyzeFoodInput {
 
   AnalyzeFoodInput(this.parserRepository);
 
-  Future<MealFoodItem> execute(String input) async {
+  Future<FoodItem> execute(String input) async {
     return await parserRepository.parseFood(input);
   }
 }

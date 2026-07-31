@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../domain/entities/food_log_item.dart';
+import '../models/generic_meal_widget_model.dart';
 
 class RecentLogsSection extends StatelessWidget {
-  final List<FoodLogItem> logs;
+  final List<GenericMealWidgetModel> logs;
   final VoidCallback onViewAll;
 
   const RecentLogsSection({
@@ -56,7 +56,7 @@ class RecentLogsSection extends StatelessWidget {
           // Log Items
           ...logs.asMap().entries.map((entry) {
             final int index = entry.key;
-            final FoodLogItem item = entry.value;
+            final GenericMealWidgetModel item = entry.value;
             final bool isLast = index == logs.length - 1;
 
             return Padding(
@@ -69,7 +69,7 @@ class RecentLogsSection extends StatelessWidget {
     );
   }
 
-  Widget _buildLogCard(BuildContext context, FoodLogItem item) {
+  Widget _buildLogCard(BuildContext context, GenericMealWidgetModel item) {
     return Container(
       decoration: BoxDecoration(
         color: KaloriColors.surfaceContainerLowest,
@@ -124,7 +124,7 @@ class RecentLogsSection extends StatelessWidget {
 
           // Calories
           Text(
-            item.calories,
+            item.trailingText,
             style: context.typography.bodyLg.copyWith(
               fontWeight: FontWeight.w700,
               color: KaloriColors.onSurface,

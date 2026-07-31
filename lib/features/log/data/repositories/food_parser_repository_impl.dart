@@ -1,4 +1,4 @@
-import '../../domain/entities/meal_food_item.dart';
+import '../../domain/entities/food_item.dart';
 import '../../domain/repositories/food_parser_repository.dart';
 import '../datasources/log_remote_ai_source.dart';
 
@@ -9,7 +9,7 @@ class FoodParserRepositoryImpl implements FoodParserRepository {
   FoodParserRepositoryImpl({required this.aiSource});
 
   @override
-  Future<MealFoodItem> parseFood(String input) async {
+  Future<FoodItem> parseFood(String input) async {
     return await aiSource.parseFoodInput(input);
   }
 }
