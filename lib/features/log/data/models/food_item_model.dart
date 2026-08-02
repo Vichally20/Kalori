@@ -7,6 +7,7 @@ class FoodItemModel extends FoodItem {
     required super.title,
     required super.subtitle,
     required super.nutritionalInfo,
+    
   });
 
   Map<String, dynamic> toMap() {

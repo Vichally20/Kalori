@@ -14,8 +14,4 @@ class HomeRepositoryImpl implements HomeRepository {
     return await localDataSource.getRecentLogs();
   }
 
-  @override
-  Future<void> saveFoodLog(FoodItem item) async {
-    await localDataSource.cacheRecentLog(FoodItemModel.fromEntity(item));
-  }
 }

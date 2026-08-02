@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kalori/features/log/domain/repositories/log_repository.dart';
+import 'package:kalori/features/log/domain/usecases/get_meals.dart';
+import 'package:kalori/features/log/domain/usecases/log_meal.dart';
 import '../../../../shared/shared.dart';
 import '../../domain/entities/chat_message.dart';
 import '../../domain/entities/food_item.dart';
 import '../../domain/entities/nutritional_info.dart';
 
 class LogController extends GetxController {
-  // Whether the meal breakdown card is currently expanded (true) or contracted (false)
+  final LogMeal logMealUseCase = Get.find<LogMeal>();
+  final GetMealsUsecase getMealsUseCase = Get.find<GetMealsUsecase>();
+
   final RxBool isMealBreakdownExpanded = true.obs;
-  // Kept for backwards compatibility if needed
   final RxBool showMealBreakdown = true.obs;
-
-  // Text controller for "What else did you eat?" floating bar
-  final TextEditingController inputController = TextEditingController();
-
-  // Chat conversation history
+  final TextEditingController inputController = TextEditingController();  
   final RxList<ChatMessage> chatMessages = <ChatMessage>[
     ChatMessage(
       text: 'I had two eggs and a piece of whole grain toast',
@@ -26,8 +26,6 @@ class LogController extends GetxController {
       isUser: false,
     ),
   ].obs;
-
-  // Food items inside the current meal breakdown card
   final RxList<FoodItem> foodItems = <FoodItem>[
     FoodItem(
       title: 'Large Eggs (2)',
@@ -40,11 +38,16 @@ class LogController extends GetxController {
       nutritionalInfo: const NutritionalInfo(calories: 100, carbs: 13, protein: 4, fat: 1),
     ),
   ].obs;
-
   // Meal breakdown macros
   final RxInt carbsCurrent = 14.obs;
   final RxInt proteinCurrent = 16.obs;
   final RxInt fatCurrent = 11.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _loadMeals();
+  }
 
   // Contract the meal breakdown card
   void contractMealBreakdown() {
@@ -218,4 +221,11 @@ class LogController extends GetxController {
     inputController.dispose();
     super.onClose();
   }
+  
+  Future<void> _loadMeals() async {
+    final meals = await getMealsUseCase.execute();
+    foodItems.assignAll(meals);
+  }
+
+
 }
