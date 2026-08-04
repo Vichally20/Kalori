@@ -15,6 +15,11 @@ class LogRepositoryImpl implements LogRepository {
   }
 
   @override
+  Future<List<FoodItem>> getFrequentMeals({int limit = 3}) async {
+    return await localDataSource.getFrequentMeals(limit: limit);
+  }
+
+  @override
   Future<void> saveMealItem(FoodItem item) async {
     await localDataSource.saveMealItem(FoodItemModel.fromEntity(item));
   }

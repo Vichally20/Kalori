@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kalori/features/home/domain/usecases/get_recent_logs.dart';
 import '../models/generic_meal_widget_model.dart';
 import '../../../log/presentation/controllers/log_controller.dart';
 import '../../../log/domain/entities/food_item.dart';
 import '../../../log/domain/entities/nutritional_info.dart';
-
+import '../../../../core/utilities/food_icon_helper.dart';
 class HomeController extends GetxController {
+  final GetRecentLogs getRecentLogsUseCase = Get.find<GetRecentLogs>();
+
+  final RxList<GenericMealWidgetModel> recentLogs =
+      <GenericMealWidgetModel>[].obs;
   // Bottom Nav Bar state (0: Home, 1: Log, 2: History, 3: Profile)
   final RxInt currentTab = 0.obs;
 
@@ -30,59 +35,31 @@ class HomeController extends GetxController {
   final TextEditingController chatController = TextEditingController();
   final RxString chatText = ''.obs;
 
-  // Recent Logs State
-  late final RxList<GenericMealWidgetModel> recentLogs;
-
   @override
   void onInit() {
     super.onInit();
-    final initialItems = [
-      const FoodItem(
-        title: 'Boiled Eggs (2)',
-        subtitle: 'Breakfast • 8:15 AM',
-        nutritionalInfo: NutritionalInfo(calories: 155, carbs: 1, protein: 12, fat: 10),
-      ),
-      const FoodItem(
-        title: 'Oat Milk Latte',
-        subtitle: 'Snack • 11:30 AM',
-        nutritionalInfo: NutritionalInfo(calories: 120, carbs: 14, protein: 3, fat: 5),
-      ),
-    ];
-    recentLogs = initialItems.map(_mapFoodItemToUiModel).toList().obs;
+    _loadRecentLogs();
   }
 
   GenericMealWidgetModel _mapFoodItemToUiModel(FoodItem item) {
-    // Dynamic icon assignment based on title (user requested "yes" to this logic)
-    IconData icon = Icons.fastfood_outlined;
-    Color iconBgColor = const Color(0xFFEFF4FF);
-    Color iconColor = const Color(0xFF0D1C2F);
-
-    final lowercaseTitle = item.title.toLowerCase();
-    if (lowercaseTitle.contains('egg')) {
-      icon = Icons.egg_alt_outlined;
-    } else if (lowercaseTitle.contains('coffee') || lowercaseTitle.contains('latte')) {
-      icon = Icons.coffee_outlined;
-    } else if (lowercaseTitle.contains('fruit') || lowercaseTitle.contains('apple')) {
-      icon = Icons.apple;
-    } else if (lowercaseTitle.contains('pizza')) {
-      icon = Icons.local_pizza_outlined;
-    } else if (lowercaseTitle.contains('avocado')) {
-      icon = Icons.eco_outlined;
-      iconColor = const Color(0xFF006C49);
-    }
-
+    final iconResult = FoodIconHelper.getIconForFood(item.title);
     return GenericMealWidgetModel(
       title: item.title,
       subtitle: item.subtitle,
       trailingText: '${item.nutritionalInfo.calories} kcal',
-      icon: icon,
-      iconBgColor: iconBgColor,
-      iconColor: iconColor,
+      icon: iconResult.icon,
+      iconBgColor: iconResult.iconBgColor,
+      iconColor: iconResult.iconColor,
     );
   }
 
   void changeTab(int index) {
     currentTab.value = index;
+  }
+
+  Future<void> _loadRecentLogs() async {
+    final foodItems = await getRecentLogsUseCase.execute();
+    recentLogs.assignAll(foodItems.map(_mapFoodItemToUiModel).toList());
   }
 
   void submitChatLog() {
@@ -92,10 +69,15 @@ class HomeController extends GetxController {
       final newItem = FoodItem(
         title: text,
         subtitle: 'Just now',
-        nutritionalInfo: const NutritionalInfo(calories: 200, carbs: 10, protein: 5, fat: 5),
+        nutritionalInfo: const NutritionalInfo(
+          calories: 200,
+          carbs: 10,
+          protein: 5,
+          fat: 5,
+        ),
       );
       recentLogs.insert(0, _mapFoodItemToUiModel(newItem));
-      
+
       chatController.clear();
       chatText.value = '';
 

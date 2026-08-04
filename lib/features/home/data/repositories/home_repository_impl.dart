@@ -1,7 +1,6 @@
 import '../../../log/domain/entities/food_item.dart';
 import '../../domain/repositories/home_repository.dart';
 import '../datasources/home_local_data_source.dart';
-import '../../../log/data/models/food_item_model.dart';
 
 /// Data repository implementation for [HomeRepository]
 class HomeRepositoryImpl implements HomeRepository {

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kalori/features/log/domain/entities/food_item.dart';
 import '../../../../core/theme/app_theme.dart';
 
 class SuggestionChipsRow extends StatelessWidget {
-  final List<String> suggestions;
-  final Function(String) onChipTap;
+  final List<FoodItem> suggestions;
+  final Function(FoodItem) onChipTap;
 
   const SuggestionChipsRow({
     super.key,
@@ -16,9 +17,9 @@ class SuggestionChipsRow extends StatelessWidget {
     return Wrap(
       spacing: 8.0,
       runSpacing: 10.0,
-      children: suggestions.map((text) {
+      children: suggestions.map((item) {
         return GestureDetector(
-          onTap: () => onChipTap(text),
+          onTap: () => onChipTap(item),
           child: Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 16.0,
@@ -30,7 +31,7 @@ class SuggestionChipsRow extends StatelessWidget {
               border: Border.all(color: KaloriColors.borderSlate),
             ),
             child: Text(
-              text,
+              'ADD ${item.title.toUpperCase()}',
               style: context.typography.labelCaps.copyWith(
                 color: const Color(0xFF0D1C2F),
                 fontWeight: FontWeight.w700,

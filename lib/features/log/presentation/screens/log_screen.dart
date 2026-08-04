@@ -111,16 +111,12 @@ class LogView extends StatelessWidget {
                     ),
                   ),
 
-                  // Quick Suggestion Chips (ADD BLACK COFFEE, etc.)
-                  SuggestionChipsRow(
-                    suggestions: const [
-                      'ADD BLACK COFFEE',
-                      'ADD OAT MILK LATTE',
-                      'ADD ESPRESSO',
-                      'ADD AVOCADO',
-                      'EDIT MEAL',
-                    ],
-                    onChipTap: controller.addSuggestion,
+                  // Quick Suggestion Chips
+                  Obx(
+                    () => SuggestionChipsRow(
+                      suggestions: controller.frequentSuggestions,
+                      onChipTap: controller.addSuggestion,
+                    ),
                   ),
                 ],
               ),
