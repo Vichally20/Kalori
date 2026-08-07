@@ -4,6 +4,7 @@ import '../../domain/entities/food_item.dart';
 
 class MealBreakdownCard extends StatelessWidget {
   final List<FoodItem> foodItems;
+  final int totalCalories;
   final int carbs;
   final int protein;
   final int fat;
@@ -14,6 +15,7 @@ class MealBreakdownCard extends StatelessWidget {
   const MealBreakdownCard({
     super.key,
     required this.foodItems,
+    required this.totalCalories,
     required this.carbs,
     required this.protein,
     required this.fat,
@@ -60,7 +62,7 @@ class MealBreakdownCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8.0),
                   Text(
-                    'Meal Breakdown',
+                    'Meal Breakdown • $totalCalories kcal',
                     style: context.typography.headlineMd.copyWith(
                       color: KaloriColors.onSurface,
                       fontWeight: FontWeight.w700,

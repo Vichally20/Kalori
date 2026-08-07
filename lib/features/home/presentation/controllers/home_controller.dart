@@ -6,6 +6,7 @@ import '../../../log/presentation/controllers/log_controller.dart';
 import '../../../log/domain/entities/food_item.dart';
 import '../../../log/domain/entities/nutritional_info.dart';
 import '../../../../core/utilities/food_icon_helper.dart';
+
 class HomeController extends GetxController {
   final GetRecentLogs getRecentLogsUseCase = Get.find<GetRecentLogs>();
 
@@ -82,9 +83,7 @@ class HomeController extends GetxController {
       chatText.value = '';
 
       // Pass input to LogController and instantly redirect to the Log screen
-      final LogController logController = Get.isRegistered<LogController>()
-          ? Get.find<LogController>()
-          : Get.put(LogController());
+      final LogController logController = Get.find<LogController>();
       logController.handleExternalLogInput(text);
 
       // Instantly switch to Log tab (index 1)

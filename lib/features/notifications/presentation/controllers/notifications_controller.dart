@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import '../../../../shared/shared.dart';
 import '../../domain/entities/notification_item.dart';
 import '../../domain/repositories/notifications_repository.dart';
+import '../../home/presentation/controllers/home_controller.dart';
 
 /// Controller managing the state and actions for the Notifications screen.
 class NotificationsController extends GetxController {
@@ -125,7 +126,22 @@ class NotificationsController extends GetxController {
   void handleActionClick(NotificationItem item) {
     markAsRead(item.id);
     if (item.actionRoute != null && item.actionRoute!.isNotEmpty) {
-      Get.toNamed(item.actionRoute!);
+      final route = item.actionRoute!;
+      final tabRoutes = {
+        '/home': 0,
+        '/log': 1,
+        '/history': 2,
+        '/profile': 3,
+      };
+
+      if (tabRoutes.containsKey(route)) {
+        Get.until((r) => r.settings.name == '/home');
+        if (Get.isRegistered<HomeController>()) {
+          Get.find<HomeController>().changeTab(tabRoutes[route]!);
+        }
+      } else {
+        Get.toNamed(route);
+      }
     } else {
       KaloriToast.showInfo(
         title: item.title,

@@ -99,9 +99,10 @@ class LogView extends StatelessWidget {
                       children: [
                         MealBreakdownCard(
                           foodItems: controller.foodItems,
-                          carbs: controller.carbsCurrent.value,
-                          protein: controller.proteinCurrent.value,
-                          fat: controller.fatCurrent.value,
+                          totalCalories: controller.totalCalories,
+                          carbs: controller.totalCarbs,
+                          protein: controller.totalProtein,
+                          fat: controller.totalFat,
                           onClose: controller.contractMealBreakdown,
                           isExpanded: controller.isMealBreakdownExpanded.value,
                           onToggleExpand: controller.toggleMealBreakdown,
@@ -114,7 +115,7 @@ class LogView extends StatelessWidget {
                   // Quick Suggestion Chips
                   Obx(
                     () => SuggestionChipsRow(
-                      suggestions: controller.frequentSuggestions,
+                      suggestions: controller.frequentSuggestions.toList(),
                       onChipTap: controller.addSuggestion,
                     ),
                   ),

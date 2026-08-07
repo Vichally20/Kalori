@@ -30,10 +30,38 @@ class LogController extends GetxController {
   final RxList<FoodItem> foodItems = <FoodItem>[].obs;
   final RxList<FoodItem> frequentSuggestions = <FoodItem>[].obs;
   
-  // Meal breakdown macros
-  final RxInt carbsCurrent = 14.obs;
-  final RxInt proteinCurrent = 16.obs;
-  final RxInt fatCurrent = 11.obs;
+  // Dynamic Macro Calculations
+  int get totalCalories {
+    int total = 0;
+    for (var item in foodItems) {
+      total += item.nutritionalInfo.calories;
+    }
+    return total;
+  }
+
+  int get totalCarbs {
+    int total = 0;
+    for (var item in foodItems) {
+      total += item.nutritionalInfo.carbs;
+    }
+    return total;
+  }
+
+  int get totalProtein {
+    int total = 0;
+    for (var item in foodItems) {
+      total += item.nutritionalInfo.protein;
+    }
+    return total;
+  }
+
+  int get totalFat {
+    int total = 0;
+    for (var item in foodItems) {
+      total += item.nutritionalInfo.fat;
+    }
+    return total;
+  }
 
   @override
   void onInit() {
@@ -79,10 +107,6 @@ class LogController extends GetxController {
     await logMealUseCase.execute(food);
     foodItems.add(food);
     
-    carbsCurrent.value += food.nutritionalInfo.carbs;
-    proteinCurrent.value += food.nutritionalInfo.protein;
-    fatCurrent.value += food.nutritionalInfo.fat;
-    
     showMealBreakdown.value = true;
     isMealBreakdownExpanded.value = true;
     KaloriToast.showSuccess(
@@ -113,9 +137,6 @@ class LogController extends GetxController {
       await logMealUseCase.execute(newItem);
       foodItems.add(newItem);
       
-      carbsCurrent.value += 12;
-      proteinCurrent.value += 8;
-      fatCurrent.value += 6;
       showMealBreakdown.value = true;
       isMealBreakdownExpanded.value = true;
     }
