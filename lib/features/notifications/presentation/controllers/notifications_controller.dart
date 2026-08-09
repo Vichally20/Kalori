@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import '../../../../shared/shared.dart';
 import '../../domain/entities/notification_item.dart';
 import '../../domain/repositories/notifications_repository.dart';
-import '../../home/presentation/controllers/home_controller.dart';
+import '../../../home/presentation/controllers/home_controller.dart';
 
 /// Controller managing the state and actions for the Notifications screen.
 class NotificationsController extends GetxController {
