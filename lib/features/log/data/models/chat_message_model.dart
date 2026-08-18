@@ -1,4 +1,4 @@
-import '../../domain/entities/chat_message.dart';
+import 'package:kalori/features/log/domain/entities/chat_message.dart';
 
 /// Data model extending [ChatMessage] with serialization logic.
 class ChatMessageModel extends ChatMessage {

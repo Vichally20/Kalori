@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../domain/entities/food_item.dart';
+import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/log/domain/entities/food_item.dart';
 
 class MealBreakdownCard extends StatelessWidget {
   final List<FoodItem> foodItems;
@@ -37,7 +37,7 @@ class MealBreakdownCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: KaloriColors.surfaceContainerLowest,
             borderRadius: BorderRadius.circular(KaloriRadius.xl),
-            border: Border.all(color: KaloriColors.borderSlate, width: 1.0),
+            border: Border.all(color: KaloriColors.borderSlate),
             boxShadow: const [
               BoxShadow(
                 color: Color(0x0F0D1C2F),
@@ -94,7 +94,7 @@ class MealBreakdownCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: KaloriColors.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(KaloriRadius.xl),
-        border: Border.all(color: KaloriColors.borderSlate, width: 1.0),
+        border: Border.all(color: KaloriColors.borderSlate),
         boxShadow: const [
           BoxShadow(
             color: Color(0x120D1C2F),

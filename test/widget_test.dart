@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kalori/main.dart';
 
 void main() {
-  testWidgets('KaloriApp smoke test', (WidgetTester tester) async {
+  testWidgets('KaloriApp smoke test', (tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const KaloriApp());
     await tester.pumpAndSettle();

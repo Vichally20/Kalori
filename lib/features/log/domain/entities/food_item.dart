@@ -1,4 +1,4 @@
-import 'nutritional_info.dart';
+import 'package:kalori/features/log/domain/entities/nutritional_info.dart';
 
 class FoodItem {
   final String title;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../domain/entities/notification_item.dart';
+import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/notifications/domain/entities/notification_item.dart';
 
 /// Horizontal scrollable bar with filter pills for the notifications list.
 class NotificationsFilterBar extends StatelessWidget {
@@ -27,7 +27,6 @@ class NotificationsFilterBar extends StatelessWidget {
           _buildPill(
             label: 'All',
             filter: NotificationFilter.all,
-            badgeCount: null,
           ),
           const SizedBox(width: 8.0),
           _buildPill(
@@ -39,19 +38,16 @@ class NotificationsFilterBar extends StatelessWidget {
           _buildPill(
             label: 'Reminders',
             filter: NotificationFilter.reminders,
-            badgeCount: null,
           ),
           const SizedBox(width: 8.0),
           _buildPill(
             label: 'Insights',
             filter: NotificationFilter.insights,
-            badgeCount: null,
           ),
           const SizedBox(width: 8.0),
           _buildPill(
             label: 'Achievements',
             filter: NotificationFilter.achievements,
-            badgeCount: null,
           ),
         ],
       ),

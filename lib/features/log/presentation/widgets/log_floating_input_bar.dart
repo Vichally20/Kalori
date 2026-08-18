@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../controllers/log_controller.dart';
+import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/log/presentation/controllers/log_controller.dart';
 
 class LogFloatingInputBar extends StatelessWidget {
   final LogController controller;
@@ -13,7 +13,7 @@ class LogFloatingInputBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: KaloriColors.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(KaloriRadius.full),
-        border: Border.all(color: KaloriColors.borderSlate, width: 1.0),
+        border: Border.all(color: KaloriColors.borderSlate),
         boxShadow: const [
           BoxShadow(
             color: Color(0x140D1C2F),

@@ -1,4 +1,4 @@
-import '../../domain/entities/notification_item.dart';
+import 'package:kalori/features/notifications/domain/entities/notification_item.dart';
 
 /// Data model extending [NotificationItem]
 class NotificationItemModel extends NotificationItem {

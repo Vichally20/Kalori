@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../controllers/home_controller.dart';
+import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/home/presentation/controllers/home_controller.dart';
 
 class KaloriBottomNavBar extends StatelessWidget {
   final HomeController controller;
@@ -14,7 +14,7 @@ class KaloriBottomNavBar extends StatelessWidget {
       decoration: const BoxDecoration(
         color: KaloriColors.surfaceContainerLowest,
         border: Border(
-          top: BorderSide(color: KaloriColors.borderSlate, width: 1.0),
+          top: BorderSide(color: KaloriColors.borderSlate),
         ),
       ),
       padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),

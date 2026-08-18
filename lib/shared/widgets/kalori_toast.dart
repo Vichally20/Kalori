@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../core/theme/app_theme.dart';
+import 'package:kalori/core/theme/app_theme.dart';
 
 /// The type/variant of the custom toast.
 enum KaloriToastType {
@@ -435,7 +435,6 @@ class KaloriToast {
     Get.rawSnackbar(
       snackPosition: position,
       backgroundColor: Colors.transparent,
-      margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
       duration: duration,
       animationDuration: const Duration(milliseconds: 350),
@@ -531,7 +530,6 @@ class KaloriToast {
     show(
       title: title,
       message: message,
-      type: KaloriToastType.info,
       position: position,
       duration: duration,
       actionLabel: actionLabel,

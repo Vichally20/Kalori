@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../controllers/profile_controller.dart';
+import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/profile/presentation/controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
   static String path = '/profile';

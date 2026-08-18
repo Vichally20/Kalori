@@ -1,5 +1,5 @@
-import '../../domain/entities/food_item.dart';
-import '../../domain/entities/nutritional_info.dart';
+import 'package:kalori/features/log/domain/entities/food_item.dart';
+import 'package:kalori/features/log/domain/entities/nutritional_info.dart';
 
 /// Data model extending [FoodItem] with serialization logic.
 class FoodItemModel extends FoodItem {
@@ -43,7 +43,9 @@ class FoodItemModel extends FoodItem {
   }
 
   static int _parseInt(dynamic value) {
-    if (value is int) return value;
+    if (value is int) {
+      return value;
+    }
     if (value is String) {
       final match = RegExp(r'\d+').firstMatch(value);
       if (match != null) {

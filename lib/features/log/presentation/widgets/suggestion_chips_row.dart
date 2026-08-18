@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kalori/core/theme/app_theme.dart';
 import 'package:kalori/features/log/domain/entities/food_item.dart';
-import '../../../../core/theme/app_theme.dart';
 
 class SuggestionChipsRow extends StatelessWidget {
   final List<FoodItem> suggestions;
-  final Function(FoodItem) onChipTap;
+  final void Function(FoodItem) onChipTap;
 
   const SuggestionChipsRow({
     super.key,

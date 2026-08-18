@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
+import 'package:kalori/core/theme/app_colors.dart';
 
 /// Static typography definitions strictly reflecting the `typography` specs in [DESIGN.md].
 ///

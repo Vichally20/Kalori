@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../domain/entities/notification_item.dart';
+import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/notifications/domain/entities/notification_item.dart';
 
 /// Empty state widget shown when there are no notifications matching the current filter.
 class NotificationsEmptyState extends StatelessWidget {

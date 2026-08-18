@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import '../../core/theme/app_colors.dart';
+import 'package:kalori/core/theme/app_colors.dart';
 
 /// A mesmerizing AI-thinking indicator with orbital dots that pulse,
 /// orbit, and trail around a glowing centre — giving the feeling of

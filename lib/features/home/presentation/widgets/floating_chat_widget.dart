@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../controllers/home_controller.dart';
+import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/home/presentation/controllers/home_controller.dart';
 
 class FloatingChatWidget extends StatelessWidget {
   final HomeController controller;
@@ -13,7 +13,7 @@ class FloatingChatWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: KaloriColors.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(28.0),
-        border: Border.all(color: KaloriColors.borderSlate, width: 1.0),
+        border: Border.all(color: KaloriColors.borderSlate),
         boxShadow: const [
           BoxShadow(
             color: Color(0x1F0D1C2F),

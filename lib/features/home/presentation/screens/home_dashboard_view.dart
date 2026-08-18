@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../core/routes/app_routes.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../../../shared/shared.dart';
-import '../../../notifications/presentation/controllers/notifications_controller.dart';
-import '../controllers/home_controller.dart';
-import '../widgets/recent_logs_section.dart';
-import '../widgets/tip_of_the_day_card.dart';
+import 'package:kalori/core/routes/app_routes.dart';
+import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/home/presentation/controllers/home_controller.dart';
+import 'package:kalori/features/home/presentation/widgets/recent_logs_section.dart';
+import 'package:kalori/features/home/presentation/widgets/tip_of_the_day_card.dart';
+import 'package:kalori/features/notifications/presentation/controllers/notifications_controller.dart';
+import 'package:kalori/shared/shared.dart';
 
 class HomeDashboardView extends GetView<HomeController> {
   const HomeDashboardView({super.key});
@@ -128,7 +127,7 @@ class HomeDashboardView extends GetView<HomeController> {
         clipBehavior: Clip.none,
         children: [
           InkWell(
-            onTap: () => Get.toNamed(AppRoutes.notifications),
+            onTap: () => Get.toNamed<dynamic>(AppRoutes.notifications),
             borderRadius: KaloriRadius.borderFull,
             child: Container(
               width: 44.0,

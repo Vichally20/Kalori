@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import '../../core/theme/app_theme.dart';
+import 'package:kalori/core/theme/app_theme.dart';
 
 /// Data class representing a macronutrient or secondary metric inside [GenericCalorieRingWidget].
 class MacroData {
@@ -191,7 +191,7 @@ class GenericCalorieRingWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: KaloriColors.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(KaloriRadius.lg),
-        border: Border.all(color: KaloriColors.borderSlate, width: 1.0),
+        border: Border.all(color: KaloriColors.borderSlate),
         boxShadow: const [
           BoxShadow(
             color: KaloriColors.cardShadow,

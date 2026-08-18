@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../domain/entities/chat_message.dart';
+import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/log/domain/entities/chat_message.dart';
 
 class ChatBubble extends StatelessWidget {
   final ChatMessage message;
@@ -54,7 +54,7 @@ class ChatBubble extends StatelessWidget {
               bottomRight: Radius.circular(18.0),
               topLeft: Radius.circular(4.0),
             ),
-            border: Border.all(color: KaloriColors.borderSlate, width: 1.0),
+            border: Border.all(color: KaloriColors.borderSlate),
             boxShadow: const [
               BoxShadow(
                 color: Color(0x0A0D1C2F),

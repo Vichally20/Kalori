@@ -1,5 +1,5 @@
-import '../../domain/entities/nutritional_info.dart';
-import '../models/food_item_model.dart';
+import 'package:kalori/features/log/data/models/food_item_model.dart';
+import 'package:kalori/features/log/domain/entities/nutritional_info.dart';
 
 /// Remote AI Data source interface for Gemini / Cloud AI Parsing
 abstract class LogRemoteAISource {

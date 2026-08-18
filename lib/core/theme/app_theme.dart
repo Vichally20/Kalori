@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
-import 'app_spacing.dart';
-import 'app_typography.dart';
+import 'package:kalori/core/theme/app_colors.dart';
+import 'package:kalori/core/theme/app_spacing.dart';
+import 'package:kalori/core/theme/app_typography.dart';
 
 export 'app_colors.dart';
 export 'app_spacing.dart';
@@ -66,7 +66,7 @@ class KaloriTheme {
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(KaloriRadius.lg),
-          side: const BorderSide(color: KaloriColors.borderSlate, width: 1.0),
+          side: const BorderSide(color: KaloriColors.borderSlate),
         ),
       ),
       // Primary Call-to-Actions (Buttons: rounded-xl 24px, min height 48px, Success Green)
@@ -97,7 +97,7 @@ class KaloriTheme {
             horizontal: KaloriSpacing.lg,
             vertical: KaloriSpacing.sm,
           ),
-          side: const BorderSide(color: KaloriColors.borderSlate, width: 1.0),
+          side: const BorderSide(color: KaloriColors.borderSlate),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(KaloriRadius.xl),
           ),
@@ -116,11 +116,11 @@ class KaloriTheme {
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(KaloriRadius.xl),
-          borderSide: const BorderSide(color: KaloriColors.borderSlate, width: 1.0),
+          borderSide: const BorderSide(color: KaloriColors.borderSlate),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(KaloriRadius.xl),
-          borderSide: const BorderSide(color: KaloriColors.borderSlate, width: 1.0),
+          borderSide: const BorderSide(color: KaloriColors.borderSlate),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(KaloriRadius.xl),
@@ -128,7 +128,7 @@ class KaloriTheme {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(KaloriRadius.xl),
-          borderSide: const BorderSide(color: KaloriColors.error, width: 1.0),
+          borderSide: const BorderSide(color: KaloriColors.error),
         ),
         hintStyle: KaloriTypography.bodyLg.copyWith(
           color: KaloriColors.outline,

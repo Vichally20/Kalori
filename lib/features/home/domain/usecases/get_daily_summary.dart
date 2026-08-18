@@ -1,4 +1,4 @@
-import '../repositories/home_repository.dart';
+import 'package:kalori/features/home/domain/repositories/home_repository.dart';
 
 /// Usecase for getting daily summary data on the Home Screen
 class GetDailySummary {

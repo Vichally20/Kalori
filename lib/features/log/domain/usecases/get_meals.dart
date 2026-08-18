@@ -1,5 +1,5 @@
-import 'package:kalori/features/log/domain/repositories/log_repository.dart';
 import 'package:kalori/features/log/domain/entities/food_item.dart';
+import 'package:kalori/features/log/domain/repositories/log_repository.dart';
 
 class GetMealsUsecase {
   final LogRepository repository;

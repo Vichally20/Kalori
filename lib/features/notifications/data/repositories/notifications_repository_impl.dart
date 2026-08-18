@@ -1,6 +1,6 @@
-import '../../domain/entities/notification_item.dart';
-import '../../domain/repositories/notifications_repository.dart';
-import '../datasources/notifications_local_data_source.dart';
+import 'package:kalori/features/notifications/data/datasources/notifications_local_data_source.dart';
+import 'package:kalori/features/notifications/domain/entities/notification_item.dart';
+import 'package:kalori/features/notifications/domain/repositories/notifications_repository.dart';
 
 /// Implementation of [NotificationsRepository] using local storage / in-memory data source.
 class NotificationsRepositoryImpl implements NotificationsRepository {

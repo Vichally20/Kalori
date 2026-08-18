@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../controllers/notifications_controller.dart';
-import '../widgets/notification_card.dart';
-import '../widgets/notifications_empty_state.dart';
-import '../widgets/notifications_filter_bar.dart';
+import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/notifications/presentation/controllers/notifications_controller.dart';
+import 'package:kalori/features/notifications/presentation/widgets/notification_card.dart';
+import 'package:kalori/features/notifications/presentation/widgets/notifications_empty_state.dart';
+import 'package:kalori/features/notifications/presentation/widgets/notifications_filter_bar.dart';
 
 /// Main screen view for Notifications in Kalori.
 class NotificationsView extends GetView<NotificationsController> {
@@ -22,7 +22,7 @@ class NotificationsView extends GetView<NotificationsController> {
         centerTitle: false,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: KaloriColors.onSurface),
-          onPressed: () => Get.back(),
+          onPressed: () => Get.back<void>(),
         ),
         title: Text(
           'Notifications',
@@ -33,7 +33,9 @@ class NotificationsView extends GetView<NotificationsController> {
         actions: [
           Obx(() {
             final hasUnread = controller.unreadCount > 0;
-            if (!hasUnread) return const SizedBox.shrink();
+            if (!hasUnread) {
+              return const SizedBox.shrink();
+            }
 
             return TextButton.icon(
               onPressed: () => controller.markAllAsRead(),
@@ -137,7 +139,7 @@ class NotificationsView extends GetView<NotificationsController> {
   }
 
   void _showClearConfirmation(BuildContext context) {
-    Get.dialog(
+    Get.dialog<dynamic>(
       AlertDialog(
         backgroundColor: KaloriColors.surfaceContainerLowest,
         shape: RoundedRectangleBorder(borderRadius: KaloriRadius.borderLg),
@@ -151,7 +153,7 @@ class NotificationsView extends GetView<NotificationsController> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Get.back(),
+            onPressed: () => Get.back<void>(),
             child: Text(
               'Cancel',
               style: TextStyle(color: KaloriColors.onSurfaceVariant, fontWeight: FontWeight.w600),
@@ -164,7 +166,7 @@ class NotificationsView extends GetView<NotificationsController> {
               shape: RoundedRectangleBorder(borderRadius: KaloriRadius.borderDefault),
             ),
             onPressed: () {
-              Get.back();
+              Get.back<void>();
               controller.clearAll();
             },
             child: const Text('Clear All', style: TextStyle(fontWeight: FontWeight.w600)),

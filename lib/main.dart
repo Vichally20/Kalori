@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'core/bindings/initial_binding.dart';
-import 'core/routes/app_pages.dart';
-import 'core/routes/app_routes.dart';
-import 'core/theme/app_theme.dart';
+import 'package:kalori/core/bindings/initial_binding.dart';
+import 'package:kalori/core/routes/app_pages.dart';
+import 'package:kalori/core/routes/app_routes.dart';
 import 'package:kalori/core/services/isar_service.dart';
+import 'package:kalori/core/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

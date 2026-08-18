@@ -5,7 +5,9 @@
 /// Returns an empty string if the input is empty or blank.
 String nameToInitials(String fullName) {
   final trimmed = fullName.trim();
-  if (trimmed.isEmpty) return '';
+  if (trimmed.isEmpty) {
+    return '';
+  }
 
   final parts = trimmed.split(RegExp(r'\s+')).where((p) => p.isNotEmpty).toList();
 

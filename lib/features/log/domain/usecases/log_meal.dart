@@ -1,5 +1,5 @@
-import '../entities/food_item.dart';
-import '../repositories/log_repository.dart';
+import 'package:kalori/features/log/domain/entities/food_item.dart';
+import 'package:kalori/features/log/domain/repositories/log_repository.dart';
 
 /// Usecase for logging a meal item
 class LogMeal {

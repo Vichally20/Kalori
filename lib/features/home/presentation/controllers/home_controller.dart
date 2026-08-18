@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kalori/core/utilities/food_icon_helper.dart';
 import 'package:kalori/features/home/domain/usecases/get_recent_logs.dart';
-import '../models/generic_meal_widget_model.dart';
-import '../../../log/presentation/controllers/log_controller.dart';
-import '../../../log/domain/entities/food_item.dart';
-import '../../../log/domain/entities/nutritional_info.dart';
-import '../../../../core/utilities/food_icon_helper.dart';
+import 'package:kalori/features/home/presentation/models/generic_meal_widget_model.dart';
+import 'package:kalori/features/log/domain/entities/food_item.dart';
+import 'package:kalori/features/log/domain/entities/nutritional_info.dart';
+import 'package:kalori/features/log/presentation/controllers/log_controller.dart';
 
 class HomeController extends GetxController {
   final GetRecentLogs getRecentLogsUseCase = Get.find<GetRecentLogs>();

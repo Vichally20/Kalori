@@ -1,4 +1,4 @@
-import '../../domain/entities/notification_item.dart';
+import 'package:kalori/features/notifications/domain/entities/notification_item.dart';
 
 /// Local data source providing in-memory storage and initial rich mock notifications.
 class NotificationsLocalDataSource {
@@ -10,7 +10,6 @@ class NotificationsLocalDataSource {
           'You have 1,460 kcal remaining today. Make sure to log your dinner to stay on track with your nutrition goals!',
       timestamp: '10m ago',
       category: NotificationCategory.reminder,
-      isRead: false,
       actionLabel: 'Log Dinner',
       actionRoute: '/log',
     ),
@@ -21,7 +20,6 @@ class NotificationsLocalDataSource {
           "Awesome work! You've successfully hit your daily 130g protein target for 3 consecutive days.",
       timestamp: '2h ago',
       category: NotificationCategory.achievement,
-      isRead: false,
       actionLabel: 'View Stats',
       actionRoute: '/home',
     ),

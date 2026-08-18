@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../domain/entities/notification_item.dart';
+import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/notifications/domain/entities/notification_item.dart';
 
 /// Interactive card displaying a single notification with swipe-to-dismiss and action support.
 class NotificationCard extends StatelessWidget {

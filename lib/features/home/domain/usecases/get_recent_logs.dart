@@ -1,6 +1,5 @@
+import 'package:kalori/features/home/domain/repositories/home_repository.dart';
 import 'package:kalori/features/log/domain/entities/food_item.dart';
-
-import '../repositories/home_repository.dart';
 
 class GetRecentLogs {
   final HomeRepository repository;

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '../../../../features/notifications/presentation/bindings/notifications_binding.dart';
-import '../../../../features/notifications/presentation/screens/notifications_screen.dart';
+import 'package:kalori/features/notifications/presentation/bindings/notifications_binding.dart';
+import 'package:kalori/features/notifications/presentation/screens/notifications_screen.dart';
 
 class NotificationsRoutes {
   static List<GetPage<dynamic>> routes = [

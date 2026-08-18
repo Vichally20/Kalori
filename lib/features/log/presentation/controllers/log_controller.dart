@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kalori/features/log/domain/entities/chat_message.dart';
+import 'package:kalori/features/log/domain/entities/food_item.dart';
+import 'package:kalori/features/log/domain/entities/nutritional_info.dart';
+import 'package:kalori/features/log/domain/usecases/get_frequent_meals.dart';
 import 'package:kalori/features/log/domain/usecases/get_meals.dart';
 import 'package:kalori/features/log/domain/usecases/log_meal.dart';
-import 'package:kalori/features/log/domain/usecases/get_frequent_meals.dart';
-import '../../../../shared/shared.dart';
-import '../../domain/entities/chat_message.dart';
-import '../../domain/entities/food_item.dart';
-import '../../domain/entities/nutritional_info.dart';
+import 'package:kalori/shared/shared.dart';
 
 class LogController extends GetxController {
   final LogMeal logMealUseCase = Get.find<LogMeal>();
@@ -125,7 +125,7 @@ class LogController extends GetxController {
       // Simulate AI response & meal item addition
       chatMessages.add(
         ChatMessage(
-          text: "Logged \"$cleanText\" to your current breakdown!",
+          text: 'Logged "$cleanText" to your current breakdown!',
           isUser: false,
         ),
       );

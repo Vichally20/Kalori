@@ -1,7 +1,7 @@
 import 'package:isar/isar.dart';
-import '../../../domain/entities/food_item.dart';
-import '../../../domain/entities/nutritional_info.dart';
-import 'isar_nutritional_info.dart';
+import 'package:kalori/features/log/data/models/isar/isar_nutritional_info.dart';
+import 'package:kalori/features/log/domain/entities/food_item.dart';
+import 'package:kalori/features/log/domain/entities/nutritional_info.dart';
 
 part 'isar_food_item.g.dart';
 

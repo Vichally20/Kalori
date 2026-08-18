@@ -1,5 +1,5 @@
-import '../entities/food_item.dart';
-import '../repositories/food_parser_repository.dart';
+import 'package:kalori/features/log/domain/entities/food_item.dart';
+import 'package:kalori/features/log/domain/repositories/food_parser_repository.dart';
 
 /// Usecase for analyzing natural language or image food input (can act as MCP Tool)
 class AnalyzeFoodInput {

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '../../../../features/history/presentation/bindings/history_binding.dart';
-import '../../../../features/history/presentation/screens/history_screen.dart';
+import 'package:kalori/features/history/presentation/bindings/history_binding.dart';
+import 'package:kalori/features/history/presentation/screens/history_screen.dart';
 
 class HistoryRoutes {
   static List<GetPage<dynamic>> routes = [

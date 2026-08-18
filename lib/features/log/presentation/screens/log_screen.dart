@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../core/routes/app_routes.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../../home/presentation/controllers/home_controller.dart';
-import '../../../home/presentation/widgets/kalori_bottom_nav_bar.dart';
-import '../controllers/log_controller.dart';
-import '../widgets/chat_bubble.dart';
-import '../widgets/log_floating_input_bar.dart';
-import '../widgets/meal_breakdown_card.dart';
-import '../widgets/suggestion_chips_row.dart';
+import 'package:kalori/core/routes/app_routes.dart';
+import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/home/presentation/controllers/home_controller.dart';
+import 'package:kalori/features/home/presentation/widgets/kalori_bottom_nav_bar.dart';
+import 'package:kalori/features/log/presentation/controllers/log_controller.dart';
+import 'package:kalori/features/log/presentation/widgets/chat_bubble.dart';
+import 'package:kalori/features/log/presentation/widgets/log_floating_input_bar.dart';
+import 'package:kalori/features/log/presentation/widgets/meal_breakdown_card.dart';
+import 'package:kalori/features/log/presentation/widgets/suggestion_chips_row.dart';
 
 class LogView extends StatelessWidget {
   static String path = '/log';

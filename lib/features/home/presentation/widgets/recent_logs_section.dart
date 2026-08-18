@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../models/generic_meal_widget_model.dart';
+import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/home/presentation/models/generic_meal_widget_model.dart';
 
 class RecentLogsSection extends StatelessWidget {
   final List<GenericMealWidgetModel> logs;

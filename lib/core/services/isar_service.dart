@@ -12,7 +12,6 @@ class IsarService extends GetxService{
       isar = await Isar.open(
         [IsarFoodItemSchema],
         directory: dbPath.path,
-        inspector: true,
       );
     }else {
       isar = Isar.getInstance()!;

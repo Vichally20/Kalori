@@ -1,7 +1,7 @@
-import '../../domain/entities/food_item.dart';
-import '../../domain/repositories/log_repository.dart';
-import '../datasources/log_local_data_source.dart';
-import '../models/food_item_model.dart';
+import 'package:kalori/features/log/data/datasources/log_local_data_source.dart';
+import 'package:kalori/features/log/data/models/food_item_model.dart';
+import 'package:kalori/features/log/domain/entities/food_item.dart';
+import 'package:kalori/features/log/domain/repositories/log_repository.dart';
 
 /// Data repository implementation for [LogRepository]
 class LogRepositoryImpl implements LogRepository {

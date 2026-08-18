@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import '../../data/datasources/notifications_local_data_source.dart';
-import '../../data/repositories/notifications_repository_impl.dart';
-import '../../domain/repositories/notifications_repository.dart';
-import '../controllers/notifications_controller.dart';
+import 'package:kalori/features/notifications/data/datasources/notifications_local_data_source.dart';
+import 'package:kalori/features/notifications/data/repositories/notifications_repository_impl.dart';
+import 'package:kalori/features/notifications/domain/repositories/notifications_repository.dart';
+import 'package:kalori/features/notifications/presentation/controllers/notifications_controller.dart';
 
 /// Binding for the Notifications screen.
 class NotificationsBinding extends Bindings {

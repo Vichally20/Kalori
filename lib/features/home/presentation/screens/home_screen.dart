@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
-import '../../../../core/theme/app_theme.dart';
-import '../../../history/presentation/screens/history_screen.dart';
-import '../../../log/presentation/screens/log_screen.dart';
-import '../../../profile/presentation/screens/profile_screen.dart';
-import '../controllers/home_controller.dart';
-import '../widgets/floating_chat_widget.dart';
-import '../widgets/kalori_bottom_nav_bar.dart';
-import 'home_dashboard_view.dart';
+import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/history/presentation/screens/history_screen.dart';
+import 'package:kalori/features/home/presentation/controllers/home_controller.dart';
+import 'package:kalori/features/home/presentation/screens/home_dashboard_view.dart';
+import 'package:kalori/features/home/presentation/widgets/floating_chat_widget.dart';
+import 'package:kalori/features/home/presentation/widgets/kalori_bottom_nav_bar.dart';
+import 'package:kalori/features/log/presentation/screens/log_screen.dart';
+import 'package:kalori/features/profile/presentation/screens/profile_screen.dart';
 
 class HomeView extends GetView<HomeController> {
   static String path = '/home';
@@ -21,7 +20,9 @@ class HomeView extends GetView<HomeController> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        if (didPop) return;
+        if (didPop) {
+          return;
+        }
 
         final currentId = controller.currentTab.value;
         final navigator = Get.nestedKey(currentId)?.currentState;

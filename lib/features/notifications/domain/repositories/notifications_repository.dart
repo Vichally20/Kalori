@@ -1,4 +1,4 @@
-import '../entities/notification_item.dart';
+import 'package:kalori/features/notifications/domain/entities/notification_item.dart';
 
 /// Domain repository interface for managing notifications.
 abstract class NotificationsRepository {

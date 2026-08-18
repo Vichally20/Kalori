@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import '../../../../shared/shared.dart';
-import '../../domain/entities/notification_item.dart';
-import '../../domain/repositories/notifications_repository.dart';
-import '../../../home/presentation/controllers/home_controller.dart';
+import 'package:kalori/features/home/presentation/controllers/home_controller.dart';
+import 'package:kalori/features/notifications/domain/entities/notification_item.dart';
+import 'package:kalori/features/notifications/domain/repositories/notifications_repository.dart';
+import 'package:kalori/shared/shared.dart';
 
 /// Controller managing the state and actions for the Notifications screen.
 class NotificationsController extends GetxController {
@@ -80,7 +80,9 @@ class NotificationsController extends GetxController {
 
   /// Marks all current notifications as read.
   void markAllAsRead() {
-    if (unreadCount == 0) return;
+    if (unreadCount == 0) {
+      return;
+    }
     _repository.markAllAsRead();
     for (final item in notifications) {
       item.isRead.value = true;
@@ -111,7 +113,9 @@ class NotificationsController extends GetxController {
 
   /// Clears all notifications.
   void clearAll() {
-    if (notifications.isEmpty) return;
+    if (notifications.isEmpty) {
+      return;
+    }
     _repository.clearAll();
     notifications.clear();
     KaloriToast.showInfo(
@@ -140,7 +144,7 @@ class NotificationsController extends GetxController {
           Get.find<HomeController>().changeTab(tabRoutes[route]!);
         }
       } else {
-        Get.toNamed(route);
+        Get.toNamed<dynamic>(route);
       }
     } else {
       KaloriToast.showInfo(
