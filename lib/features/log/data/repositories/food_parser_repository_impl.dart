@@ -1,17 +1,15 @@
 import 'package:kalori/features/log/data/datasources/log_remote_ai_source.dart';
-import 'package:kalori/features/log/domain/entities/food_item.dart';
+import 'package:kalori/features/log/domain/entities/chat_message.dart';
+import 'package:kalori/features/log/domain/entities/food_parse_result.dart';
 import 'package:kalori/features/log/domain/repositories/food_parser_repository.dart';
-import 'package:kalori/core/utilities/app_logger.dart';
 
-/// Swappable repository implementation (Manual -> AI)
 class FoodParserRepositoryImpl implements FoodParserRepository {
-  final LogRemoteAISource aiSource;
+  final LogRemoteAISource remoteDataSource;
 
-  FoodParserRepositoryImpl({required this.aiSource});
+  FoodParserRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<FoodItem> parseFood(String input) async {
-    AppLogger.d('FoodParserRepositoryImpl: Parsing food input "$input"');
-    return await aiSource.parseFoodInput(input);
+  Future<FoodParseResult> parseFood(String input, [List<ChatMessage> history = const []]) async {
+    return await remoteDataSource.parseFoodInput(input, history);
   }
 }

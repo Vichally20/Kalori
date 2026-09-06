@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:kalori/core/utilities/app_logger.dart';
+import 'package:kalori/features/log/domain/entities/chat_message.dart';
+import 'package:kalori/features/log/domain/entities/food_parse_result.dart';
 import 'package:kalori/features/log/domain/entities/meal_log_entry.dart';
 import 'package:kalori/features/log/domain/entities/sync_status.dart';
 import 'package:kalori/features/log/domain/repositories/log_repository.dart';
@@ -14,7 +16,7 @@ class LogMeal {
 
   LogMeal(this.logRepository, this.analyzeFoodInput);
 
-  Future<void> execute(String rawInput) async {
+  Future<FoodParseResult> execute(String rawInput, [List<ChatMessage> history = const []]) async {
     AppLogger.i('LogMeal execute requested with input: "$rawInput"');
     
     final entry = MealLogEntry(
@@ -26,26 +28,32 @@ class LogMeal {
     await logRepository.saveMealItem(entry);
     AppLogger.d('Saved pending meal entry locally with ID: ${entry.id}');
     
-    // Trigger sync asynchronously without waiting for it to finish
-    _syncEntry(entry);
+    return await _syncEntry(entry, history);
   }
   
-  Future<void> _syncEntry(MealLogEntry entry) async {
+  Future<FoodParseResult> _syncEntry(MealLogEntry entry, List<ChatMessage> history) async {
     AppLogger.d('Starting AI sync for entry: ${entry.id}');
     try {
-      final foodItem = await analyzeFoodInput.execute(entry.rawInput);
+      final result = await analyzeFoodInput.execute(entry.rawInput, history);
       
-      AppLogger.i('AI sync successful for entry: ${entry.id}. Parsed as: ${foodItem.title}');
+      if (result.needsClarification) {
+         AppLogger.i('AI sync needs clarification for entry: ${entry.id}');
+         await logRepository.deleteMealItem(entry.id);
+         return result;
+      }
+
+      AppLogger.i('AI sync successful for entry: ${entry.id}. Parsed as: ${result.foodItem?.title}');
       
       final updatedEntry = entry.copyWith(
         syncStatus: SyncStatus.synced,
-        foodItem: foodItem,
+        foodItem: result.foodItem,
       );
       await logRepository.saveMealItem(updatedEntry);
+      return result;
     } catch (e) {
       AppLogger.e('AI sync failed for entry: ${entry.id}', error: e);
-      final failedEntry = entry.copyWith(syncStatus: SyncStatus.failed);
-      await logRepository.saveMealItem(failedEntry);
+      await logRepository.deleteMealItem(entry.id);
+      rethrow;
     }
   }
 }

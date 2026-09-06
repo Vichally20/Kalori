@@ -18,7 +18,7 @@ class LogBinding extends Bindings {
     Get.lazyPut<LogLocalDataSource>(() => LogLocalDataSourceImpl());
     Get.lazyPut<LogRepository>(() => LogRepositoryImpl(localDataSource: Get.find<LogLocalDataSource>()));
     Get.lazyPut<LogRemoteAISource>(() => LogRemoteAISourceImpl());
-    Get.lazyPut<FoodParserRepository>(() => FoodParserRepositoryImpl(aiSource: Get.find<LogRemoteAISource>()));
+    Get.lazyPut<FoodParserRepository>(() => FoodParserRepositoryImpl(remoteDataSource: Get.find<LogRemoteAISource>()));
     Get.lazyPut<GetMealsUsecase>(() => GetMealsUsecase(Get.find<LogRepository>()));
     Get.lazyPut<WatchMeals>(() => WatchMeals(Get.find<LogRepository>()));
     Get.lazyPut<AnalyzeFoodInput>(() => AnalyzeFoodInput(Get.find<FoodParserRepository>()));

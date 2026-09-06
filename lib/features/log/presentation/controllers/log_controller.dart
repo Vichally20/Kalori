@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kalori/core/utilities/app_logger.dart';
@@ -109,26 +110,56 @@ class LogController extends GetxController {
     isMealBreakdownExpanded.value = true;
   }
 
+  String _getNaturalLoadingState() {
+    final phrases = [
+      "Crunching the numbers...",
+      "Let me calculate that...",
+      "Estimating portions...",
+      "Taking a look at those macros...",
+      "Got it, doing the math..."
+    ];
+    return phrases[Random().nextInt(phrases.length)];
+  }
+
   // Handle suggestion chips
   Future<void> addSuggestion(FoodItem food) async {
     AppLogger.i('User tapped suggestion chip for: ${food.title}');
     chatMessages.add(ChatMessage(text: 'Add ${food.title.toLowerCase()}', isUser: true));
-    chatMessages.add(
-      ChatMessage(
-        text: 'Added ${food.title} (${food.subtitle}) • ${food.nutritionalInfo.calories} kcal.',
-        isUser: false,
-      ),
-    );
     
-    await logMealUseCase.execute(food.title);
-    
-    showMealBreakdown.value = true;
-    isMealBreakdownExpanded.value = true;
-    KaloriToast.showSuccess(
-      title: '${food.title} Added ✅',
-      message: 'Logged ${food.subtitle} • ${food.nutritionalInfo.calories} kcal.',
-      position: SnackPosition.BOTTOM,
+    final loadingMsg = ChatMessage(
+      text: _getNaturalLoadingState(),
+      isUser: false,
     );
+    chatMessages.add(loadingMsg);
+    
+    try {
+      final result = await logMealUseCase.execute(food.title, chatMessages.toList());
+      chatMessages.removeLast(); // Remove loading message
+      
+      if (result.needsClarification) {
+        chatMessages.add(ChatMessage(text: result.replyMessage ?? 'Can you provide more details?', isUser: false));
+        return;
+      }
+      
+      final calories = result.foodItem?.nutritionalInfo.calories ?? food.nutritionalInfo.calories;
+      chatMessages.add(
+        ChatMessage(
+          text: "Got it! That's approximately $calories calories. You have ${1700 - totalCalories} kcal remaining today. You're on track!",
+          isUser: false,
+        ),
+      );
+      
+      showMealBreakdown.value = true;
+      isMealBreakdownExpanded.value = true;
+      KaloriToast.showSuccess(
+        title: '${food.title} Added ✅',
+        message: 'Logged ${food.subtitle} • $calories kcal.',
+        position: SnackPosition.BOTTOM,
+      );
+    } catch (e) {
+      chatMessages.removeLast(); // Remove loading message
+      chatMessages.add(ChatMessage(text: 'Sorry, I couldn\'t process that. Please try again.', isUser: false));
+    }
   }
 
   // Handle external input from home screen chat bar or anywhere else
@@ -141,15 +172,34 @@ class LogController extends GetxController {
 
       chatMessages.add(
         ChatMessage(
-          text: 'Analyzing "$cleanText"...',
+          text: _getNaturalLoadingState(),
           isUser: false,
         ),
       );
       
-      await logMealUseCase.execute(cleanText);
-      
-      showMealBreakdown.value = true;
-      isMealBreakdownExpanded.value = true;
+      try {
+        final result = await logMealUseCase.execute(cleanText, chatMessages.toList());
+        chatMessages.removeLast(); // Remove loading message
+        
+        if (result.needsClarification) {
+          chatMessages.add(ChatMessage(text: result.replyMessage ?? 'Can you provide more details?', isUser: false));
+          return;
+        }
+
+        final calories = result.foodItem?.nutritionalInfo.calories ?? 0;
+        chatMessages.add(
+          ChatMessage(
+            text: "Got it! That's approximately $calories calories. You have ${1700 - totalCalories} kcal remaining today. You're on track!",
+            isUser: false,
+          ),
+        );
+        
+        showMealBreakdown.value = true;
+        isMealBreakdownExpanded.value = true;
+      } catch (e) {
+        chatMessages.removeLast(); // Remove loading message
+        chatMessages.add(ChatMessage(text: 'Sorry, I couldn\'t process that. Please try again.', isUser: false));
+      }
     }
   }
 

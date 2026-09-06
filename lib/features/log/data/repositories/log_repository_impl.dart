@@ -29,4 +29,9 @@ class LogRepositoryImpl implements LogRepository {
   Future<void> saveMealItem(MealLogEntry item) async {
     await localDataSource.saveMealItem(MealLogEntryModel.fromEntity(item));
   }
+
+  @override
+  Future<void> deleteMealItem(String id) async {
+    await localDataSource.deleteMealItem(id);
+  }
 }

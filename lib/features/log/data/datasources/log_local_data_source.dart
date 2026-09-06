@@ -12,6 +12,7 @@ abstract class LogLocalDataSource {
   Stream<List<MealLogEntryModel>> watchMealItems();
   Future<List<FoodItemModel>> getFrequentMeals({int limit = 3});
   Future<void> saveMealItem(MealLogEntryModel item);
+  Future<void> deleteMealItem(String uuid);
 }
 
 class LogLocalDataSourceImpl implements LogLocalDataSource {
@@ -76,6 +77,13 @@ class LogLocalDataSourceImpl implements LogLocalDataSource {
     final isarFood = IsarFoodItem.fromMealLogEntry(item);
     await isar.writeTxn(() async {
       await isar.isarFoodItems.put(isarFood);
+    });
+  }
+
+  @override
+  Future<void> deleteMealItem(String uuid) async {
+    await isar.writeTxn(() async {
+      await isar.isarFoodItems.filter().uuidEqualTo(uuid).deleteAll();
     });
   }
 }

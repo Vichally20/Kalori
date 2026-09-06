@@ -7,4 +7,5 @@ abstract class LogRepository {
   Stream<List<MealLogEntry>> watchMealItems();
   Future<List<FoodItem>> getFrequentMeals({int limit = 3});
   Future<void> saveMealItem(MealLogEntry item);
+  Future<void> deleteMealItem(String id);
 }
