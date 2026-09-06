@@ -98,7 +98,7 @@ class LogView extends StatelessWidget {
                     () => Column(
                       children: [
                         MealBreakdownCard(
-                          foodItems: controller.foodItems,
+                          mealEntries: controller.mealEntries,
                           totalCalories: controller.totalCalories,
                           carbs: controller.totalCarbs,
                           protein: controller.totalProtein,

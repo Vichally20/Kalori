@@ -4,6 +4,7 @@ import 'package:isar/isar.dart';
 import 'package:kalori/core/services/isar_service.dart';
 import 'package:kalori/features/log/data/models/food_item_model.dart';
 import 'package:kalori/features/log/data/models/isar/isar_food_item.dart';
+import 'package:kalori/features/log/domain/entities/food_item.dart';
 
 /// Data source interface for home local storage
 abstract class HomeLocalDataSource {
@@ -18,10 +19,13 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
     final isarItems = await isar.isarFoodItems
     .where()
     .sortByCreatedAtDesc()
-    .limit(3)
     .findAll();
-    return isarItems.map((isarItem) {
-      return FoodItemModel.fromEntity(isarItem.toEntity());
-    }).toList();
+    
+    return isarItems
+        .map((isarItem) => isarItem.toMealLogEntry().foodItem)
+        .whereType<FoodItem>()
+        .take(3)
+        .map((entity) => FoodItemModel.fromEntity(entity))
+        .toList();
   }
 }

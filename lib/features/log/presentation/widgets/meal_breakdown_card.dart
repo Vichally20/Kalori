@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kalori/core/theme/app_theme.dart';
-import 'package:kalori/features/log/domain/entities/food_item.dart';
+import 'package:kalori/features/log/domain/entities/meal_log_entry.dart';
+import 'package:kalori/features/log/domain/entities/sync_status.dart';
 
 class MealBreakdownCard extends StatelessWidget {
-  final List<FoodItem> foodItems;
+  final List<MealLogEntry> mealEntries;
   final int totalCalories;
   final int carbs;
   final int protein;
@@ -11,10 +12,11 @@ class MealBreakdownCard extends StatelessWidget {
   final VoidCallback onClose;
   final bool isExpanded;
   final VoidCallback? onToggleExpand;
+  final void Function(MealLogEntry)? onRetry;
 
   const MealBreakdownCard({
     super.key,
-    required this.foodItems,
+    required this.mealEntries,
     required this.totalCalories,
     required this.carbs,
     required this.protein,
@@ -22,6 +24,7 @@ class MealBreakdownCard extends StatelessWidget {
     required this.onClose,
     this.isExpanded = true,
     this.onToggleExpand,
+    this.onRetry,
   });
 
   @override
@@ -173,10 +176,12 @@ class MealBreakdownCard extends StatelessWidget {
           const SizedBox(height: KaloriSpacing.md),
 
           // Food Items List
-          ...foodItems.asMap().entries.map((entry) {
-            final int idx = entry.key;
-            final FoodItem item = entry.value;
-            final bool isLast = idx == foodItems.length - 1;
+          ...mealEntries.asMap().entries.map((entryItem) {
+            final int idx = entryItem.key;
+            final MealLogEntry entry = entryItem.value;
+            final bool isLast = idx == mealEntries.length - 1;
+            
+            final foodItem = entry.foodItem;
 
             return Column(
               children: [
@@ -191,7 +196,7 @@ class MealBreakdownCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              item.title,
+                              foodItem?.title ?? entry.rawInput,
                               style: context.typography.bodyLg.copyWith(
                                 fontWeight: FontWeight.w700,
                                 color: KaloriColors.onSurface,
@@ -199,22 +204,41 @@ class MealBreakdownCard extends StatelessWidget {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              item.subtitle,
+                              foodItem?.subtitle ?? (entry.syncStatus == SyncStatus.pending ? 'Analyzing...' : (entry.syncStatus == SyncStatus.failed ? 'Failed to analyze' : 'Pending')),
                               style: context.typography.bodySm.copyWith(
-                                color: KaloriColors.outline,
+                                color: entry.syncStatus == SyncStatus.failed ? Colors.red : KaloriColors.outline,
                               ),
                             ),
                           ],
                         ),
                       ),
                       const SizedBox(width: 12),
-                      Text(
-                        '${item.nutritionalInfo.calories} kcal',
-                        style: context.typography.bodyLg.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: KaloriColors.onSurface,
+                      if (entry.syncStatus == SyncStatus.pending)
+                        const Padding(
+                          padding: EdgeInsets.only(top: 4.0),
+                          child: SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2, color: KaloriColors.primary),
+                          ),
+                        )
+                      else if (entry.syncStatus == SyncStatus.failed)
+                        IconButton(
+                          icon: const Icon(Icons.refresh, color: Colors.red, size: 20),
+                          onPressed: () {
+                            if (onRetry != null) onRetry!(entry);
+                          },
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                        )
+                      else if (foodItem != null)
+                        Text(
+                          '${foodItem.nutritionalInfo.calories} kcal',
+                          style: context.typography.bodyLg.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: KaloriColors.onSurface,
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ),
