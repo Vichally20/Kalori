@@ -137,7 +137,7 @@ class _MonthSummaryCard extends GetView<HistoryController> {
           children: [
             TextSpan(
               text: '$value ',
-              style: const TextStyle(fontWeight: FontWeight.w700, color: KaloriColors.onSurface),
+              style: TextStyle(fontWeight: FontWeight.w700, color: KaloriColors.onSurface),
             ),
             TextSpan(text: label),
           ],
@@ -268,9 +268,9 @@ class _CalendarDay extends StatelessWidget {
 
     final BorderSide side;
     if (isToday) {
-      side = const BorderSide(color: KaloriColors.onSurface, width: 2.0);
+      side = BorderSide(color: KaloriColors.onSurface, width: 2.0);
     } else if (status == DayStatus.missed) {
-      side = const BorderSide(color: KaloriColors.outlineVariant, width: 1.5);
+      side = BorderSide(color: KaloriColors.outlineVariant, width: 1.5);
     } else {
       side = BorderSide.none;
     }

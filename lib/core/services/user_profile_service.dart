@@ -37,18 +37,41 @@ class UserProfileService extends GetxService {
   DailyTargets preview(UserProfile value) => _calculate.execute(value);
 
   /// Records today's weight (replacing an earlier entry from today) and recalculates targets.
-  Future<void> logWeight(double kg) async {
+  Future<void> logWeight(double kg) => setWeightFor(DateTime.now(), kg);
+
+  /// Sets the weight for [date]'s entry (adding or replacing it).
+  Future<void> setWeightFor(DateTime date, double kg) async {
     final current = profile.value;
     if (current == null) {
       return;
     }
-    final today = DateTime.now().dateOnly;
+    final day = date.dateOnly;
     final log = [
       for (final e in current.weightLog)
-        if (e.date.dateOnly != today) e,
-      WeightEntry(date: today, kg: kg),
-    ]..sort((a, b) => a.date.compareTo(b.date));
-    await save(current.copyWith(weightKg: kg, weightLog: log));
+        if (e.date.dateOnly != day) e,
+      WeightEntry(date: day, kg: kg),
+    ];
+    await _saveLog(current, log);
+  }
+
+  /// Removes [date]'s entry. Current weight follows the newest remaining entry.
+  Future<void> deleteWeightFor(DateTime date) async {
+    final current = profile.value;
+    if (current == null) {
+      return;
+    }
+    final day = date.dateOnly;
+    await _saveLog(current, [
+      for (final e in current.weightLog)
+        if (e.date.dateOnly != day) e,
+    ]);
+  }
+
+  Future<void> _saveLog(UserProfile current, List<WeightEntry> log) async {
+    log.sort((a, b) => a.date.compareTo(b.date));
+    // Current weight is always the most recent entry; keep it if the log is now empty.
+    final latest = log.isEmpty ? current.weightKg : log.last.kg;
+    await save(current.copyWith(weightKg: latest, weightLog: log));
   }
 
   Future<void> clear() async {

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kalori/core/theme/app_colors.dart';
 
 class FoodIconHelper {
   /// Returns a Record containing the icon, iconColor, and iconBgColor for a given food title.
   static ({IconData icon, Color iconColor, Color iconBgColor}) getIconForFood(String title) {
-    const defaultBgColor = Color(0xFFEFF4FF);
-    const defaultColor = Color(0xFF0D1C2F);
+    final defaultBgColor = KaloriColors.surfaceContainerLow;
+    final defaultColor = KaloriColors.onSurface;
 
     // Modern Dart 3 switch expression with pattern matching
     final iconData = switch (title.toLowerCase()) {
@@ -18,7 +19,7 @@ class FoodIconHelper {
 
     // Override color for specific icons
     final iconColor = iconData == Icons.eco_outlined 
-        ? const Color(0xFF006C49) 
+        ? KaloriColors.primary 
         : defaultColor;
 
     return (

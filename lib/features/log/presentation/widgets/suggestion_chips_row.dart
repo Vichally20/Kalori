@@ -26,14 +26,14 @@ class SuggestionChipsRow extends StatelessWidget {
               vertical: 10.0,
             ),
             decoration: BoxDecoration(
-              color: const Color(0xFFE2E8F0),
+              color: KaloriColors.chipFill,
               borderRadius: BorderRadius.circular(KaloriRadius.full),
               border: Border.all(color: KaloriColors.borderSlate),
             ),
             child: Text(
               'ADD ${item.title.toUpperCase()}',
               style: context.typography.labelCaps.copyWith(
-                color: const Color(0xFF0D1C2F),
+                color: KaloriColors.onSurface,
                 fontWeight: FontWeight.w700,
               ),
             ),

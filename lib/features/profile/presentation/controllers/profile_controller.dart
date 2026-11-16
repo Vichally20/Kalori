@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kalori/core/routes/app_routes.dart';
+import 'package:kalori/core/services/theme_service.dart';
 import 'package:kalori/core/services/user_profile_service.dart';
+import 'package:kalori/core/services/water_service.dart';
 import 'package:kalori/core/theme/app_theme.dart';
 import 'package:kalori/features/history/domain/entities/period_stats.dart';
 import 'package:kalori/features/history/presentation/controllers/history_controller.dart';
@@ -9,6 +11,7 @@ import 'package:kalori/features/log/domain/repositories/log_repository.dart';
 import 'package:kalori/features/onboarding/presentation/controllers/onboarding_controller.dart';
 import 'package:kalori/features/profile/domain/entities/daily_targets.dart';
 import 'package:kalori/features/profile/domain/entities/user_profile.dart';
+import 'package:kalori/features/profile/presentation/widgets/value_input_dialog.dart';
 import 'package:kalori/shared/shared.dart';
 
 class ProfileController extends GetxController {
@@ -39,6 +42,77 @@ class ProfileController extends GetxController {
     Get.toNamed<void>(AppRoutes.onboarding, arguments: OnboardingArgs(editStep: step));
   }
 
+  /// Opens the weight log, where today's weight is logged and past entries are listed.
+  void openWeightLog() => Get.toNamed<void>(AppRoutes.weightLog);
+
+  int get waterToday => Get.find<WaterService>().today;
+
+  int get waterGoal => Get.find<WaterService>().goal.value;
+
+  void openWater() => Get.toNamed<void>(AppRoutes.water);
+
+  static const Map<ThemeMode, String> _appearanceLabels = {
+    ThemeMode.system: 'System',
+    ThemeMode.light: 'Light',
+    ThemeMode.dark: 'Dark',
+  };
+
+  String get appearanceLabel => _appearanceLabels[Get.find<ThemeService>().mode.value]!;
+
+  /// Lets the user pick System / Light / Dark in a bottom sheet.
+  Future<void> chooseAppearance() async {
+    final theme = Get.find<ThemeService>();
+    final picked = await Get.bottomSheet<ThemeMode>(
+      SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(KaloriSpacing.containerMargin, 12.0, KaloriSpacing.containerMargin, 16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Container(
+                  width: 40.0,
+                  height: 5.0,
+                  decoration: BoxDecoration(color: KaloriColors.outlineVariant, borderRadius: KaloriRadius.borderFull),
+                ),
+              ),
+              const SizedBox(height: KaloriSpacing.md),
+              Text(
+                'Appearance',
+                style: KaloriTypography.headlineMd.copyWith(fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(height: KaloriSpacing.xs),
+              RadioGroup<ThemeMode>(
+                groupValue: theme.mode.value,
+                onChanged: (m) => Get.back<ThemeMode>(result: m),
+                child: Column(
+                  children: [
+                    for (final entry in _appearanceLabels.entries)
+                      RadioListTile<ThemeMode>(
+                        value: entry.key,
+                        contentPadding: EdgeInsets.zero,
+                        activeColor: KaloriColors.primary,
+                        title: Text(entry.value, style: KaloriTypography.bodyLg.copyWith(color: KaloriColors.onSurface)),
+                        subtitle: entry.key == ThemeMode.system
+                            ? Text('Match your phone setting', style: KaloriTypography.bodySm)
+                            : null,
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      backgroundColor: KaloriColors.background,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24.0))),
+    );
+    if (picked != null) {
+      await theme.setMode(picked);
+    }
+  }
+
   void startOnboarding() => Get.offAllNamed<void>(AppRoutes.onboarding);
 
   Future<void> editName() async {
@@ -47,7 +121,7 @@ class ProfileController extends GetxController {
       return;
     }
     final result = await Get.dialog<String>(
-      _InputDialog(
+      ValueInputDialog(
         title: 'Your name',
         initialText: current.name,
         keyboardType: TextInputType.name,
@@ -56,33 +130,6 @@ class ProfileController extends GetxController {
     );
     if (result != null) {
       await profiles.save(current.copyWith(name: result.trim()));
-    }
-  }
-
-  Future<void> logWeight() async {
-    final current = profile;
-    if (current == null) {
-      return;
-    }
-    final result = await Get.dialog<String>(
-      _InputDialog(
-        title: "Today's weight",
-        initialText: _trim(current.weightKg),
-        suffix: 'kg',
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-        validator: (v) {
-          final kg = double.tryParse(v.replaceAll(',', '.'));
-          if (kg == null || kg < OnboardingController.minWeightKg || kg > OnboardingController.maxWeightKg) {
-            return 'Enter a weight between 30 and 250 kg';
-          }
-          return null;
-        },
-      ),
-    );
-    final kg = double.tryParse(result?.replaceAll(',', '.') ?? '');
-    if (kg != null) {
-      await profiles.logWeight(kg);
-      KaloriToast.showSuccess(title: 'Weight logged', message: '${_trim(kg)} kg saved for today.');
     }
   }
 
@@ -127,75 +174,8 @@ class ProfileController extends GetxController {
     if (Get.isRegistered<LogRepository>()) {
       await Get.find<LogRepository>().clearAll();
     }
+    await Get.find<WaterService>().clear();
     await profiles.clear();
     startOnboarding();
-  }
-
-  static String _trim(double v) {
-    final r = (v * 10).round() / 10;
-    return r == r.roundToDouble() ? r.round().toString() : r.toStringAsFixed(1);
-  }
-}
-
-/// Single-field dialog that returns the entered text on Save.
-///
-/// Owns its [TextEditingController] so it is disposed only after the dialog's
-/// closing animation, never while the field is still on screen.
-class _InputDialog extends StatefulWidget {
-  final String title;
-  final String initialText;
-  final String? suffix;
-  final TextInputType keyboardType;
-  final String? Function(String) validator;
-
-  const _InputDialog({
-    required this.title,
-    required this.initialText,
-    required this.keyboardType,
-    required this.validator,
-    this.suffix,
-  });
-
-  @override
-  State<_InputDialog> createState() => _InputDialogState();
-}
-
-class _InputDialogState extends State<_InputDialog> {
-  late final TextEditingController _field = TextEditingController(text: widget.initialText);
-  String? _error;
-
-  @override
-  void dispose() {
-    _field.dispose();
-    super.dispose();
-  }
-
-  void _submit() {
-    final error = widget.validator(_field.text);
-    if (error != null) {
-      setState(() => _error = error);
-      return;
-    }
-    Get.back<String>(result: _field.text);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: KaloriColors.surfaceContainerLowest,
-      shape: RoundedRectangleBorder(borderRadius: KaloriRadius.borderLg),
-      title: Text(widget.title),
-      content: TextField(
-        controller: _field,
-        autofocus: true,
-        keyboardType: widget.keyboardType,
-        onSubmitted: (_) => _submit(),
-        decoration: InputDecoration(suffixText: widget.suffix, errorText: _error),
-      ),
-      actions: [
-        TextButton(onPressed: () => Get.back<String>(), child: const Text('Cancel')),
-        TextButton(onPressed: _submit, child: const Text('Save')),
-      ],
-    );
   }
 }

@@ -23,7 +23,7 @@ class OnboardingStepHeader extends StatelessWidget {
           IconButton(
             tooltip: 'Back',
             onPressed: onBack,
-            icon: const Icon(Icons.arrow_back_rounded, color: KaloriColors.onSurface),
+            icon: Icon(Icons.arrow_back_rounded, color: KaloriColors.onSurface),
           ),
           const SizedBox(width: 4.0),
           Expanded(
@@ -129,7 +129,7 @@ class OnboardingChoiceCard extends StatelessWidget {
             width: selected ? 1.5 : 1.0,
           ),
           boxShadow: selected
-              ? const [BoxShadow(color: Color(0x1A006C49), blurRadius: 12.0, offset: Offset(0, 4))]
+              ? [BoxShadow(color: KaloriColors.primary.withValues(alpha: 0.1), blurRadius: 12.0, offset: const Offset(0, 4))]
               : const [],
         ),
         child: Material(

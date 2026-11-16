@@ -148,7 +148,7 @@ class _WeekSummaryCard extends GetView<HistoryController> {
           const SizedBox(height: KaloriSpacing.containerMargin),
           _WeekBarChart(days: days),
           const SizedBox(height: KaloriSpacing.md),
-          const Divider(color: KaloriColors.borderSlate, height: 1.0),
+          Divider(color: KaloriColors.borderSlate, height: 1.0),
           const SizedBox(height: KaloriSpacing.sm),
           const Wrap(
             spacing: 14.0,
@@ -603,7 +603,7 @@ class _DayCard extends StatelessWidget {
                       ],
                     )
                   else
-                    const Icon(Icons.chevron_right_rounded, color: KaloriColors.outline),
+                    Icon(Icons.chevron_right_rounded, color: KaloriColors.outline),
                 ],
               ),
               if (!isMissed) ...[

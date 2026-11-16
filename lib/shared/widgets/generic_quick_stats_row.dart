@@ -115,11 +115,11 @@ class GenericQuickStatsRow extends StatelessWidget {
         color: KaloriColors.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(KaloriRadius.lg),
         border: Border.all(color: KaloriColors.borderSlate),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
             color: KaloriColors.cardShadow,
             blurRadius: 16.0,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),

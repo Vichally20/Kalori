@@ -45,7 +45,7 @@ class OnboardingView extends GetView<OnboardingController> {
                   centerTitle: false,
                   leading: IconButton(
                     tooltip: 'Back',
-                    icon: const Icon(Icons.arrow_back_rounded, color: KaloriColors.onSurface),
+                    icon: Icon(Icons.arrow_back_rounded, color: KaloriColors.onSurface),
                     onPressed: controller.back,
                   ),
                   title: Text(
@@ -71,7 +71,7 @@ class OnboardingView extends GetView<OnboardingController> {
                       child: IconButton(
                         tooltip: 'Back',
                         onPressed: controller.back,
-                        icon: const Icon(Icons.arrow_back_rounded, color: KaloriColors.onSurface),
+                        icon: Icon(Icons.arrow_back_rounded, color: KaloriColors.onSurface),
                       ),
                     ),
                   ),

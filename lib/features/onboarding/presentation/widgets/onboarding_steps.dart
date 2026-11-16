@@ -20,7 +20,7 @@ BoxDecoration _cardDecoration() => BoxDecoration(
       color: KaloriColors.surfaceContainerLowest,
       borderRadius: KaloriRadius.borderLg,
       border: Border.all(color: KaloriColors.borderSlate),
-      boxShadow: const [BoxShadow(color: KaloriColors.cardShadow, blurRadius: 20.0, offset: Offset(0, 4))],
+      boxShadow: [BoxShadow(color: KaloriColors.cardShadow, blurRadius: 20.0, offset: const Offset(0, 4))],
     );
 
 // -----------------------------------------------------------------------------
@@ -113,10 +113,19 @@ class _WordmarkAnimationState extends State<_WordmarkAnimation> with SingleTicke
 
   @override
   Widget build(BuildContext context) {
+    // The asset is drawn for light surfaces; recolour the ink letters and the ring track
+    // from the active palette so the wordmark reads in dark mode too.
+    final ink = KaloriColors.onSurface;
     return Lottie.asset(
       'assets/lottie/kalori_wordmark.json',
       controller: _controller,
       fit: BoxFit.contain,
+      delegates: LottieDelegates(
+        values: [
+          for (final letter in const ['K', 'A', 'L', 'R']) ValueDelegate.strokeColor([letter, '**'], value: ink),
+          ValueDelegate.strokeColor(const ['O', 'O track', '**'], value: KaloriColors.surfaceContainerHigh),
+        ],
+      ),
       onLoaded: (composition) {
         _controller.duration = composition.duration;
         _start();
@@ -150,7 +159,7 @@ class AboutStep extends GetView<OnboardingController> {
             ),
             const SizedBox(height: 28.0),
           ],
-          _FieldLabel('What should we call you?'),
+          const _FieldLabel('What should we call you?'),
           TextField(
             controller: controller.nameController,
             textCapitalization: TextCapitalization.words,
@@ -162,7 +171,7 @@ class AboutStep extends GetView<OnboardingController> {
             ),
           ),
           const SizedBox(height: KaloriSpacing.lg),
-          _FieldLabel('Sex'),
+          const _FieldLabel('Sex'),
           Obx(
             () => Row(
               children: [
@@ -177,7 +186,7 @@ class AboutStep extends GetView<OnboardingController> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (controller.sex.value == s) ...[
-                            const Icon(Icons.check_rounded, size: 18.0, color: KaloriColors.primary),
+                            Icon(Icons.check_rounded, size: 18.0, color: KaloriColors.primary),
                             const SizedBox(width: 6.0),
                           ],
                           Text(
@@ -201,7 +210,7 @@ class AboutStep extends GetView<OnboardingController> {
             style: context.typography.bodySm.copyWith(fontSize: 13.0, color: KaloriColors.onSurfaceVariant),
           ),
           const SizedBox(height: KaloriSpacing.lg),
-          _FieldLabel('Age'),
+          const _FieldLabel('Age'),
           Container(
             padding: const EdgeInsets.all(6.0),
             decoration: BoxDecoration(
@@ -322,7 +331,7 @@ class BodyStep extends GetView<OnboardingController> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.lock_outline_rounded, size: 16.0, color: KaloriColors.onSurfaceVariant),
+              Icon(Icons.lock_outline_rounded, size: 16.0, color: KaloriColors.onSurfaceVariant),
               const SizedBox(width: KaloriSpacing.xs),
               Expanded(
                 child: Text(
@@ -488,7 +497,8 @@ class ActivityStep extends GetView<OnboardingController> {
 class GoalStep extends GetView<OnboardingController> {
   const GoalStep({super.key});
 
-  static const Map<GoalType, (IconData, Color)> _goalIcons = {
+  /// A getter (not a stored field) so the colours follow the active palette.
+  static Map<GoalType, (IconData, Color)> get _goalIcons => {
     GoalType.lose: (Icons.trending_down_rounded, KaloriColors.primary),
     GoalType.maintain: (Icons.swap_horiz_rounded, KaloriColors.tertiary),
     GoalType.gain: (Icons.trending_up_rounded, KaloriColors.secondary),
@@ -542,7 +552,7 @@ class GoalStep extends GetView<OnboardingController> {
             ),
             if (goal != GoalType.maintain) ...[
               const SizedBox(height: KaloriSpacing.lg),
-              _FieldLabel('Target weight'),
+              const _FieldLabel('Target weight'),
               TextField(
                 controller: controller.targetController,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -560,7 +570,7 @@ class GoalStep extends GetView<OnboardingController> {
                 ),
               ),
               const SizedBox(height: KaloriSpacing.lg),
-              _FieldLabel('How fast?'),
+              const _FieldLabel('How fast?'),
               Row(
                 children: [
                   for (final p in GoalPace.values) ...[
@@ -587,7 +597,7 @@ class GoalStep extends GetView<OnboardingController> {
                       color: KaloriColors.tertiaryFixed,
                       borderRadius: KaloriRadius.borderMd,
                     ),
-                    child: const Icon(Icons.calendar_today_outlined, size: 20.0, color: KaloriColors.tertiary),
+                    child: Icon(Icons.calendar_today_outlined, size: 20.0, color: KaloriColors.tertiary),
                   ),
                   const SizedBox(width: KaloriSpacing.sm),
                   Expanded(
@@ -597,7 +607,7 @@ class GoalStep extends GetView<OnboardingController> {
                           const TextSpan(text: 'About '),
                           TextSpan(
                             text: '${HistoryFormat.number(targets.calories)} kcal',
-                            style: const TextStyle(fontWeight: FontWeight.w700, color: KaloriColors.onSurface),
+                            style: TextStyle(fontWeight: FontWeight.w700, color: KaloriColors.onSurface),
                           ),
                           const TextSpan(text: ' a day. '),
                           if (goal == GoalType.maintain)
@@ -606,7 +616,7 @@ class GoalStep extends GetView<OnboardingController> {
                             TextSpan(text: "You'd reach ${controller.formatWeight(controller.targetWeightKg.value)} around "),
                             TextSpan(
                               text: '${HistoryFormat.shortDate(date)}, ${date.year}',
-                              style: const TextStyle(fontWeight: FontWeight.w700, color: KaloriColors.onSurface),
+                              style: TextStyle(fontWeight: FontWeight.w700, color: KaloriColors.onSurface),
                             ),
                             const TextSpan(text: '.'),
                           ],
@@ -793,7 +803,7 @@ class PlanStep extends GetView<OnboardingController> {
                   ),
                   if (t.floorApplied)
                     const _SumRow(label: 'Raised to the safe minimum', value: ''),
-                  const Divider(color: KaloriColors.borderSlate, height: 16.0),
+                  Divider(color: KaloriColors.borderSlate, height: 16.0),
                   _SumRow(
                     label: 'Daily target',
                     value: '${HistoryFormat.number(t.calories)} kcal',
@@ -816,7 +826,7 @@ class PlanStep extends GetView<OnboardingController> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.info_outline_rounded, size: 16.0, color: KaloriColors.onSurfaceVariant),
+                Icon(Icons.info_outline_rounded, size: 16.0, color: KaloriColors.onSurfaceVariant),
                 const SizedBox(width: KaloriSpacing.xs),
                 Expanded(
                   child: Text(
@@ -936,8 +946,8 @@ class _Timeline extends StatelessWidget {
                     borderRadius: KaloriRadius.borderFull,
                   ),
                 ),
-                const Align(alignment: Alignment.centerLeft, child: _Dot(color: KaloriColors.onSurface)),
-                const Align(alignment: Alignment.centerRight, child: _Dot(color: KaloriColors.successGreen)),
+                Align(alignment: Alignment.centerLeft, child: _Dot(color: KaloriColors.onSurface)),
+                Align(alignment: Alignment.centerRight, child: _Dot(color: KaloriColors.successGreen)),
               ],
             ),
           ),
@@ -975,7 +985,7 @@ class _MacroRingPainter extends CustomPainter {
 
   const _MacroRingPainter({required this.fractions});
 
-  static const List<Color> _colors = [KaloriColors.primary, KaloriColors.tertiary, KaloriColors.secondary];
+  static final List<Color> _colors = [KaloriColors.primary, KaloriColors.tertiary, KaloriColors.secondary];
 
   @override
   void paint(Canvas canvas, Size size) {

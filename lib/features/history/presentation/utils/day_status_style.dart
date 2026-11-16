@@ -30,7 +30,7 @@ class DayStatusStyle {
 
   static DayStatusStyle of(DayStatus status) {
     return switch (status) {
-      DayStatus.onTrack => const DayStatusStyle(
+      DayStatus.onTrack => DayStatusStyle(
           label: 'ON TRACK',
           fill: KaloriColors.successGreen,
           badgeBg: KaloriColors.primaryContainer,
@@ -39,7 +39,7 @@ class DayStatusStyle {
           cellFg: KaloriColors.onPrimaryContainer,
           icon: Icons.check_circle_outline,
         ),
-      DayStatus.close => const DayStatusStyle(
+      DayStatus.close => DayStatusStyle(
           label: 'CLOSE',
           fill: KaloriColors.warningOrange,
           badgeBg: KaloriColors.secondaryContainer,
@@ -48,7 +48,7 @@ class DayStatusStyle {
           cellFg: KaloriColors.onSecondaryContainer,
           icon: Icons.warning_amber_rounded,
         ),
-      DayStatus.over => const DayStatusStyle(
+      DayStatus.over => DayStatusStyle(
           label: 'OVER',
           fill: KaloriColors.error,
           badgeBg: KaloriColors.errorContainer,
@@ -57,7 +57,7 @@ class DayStatusStyle {
           cellFg: KaloriColors.onErrorContainer,
           icon: Icons.error_outline_rounded,
         ),
-      DayStatus.missed => const DayStatusStyle(
+      DayStatus.missed => DayStatusStyle(
           label: 'MISSED',
           fill: KaloriColors.surfaceContainerHigh,
           badgeBg: KaloriColors.surfaceContainerHigh,
@@ -65,7 +65,7 @@ class DayStatusStyle {
           cellBg: Colors.transparent,
           cellFg: KaloriColors.outline,
         ),
-      DayStatus.inProgress => const DayStatusStyle(
+      DayStatus.inProgress => DayStatusStyle(
           label: 'IN PROGRESS',
           fill: KaloriColors.successGreen,
           badgeBg: KaloriColors.successTint,
@@ -74,7 +74,7 @@ class DayStatusStyle {
           cellFg: KaloriColors.onSurface,
           icon: Icons.schedule_rounded,
         ),
-      DayStatus.future => const DayStatusStyle(
+      DayStatus.future => DayStatusStyle(
           label: '',
           fill: KaloriColors.surfaceContainer,
           badgeBg: Colors.transparent,

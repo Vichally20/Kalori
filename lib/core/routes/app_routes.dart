@@ -5,6 +5,8 @@ import 'package:kalori/features/log/presentation/screens/log_screen.dart';
 import 'package:kalori/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:kalori/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:kalori/features/profile/presentation/screens/profile_screen.dart';
+import 'package:kalori/features/profile/presentation/screens/weight_log_screen.dart';
+import 'package:kalori/features/water/presentation/screens/water_screen.dart';
 
 abstract class AppRoutes {
   static String home = HomeView.path;
@@ -14,6 +16,8 @@ abstract class AppRoutes {
   static String historyDay = HistoryDayView.path;
   static String notifications = NotificationsView.path;
   static String onboarding = OnboardingView.path;
+  static String weightLog = WeightLogView.path;
+  static String water = WaterView.path;
 
   static const String settings = '/settings';
   static const String helpAndFeedback = '/helpAndFeedback';

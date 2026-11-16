@@ -31,7 +31,7 @@ class NotificationCard extends StatelessWidget {
           color: KaloriColors.errorContainer,
           borderRadius: KaloriRadius.borderLg,
         ),
-        child: const Icon(
+        child: Icon(
           Icons.delete_outline_rounded,
           color: KaloriColors.onErrorContainer,
           size: 28.0,
@@ -184,7 +184,7 @@ class NotificationCard extends StatelessWidget {
                   Container(
                     width: 10.0,
                     height: 10.0,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: KaloriColors.primary,
                       shape: BoxShape.circle,
                     ),
@@ -225,8 +225,8 @@ class NotificationCard extends StatelessWidget {
         icon = Icons.info_outline_rounded;
         break;
       case NotificationCategory.social:
-        bg = const Color(0xFFE8DEFF);
-        iconColor = const Color(0xFF381E72);
+        bg = KaloriColors.socialContainer;
+        iconColor = KaloriColors.onSocialContainer;
         icon = Icons.people_outline_rounded;
         break;
     }

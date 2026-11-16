@@ -169,13 +169,14 @@ Kalori uses **borders first, shadows second**.
 ## 7. Components
 
 ### Navigation
-- **Bottom nav (`KaloriBottomNavBar`)**: 4 tabs, Home / Log / History / Profile. White bar, 1px top border. Active item: 56x32 `successGreen` pill behind a filled icon in `onPrimaryContainer`, label `label-caps` in `onSurface`. Inactive: outlined icon and label in `outline`. 200ms transitions.
+- **Bottom nav (`KaloriBottomNavBar`, built on `google_nav_bar`)**: 4 tabs, Home / Log / History / Profile. White bar, 1px top border. The active tab expands into a `successTint` pill with its icon and label in `primary` (body-sm 700); inactive tabs are icon only in `outline`. 250ms `easeOutCubic`.
+- **More handle**: an 84x24 white tab with an up-chevron and `MORE` sits on the nav's top edge on every tab. Swipe up or tap opens the **More sheet**: an 82%-height modal bottom sheet (r24 top) with a 2-column grid of feature tiles (icon tile, name, one-line live status, optional quick action). Water is live, with "+1 glass" in the tile; Food dictionary, Meal timetable, Gym, Daily steps and Medication show a `SOON` tag until built.
 - **Screen header (tabs)**: left = calendar icon (`successGreen`) + date in `headline-md` 700; right = 44px bell button (`surfaceContainerHigh` circle, red count badge) + 44px avatar with 2.5px `primaryFixed` ring.
 - **App bar (pushed screens)**: `surface` background, no elevation, back arrow, left-aligned `headline-md` 700 title, text-button actions in `primary`.
 
 ### Data display
 - **Calorie ring card (`GenericCalorieRingWidget`)**: Level 1 card. 230px ring, 20px stroke, round caps, starts at 12 o'clock. Center: `REMAINING` label, `display-num` value, `kcal` unit. Pill badge overlapping the ring bottom (`ON TRACK` with check icon). Divider, then 3 macro columns: label, 6px rounded progress bar, value.
-- **Quick stats row (`GenericQuickStatsRow`)**: 3 equal Level 1 tiles: icon, `label-caps`, `headline-lg-mobile` value.
+- **Quick stats row (`GenericQuickStatsRow`)**: 3 equal Level 1 tiles: icon, `label-caps`, `headline-lg-mobile` value. On Home they show EATEN (today's kcal), WATER (glasses / goal) and STREAK (days); there is no calorie-burn source yet, so Burned/Net were dropped rather than faked.
 - **Tip card**: `inverseSurface` card, `label-caps` eyebrow in `inversePrimary`, `headline-md` white headline, `body-sm` in `outlineVariant`.
 - **Recent logs well**: `surfaceContainerLow` container (r24, padding 20) holding white list cards (r16). Each row: 48px icon tile (r12), title `body-lg` 600, subtitle `body-sm` outline, trailing kcal `body-lg` 700.
 - **Meal breakdown card**: r24 Level 1. Expanded: header (restaurant icon in `secondary`, title, `LOGGED` pill, collapse chevron), item rows with dividers (pending = spinner, failed = red retry), then 3 macro tiles. Collapsed: single row "Meal Breakdown • N kcal" + expand chevron.
@@ -240,6 +241,8 @@ Motion confirms state; it never delays it.
 | History | `/history` (tab 2), `/history/day` | Built: Month (default), Week, Day detail (see §13) |
 | Profile | `/profile` (tab 3) | Built (see §14) |
 | Onboarding | `/onboarding` (initial route until a profile exists) | Built: Welcome + 4 steps + Your plan; steps reopen as edit screens from Profile (see §14) |
+| Water tracker | `/water` | Built: today's glasses with +/− and tappable drops, daily goal, last 7 days (stored in `kalori_water.json`) |
+| More sheet | modal from the nav handle | Built: Water live; five tiles marked SOON |
 | Notifications | `/notifications` | Built |
 | Settings, Account, Subscriptions, Help & Feedback, Privacy, Terms, Integrations, Insights, Water Tracker, Food Library | declared in `AppRoutes` | Not built |
 
@@ -305,7 +308,7 @@ Shown once, before Home, when no profile is saved. No bottom nav. Primary CTA pi
 In order, top to bottom:
 1. Identity row: a 64px initials avatar with a `primaryFixed` ring, the name, "Logging since…" and an edit button.
 2. Three habit tiles: streak, days logged, % of days on track.
-3. Weight card: current weight (36px), the change since the start, a sparkline, a start → goal progress bar and "Log today's weight".
+3. Weight card: current weight (36px), the change since the start, a sparkline, a start → goal progress bar and "Log today's weight", which opens the **Weight log** (`/profile/weight`). That page has a summary card (current weight, change since the first entry, number of weigh-ins, trend) and every weigh-in in chronological order (oldest first) under month headers. Each row shows the date, the weight and the change from the previous entry: green when it moves toward the goal. The first entry is tagged START and today's TODAY. Tap a row to edit it; swipe left to delete it, with Undo. It opens scrolled to the newest entry, next to the pinned "Log / Update today's weight" button.
 4. A dark `inverseSurface` **Daily targets** card (kcal + macros) with EDIT.
 5. Grouped lists (white r16, 52px rows, chevrons): **Body & goal** (opens the matching onboarding step as an edit screen), **App** (meal-reminder switch, water tracker, health apps) and **Support** (help, privacy, terms).
 6. A red text "Reset all data" button, then the version line.

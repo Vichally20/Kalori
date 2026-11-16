@@ -14,11 +14,11 @@ class LogFloatingInputBar extends StatelessWidget {
         color: KaloriColors.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(KaloriRadius.full),
         border: Border.all(color: KaloriColors.borderSlate),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x140D1C2F),
+            color: KaloriColors.cardShadow,
             blurRadius: 20.0,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -26,9 +26,9 @@ class LogFloatingInputBar extends StatelessWidget {
       child: Row(
         children: [
           // Plus Icon
-          const Icon(
+          Icon(
             Icons.add_circle_outline,
-            color: Color(0xFF0D1C2F),
+            color: KaloriColors.onSurface,
             size: 26.0,
           ),
           const SizedBox(width: 10.0),
@@ -67,12 +67,12 @@ class LogFloatingInputBar extends StatelessWidget {
               width: 40.0,
               height: 40.0,
               decoration: BoxDecoration(
-                color: const Color(0xFF006C49),
+                color: KaloriColors.primary,
                 borderRadius: BorderRadius.circular(14.0),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.arrow_upward,
-                color: Colors.white,
+                color: KaloriColors.onPrimary,
                 size: 22.0,
               ),
             ),

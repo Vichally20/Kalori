@@ -44,8 +44,8 @@ class HistoryView extends GetView<HistoryController> {
               const SizedBox(height: KaloriSpacing.md),
               Obx(() {
                 if (controller.isLoading.value) {
-                  return const Padding(
-                    padding: EdgeInsets.only(top: 80.0),
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 80.0),
                     child: Center(child: CircularProgressIndicator(color: KaloriColors.primary)),
                   );
                 }

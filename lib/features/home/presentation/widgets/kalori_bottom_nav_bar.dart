@@ -1,114 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kalori/core/theme/app_theme.dart';
 import 'package:kalori/features/home/presentation/controllers/home_controller.dart';
+import 'package:kalori/features/more/presentation/widgets/more_sheet.dart';
 
+/// Bottom navigation (google_nav_bar) with the pull-up "More" handle on its top edge.
+///
+/// The selected tab expands into a soft green pill showing its label; the others
+/// show icons only, which keeps the bar uncluttered.
 class KaloriBottomNavBar extends StatelessWidget {
   final HomeController controller;
 
   const KaloriBottomNavBar({super.key, required this.controller});
 
+  static const double handleHeight = 24.0;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: KaloriColors.surfaceContainerLowest,
-        border: Border(
-          top: BorderSide(color: KaloriColors.borderSlate),
-        ),
-      ),
-      padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-      child: SafeArea(
-        top: false,
-        child: Obx(() {
-          final int currentIndex = controller.currentTab.value;
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildNavItem(
-                context: context,
-                index: 0,
-                currentIndex: currentIndex,
-                icon: Icons.home_outlined,
-                activeIcon: Icons.home,
-                label: 'Home',
-              ),
-              _buildNavItem(
-                context: context,
-                index: 1,
-                currentIndex: currentIndex,
-                icon: Icons.add_circle_outline,
-                activeIcon: Icons.add_circle,
-                label: 'Log',
-              ),
-              _buildNavItem(
-                context: context,
-                index: 2,
-                currentIndex: currentIndex,
-                icon: Icons.history_outlined,
-                activeIcon: Icons.history,
-                label: 'History',
-              ),
-              _buildNavItem(
-                context: context,
-                index: 3,
-                currentIndex: currentIndex,
-                icon: Icons.person_outline,
-                activeIcon: Icons.person,
-                label: 'Profile',
-              ),
-            ],
-          );
-        }),
-      ),
-    );
-  }
-
-  Widget _buildNavItem({
-    required BuildContext context,
-    required int index,
-    required int currentIndex,
-    required IconData icon,
-    required IconData activeIcon,
-    required String label,
-  }) {
-    final bool isSelected = index == currentIndex;
-
-    return GestureDetector(
-      onTap: () => controller.changeTab(index),
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Active Green Pill around Icon
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: 56.0,
-              height: 32.0,
-              decoration: BoxDecoration(
-                color: isSelected ? KaloriColors.successGreen : Colors.transparent,
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: Icon(
-                isSelected ? activeIcon : icon,
-                color: isSelected ? KaloriColors.onPrimaryContainer : KaloriColors.outline,
-                size: 24.0,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // The handle sits in its own strip (inside the nav's bounds so it stays tappable).
+        const SizedBox(height: handleHeight, child: Align(alignment: Alignment.bottomCenter, child: MoreHandle())),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: KaloriColors.surfaceContainerLowest,
+            border: Border(top: BorderSide(color: KaloriColors.borderSlate)),
+          ),
+          child: SafeArea(
+            top: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: KaloriSpacing.md, vertical: 10.0),
+              child: Obx(
+                () => GNav(
+                  selectedIndex: controller.currentTab.value,
+                  onTabChange: controller.changeTab,
+                  gap: 8.0,
+                  iconSize: 24.0,
+                  duration: const Duration(milliseconds: 250),
+                  curve: Curves.easeOutCubic,
+                  tabBorderRadius: 9999.0,
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                  color: KaloriColors.outline,
+                  activeColor: KaloriColors.primary,
+                  tabBackgroundColor: KaloriColors.successTint,
+                  rippleColor: KaloriColors.surfaceContainerHigh,
+                  hoverColor: KaloriColors.surfaceContainerLow,
+                  textStyle: context.typography.bodySm.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: KaloriColors.primary,
+                  ),
+                  tabs: const [
+                    GButton(icon: Icons.home_rounded, text: 'Home', semanticLabel: 'Home'),
+                    GButton(icon: Icons.add_circle_outline_rounded, text: 'Log', semanticLabel: 'Log'),
+                    GButton(icon: Icons.history_rounded, text: 'History', semanticLabel: 'History'),
+                    GButton(icon: Icons.person_outline_rounded, text: 'Profile', semanticLabel: 'Profile'),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 4.0),
-            Text(
-              label,
-              style: context.typography.labelCaps.copyWith(
-                color: isSelected ? KaloriColors.onSurface : KaloriColors.outline,
-                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

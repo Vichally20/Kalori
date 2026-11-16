@@ -29,7 +29,7 @@ class HistoryDayView extends GetView<HistoryController> {
         centerTitle: false,
         leading: IconButton(
           tooltip: 'Back',
-          icon: const Icon(Icons.arrow_back_rounded, color: KaloriColors.onSurface),
+          icon: Icon(Icons.arrow_back_rounded, color: KaloriColors.onSurface),
           onPressed: () => Get.back<void>(),
         ),
         title: Obx(() {
@@ -45,7 +45,7 @@ class HistoryDayView extends GetView<HistoryController> {
         actions: [
           IconButton(
             tooltip: 'Previous day',
-            icon: const Icon(Icons.chevron_left_rounded, color: KaloriColors.onSurfaceVariant),
+            icon: Icon(Icons.chevron_left_rounded, color: KaloriColors.onSurfaceVariant),
             onPressed: controller.previousDay,
           ),
           Obx(
@@ -223,8 +223,8 @@ class _DayInsightCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: KaloriColors.inverseSurface,
         borderRadius: KaloriRadius.borderLg,
-        boxShadow: const [
-          BoxShadow(color: KaloriColors.cardShadow, blurRadius: 20.0, offset: Offset(0, 6)),
+        boxShadow: [
+          BoxShadow(color: KaloriColors.cardShadow, blurRadius: 20.0, offset: const Offset(0, 6)),
         ],
       ),
       child: Column(
@@ -334,7 +334,7 @@ class _MealGroup extends StatelessWidget {
           child: Column(
             children: [
               for (var i = 0; i < entries.length; i++) ...[
-                if (i > 0) const Divider(color: KaloriColors.borderSlate, height: 1.0),
+                if (i > 0) Divider(color: KaloriColors.borderSlate, height: 1.0),
                 _MealItemRow(entry: entries[i]),
               ],
             ],
@@ -422,11 +422,11 @@ class _EmptyDay extends StatelessWidget {
           Container(
             width: 72.0,
             height: 72.0,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: KaloriColors.surfaceContainerHigh,
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.no_meals_outlined, size: 34.0, color: KaloriColors.primary),
+            child: Icon(Icons.no_meals_outlined, size: 34.0, color: KaloriColors.primary),
           ),
           const SizedBox(height: KaloriSpacing.md),
           Text(

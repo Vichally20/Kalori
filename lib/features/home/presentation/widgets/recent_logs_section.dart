@@ -53,6 +53,12 @@ class RecentLogsSection extends StatelessWidget {
           ),
           const SizedBox(height: KaloriSpacing.md),
 
+          if (logs.isEmpty)
+            Text(
+              'Nothing logged yet. Tell Kalori what you ate in the box below.',
+              style: context.typography.bodySm.copyWith(color: KaloriColors.onSurfaceVariant),
+            ),
+
           // Log Items
           ...logs.asMap().entries.map((entry) {
             final int index = entry.key;
@@ -74,11 +80,11 @@ class RecentLogsSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: KaloriColors.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(KaloriRadius.lg),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
             color: KaloriColors.cardShadow,
             blurRadius: 12.0,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),

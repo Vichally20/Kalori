@@ -21,7 +21,7 @@ class NotificationsView extends GetView<NotificationsController> {
         elevation: 0,
         centerTitle: false,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: KaloriColors.onSurface),
+          icon: Icon(Icons.arrow_back_rounded, color: KaloriColors.onSurface),
           onPressed: () => Get.back<void>(),
         ),
         title: Text(
@@ -39,7 +39,7 @@ class NotificationsView extends GetView<NotificationsController> {
 
             return TextButton.icon(
               onPressed: () => controller.markAllAsRead(),
-              icon: const Icon(
+              icon: Icon(
                 Icons.done_all_rounded,
                 size: 18.0,
                 color: KaloriColors.primary,
@@ -56,7 +56,7 @@ class NotificationsView extends GetView<NotificationsController> {
             );
           }),
           PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert_rounded, color: KaloriColors.onSurfaceVariant),
+            icon: Icon(Icons.more_vert_rounded, color: KaloriColors.onSurfaceVariant),
             onSelected: (value) {
               if (value == 'clear_all') {
                 _showClearConfirmation(context);
@@ -65,22 +65,22 @@ class NotificationsView extends GetView<NotificationsController> {
               }
             },
             itemBuilder: (context) => [
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'mark_all',
                 child: Row(
                   children: [
                     Icon(Icons.done_all_rounded, size: 20.0, color: KaloriColors.onSurface),
-                    SizedBox(width: 12.0),
-                    Text('Mark all as read'),
+                    const SizedBox(width: 12.0),
+                    const Text('Mark all as read'),
                   ],
                 ),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'clear_all',
                 child: Row(
                   children: [
                     Icon(Icons.delete_sweep_outlined, size: 20.0, color: KaloriColors.error),
-                    SizedBox(width: 12.0),
+                    const SizedBox(width: 12.0),
                     Text('Clear all notifications', style: TextStyle(color: KaloriColors.error)),
                   ],
                 ),

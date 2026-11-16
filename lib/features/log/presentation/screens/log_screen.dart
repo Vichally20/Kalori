@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kalori/core/routes/app_routes.dart';
+import 'package:kalori/core/services/user_profile_service.dart';
 import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/history/presentation/utils/history_format.dart';
 import 'package:kalori/features/home/presentation/controllers/home_controller.dart';
 import 'package:kalori/features/home/presentation/widgets/kalori_bottom_nav_bar.dart';
+import 'package:kalori/features/log/domain/entities/chat_message.dart';
 import 'package:kalori/features/log/presentation/controllers/log_controller.dart';
 import 'package:kalori/features/log/presentation/widgets/chat_bubble.dart';
 import 'package:kalori/features/log/presentation/widgets/log_floating_input_bar.dart';
@@ -21,6 +24,7 @@ class LogView extends StatelessWidget {
     final LogController controller = Get.isRegistered<LogController>()
         ? Get.find<LogController>()
         : Get.put(LogController());
+    final UserProfileService profiles = Get.find<UserProfileService>();
 
     final bool isStandaloneRoute = Get.currentRoute == AppRoutes.log;
 
@@ -45,14 +49,14 @@ class LogView extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.calendar_today_outlined,
                             color: KaloriColors.successGreen,
                             size: 24.0,
                           ),
                           const SizedBox(width: 10),
                           Text(
-                            'Today, Oct 24',
+                            'Today, ${HistoryFormat.shortDate(DateTime.now())}',
                             style: context.typography.headlineMd.copyWith(
                               color: KaloriColors.onSurface,
                               fontWeight: FontWeight.w700,
@@ -65,18 +69,22 @@ class LogView extends StatelessWidget {
                         height: 44.0,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(
-                            color: KaloriColors.primaryFixed,
-                            width: 2.5,
-                          ),
+                          border: Border.all(color: KaloriColors.primaryFixed, width: 2.5),
                         ),
-                        child: const CircleAvatar(
+                        child: CircleAvatar(
                           backgroundColor: KaloriColors.surfaceContainerHighest,
-                          child: Icon(
-                            Icons.person,
-                            color: KaloriColors.primary,
-                            size: 24.0,
-                          ),
+                          child: Obx(() {
+                            final initials = profiles.profile.value?.initials ?? '';
+                            return initials.isEmpty
+                                ? Icon(Icons.person, color: KaloriColors.primary, size: 24.0)
+                                : Text(
+                                    initials,
+                                    style: context.typography.bodySm.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: KaloriColors.primary,
+                                    ),
+                                  );
+                          }),
                         ),
                       ),
                     ],
@@ -84,32 +92,46 @@ class LogView extends StatelessWidget {
                   const SizedBox(height: KaloriSpacing.lg),
 
                   // Chat Messages Area
-                  Obx(
-                    () => Column(
+                  Obx(() {
+                    if (controller.chatMessages.isEmpty) {
+                      // Greeting shown until the first message; not stored in the chat.
+                      final name = profiles.profile.value?.firstName;
+                      return ChatBubble(
+                        message: ChatMessage(
+                          text:
+                              'Hi${name == null ? '' : ' $name'}! Tell me what you ate, like '
+                              '"jollof rice and chicken" or "2 boiled eggs", and I\'ll work out the calories.',
+                          isUser: false,
+                        ),
+                      );
+                    }
+                    return Column(
                       children: controller.chatMessages.map((message) {
                         return ChatBubble(message: message);
                       }).toList(),
-                    ),
-                  ),
+                    );
+                  }),
                   const SizedBox(height: KaloriSpacing.sm),
 
-                  // Contractible Meal Breakdown Card
+                  // Contractible Meal Breakdown Card (today's meals only)
                   Obx(
-                    () => Column(
-                      children: [
-                        MealBreakdownCard(
-                          mealEntries: controller.mealEntries,
-                          totalCalories: controller.totalCalories,
-                          carbs: controller.totalCarbs,
-                          protein: controller.totalProtein,
-                          fat: controller.totalFat,
-                          onClose: controller.contractMealBreakdown,
-                          isExpanded: controller.isMealBreakdownExpanded.value,
-                          onToggleExpand: controller.toggleMealBreakdown,
-                        ),
-                        const SizedBox(height: KaloriSpacing.lg),
-                      ],
-                    ),
+                    () => controller.todayEntries.isEmpty
+                        ? const SizedBox.shrink()
+                        : Column(
+                            children: [
+                              MealBreakdownCard(
+                                mealEntries: controller.todayEntries,
+                                totalCalories: controller.totalCalories,
+                                carbs: controller.totalCarbs,
+                                protein: controller.totalProtein,
+                                fat: controller.totalFat,
+                                onClose: controller.contractMealBreakdown,
+                                isExpanded: controller.isMealBreakdownExpanded.value,
+                                onToggleExpand: controller.toggleMealBreakdown,
+                              ),
+                              const SizedBox(height: KaloriSpacing.lg),
+                            ],
+                          ),
                   ),
 
                   // Quick Suggestion Chips
@@ -132,9 +154,7 @@ class LogView extends StatelessWidget {
               top: 8.0,
               bottom: 12.0,
             ),
-            decoration: const BoxDecoration(
-              color: KaloriColors.background,
-            ),
+            decoration: BoxDecoration(color: KaloriColors.background),
             child: LogFloatingInputBar(controller: controller),
           ),
         ],
@@ -142,10 +162,7 @@ class LogView extends StatelessWidget {
     );
 
     if (!isStandaloneRoute) {
-      return Scaffold(
-        backgroundColor: KaloriColors.background,
-        body: content,
-      );
+      return Scaffold(backgroundColor: KaloriColors.background, body: content);
     }
 
     return Scaffold(

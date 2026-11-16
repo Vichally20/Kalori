@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kalori/core/routes/app_routes.dart';
 import 'package:kalori/core/theme/app_theme.dart';
+import 'package:kalori/features/history/presentation/utils/day_status_style.dart';
+import 'package:kalori/features/history/presentation/utils/history_format.dart';
 import 'package:kalori/features/home/presentation/controllers/home_controller.dart';
 import 'package:kalori/features/home/presentation/widgets/recent_logs_section.dart';
 import 'package:kalori/features/home/presentation/widgets/tip_of_the_day_card.dart';
@@ -28,14 +30,14 @@ class HomeDashboardView extends GetView<HomeController> {
               children: [
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.calendar_today_outlined,
                       color: KaloriColors.successGreen,
                       size: 24.0,
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      'Today, Oct 24',
+                      'Today, ${HistoryFormat.shortDate(DateTime.now())}',
                       style: context.typography.headlineMd.copyWith(
                         color: KaloriColors.onSurface,
                         fontWeight: FontWeight.w700,
@@ -47,24 +49,35 @@ class HomeDashboardView extends GetView<HomeController> {
                   children: [
                     _buildNotificationBell(),
                     const SizedBox(width: 12.0),
-                    GestureDetector(
-                      onTap: () => controller.changeTab(3),
-                      child: Container(
-                        width: 44.0,
-                        height: 44.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: KaloriColors.primaryFixed,
-                            width: 2.5,
+                    Semantics(
+                      button: true,
+                      label: 'Profile',
+                      excludeSemantics: true,
+                      child: GestureDetector(
+                        onTap: () => controller.changeTab(3),
+                        child: Container(
+                          width: 44.0,
+                          height: 44.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: KaloriColors.primaryFixed,
+                              width: 2.5,
+                            ),
                           ),
-                        ),
-                        child: const CircleAvatar(
-                          backgroundColor: KaloriColors.surfaceContainerHighest,
-                          child: Icon(
-                            Icons.person,
-                            color: KaloriColors.primary,
-                            size: 24.0,
+                          child: CircleAvatar(
+                            backgroundColor: KaloriColors.surfaceContainerHighest,
+                            child: Obx(
+                              () => controller.initials.isEmpty
+                                  ? Icon(Icons.person, color: KaloriColors.primary, size: 24.0)
+                                  : Text(
+                                      controller.initials,
+                                      style: context.typography.bodySm.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        color: KaloriColors.primary,
+                                      ),
+                                    ),
+                            ),
                           ),
                         ),
                       ),
@@ -76,23 +89,74 @@ class HomeDashboardView extends GetView<HomeController> {
             const SizedBox(height: KaloriSpacing.lg),
 
             // Main Calorie Ring Card
-            Obx(
-              () => GenericCalorieRingWidget(
-                remainingCalories: controller.remainingCalories.value,
-                progressPercent: controller.progressPercent.value,
-                carbsCurrent: controller.carbsCurrent.value,
-                proteinCurrent: controller.proteinCurrent.value,
-                fatCurrent: controller.fatCurrent.value,
-              ),
-            ),
+            Obx(() {
+              final summary = controller.todaySummary;
+              final targets = controller.targets;
+              final remaining = controller.remainingCalories;
+              final style = DayStatusStyle.of(controller.todayStatus);
+              double share(int value, int goal) => goal <= 0 ? 0 : value / goal;
+              return GenericCalorieRingWidget(
+                progressPercent: summary.progress,
+                centerLabel: remaining >= 0 ? 'REMAINING' : 'OVER BY',
+                centerValue: HistoryFormat.number(remaining.abs()),
+                progressColor: style.fill,
+                badgeText: style.label,
+                badgeIcon: style.icon,
+                badgeBgColor: style.badgeBg,
+                badgeTextColor: style.badgeFg,
+                macros: [
+                  MacroData(
+                    label: 'CARBS',
+                    valueText: '${summary.carbs}g',
+                    progress: share(summary.carbs, targets.carbs),
+                    color: KaloriColors.tertiary,
+                    trackColor: KaloriColors.surfaceContainerHigh,
+                  ),
+                  MacroData(
+                    label: 'PROTEIN',
+                    valueText: '${summary.protein}g',
+                    progress: share(summary.protein, targets.protein),
+                    color: KaloriColors.primary,
+                    trackColor: KaloriColors.surfaceContainerHighest,
+                  ),
+                  MacroData(
+                    label: 'FAT',
+                    valueText: '${summary.fat}g',
+                    progress: share(summary.fat, targets.fat),
+                    color: KaloriColors.secondary,
+                    trackColor: KaloriColors.secondaryFixed,
+                  ),
+                ],
+              );
+            }),
             const SizedBox(height: KaloriSpacing.md),
 
-            // Quick Stats Row (EATEN, BURNED, NET)
+            // Quick stats: all from real sources (meals, water, streak).
             Obx(
               () => GenericQuickStatsRow(
-                eaten: controller.eatenCalories.value,
-                burned: controller.burnedCalories.value,
-                net: controller.netCalories.value,
+                stats: [
+                  StatCardData(
+                    label: 'EATEN',
+                    value: HistoryFormat.number(controller.todaySummary.calories),
+                    icon: Icons.restaurant_outlined,
+                    iconColor: KaloriColors.primary,
+                    onTap: () => controller.changeTab(1),
+                  ),
+                  StatCardData(
+                    label: 'WATER',
+                    value: '${controller.waterGlasses}/${controller.waterGoal}',
+                    icon: Icons.water_drop_outlined,
+                    iconColor: KaloriColors.tertiary,
+                    onTap: () => Get.toNamed<void>(AppRoutes.water),
+                  ),
+                  StatCardData(
+                    label: 'STREAK',
+                    value: '${controller.streak}',
+                    icon: Icons.local_fire_department_outlined,
+                    iconColor: KaloriColors.secondary,
+                    onTap: () => controller.changeTab(2),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: KaloriSpacing.md),
@@ -104,8 +168,8 @@ class HomeDashboardView extends GetView<HomeController> {
             // Recent Logs Section
             Obx(
               () => RecentLogsSection(
-                logs: controller.recentLogs.toList(),
-                onViewAll: () => controller.changeTab(1), // Switch to Log tab
+                logs: controller.recentLogs,
+                onViewAll: () => controller.changeTab(2), // Full history lives in the History tab
               ),
             ),
             // Bottom spacing so content can scroll under floating chat widget
@@ -136,7 +200,7 @@ class HomeDashboardView extends GetView<HomeController> {
                 shape: BoxShape.circle,
                 color: KaloriColors.surfaceContainerHigh,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.notifications_outlined,
                 color: KaloriColors.onSurface,
                 size: 24.0,
@@ -149,7 +213,7 @@ class HomeDashboardView extends GetView<HomeController> {
               right: -2,
               child: Container(
                 padding: const EdgeInsets.all(4.0),
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: KaloriColors.error,
                   shape: BoxShape.circle,
                 ),
@@ -160,7 +224,7 @@ class HomeDashboardView extends GetView<HomeController> {
                 child: Center(
                   child: Text(
                     '$unread',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: KaloriColors.onError,
                       fontSize: 10.0,
                       fontWeight: FontWeight.bold,

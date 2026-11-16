@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kalori/core/theme/app_colors.dart';
 import 'package:kalori/core/theme/app_spacing.dart';
 import 'package:kalori/core/theme/app_typography.dart';
@@ -7,176 +8,208 @@ export 'app_colors.dart';
 export 'app_spacing.dart';
 export 'app_typography.dart';
 
-/// The central [ThemeData] configuration for the Kalori application, strictly
-/// implementing the **Modern Minimalism** design language specified in [DESIGN.md].
+/// Light and dark [ThemeData] for Kalori (DESIGN.md), each built from its own [KaloriPalette].
 class KaloriTheme {
   KaloriTheme._();
 
-  /// Constructs the light [ThemeData] with integrated [KaloriColorExtension],
-  /// [KaloriTextExtension], and [KaloriSpacingExtension].
-  static ThemeData get light {
-    const ColorScheme colorScheme = ColorScheme(
-      brightness: Brightness.light,
-      primary: KaloriColors.primary,
-      onPrimary: KaloriColors.onPrimary,
-      primaryContainer: KaloriColors.primaryContainer,
-      onPrimaryContainer: KaloriColors.onPrimaryContainer,
-      secondary: KaloriColors.secondary,
-      onSecondary: KaloriColors.onSecondary,
-      secondaryContainer: KaloriColors.secondaryContainer,
-      onSecondaryContainer: KaloriColors.onSecondaryContainer,
-      tertiary: KaloriColors.tertiary,
-      onTertiary: KaloriColors.onTertiary,
-      tertiaryContainer: KaloriColors.tertiaryContainer,
-      onTertiaryContainer: KaloriColors.onTertiaryContainer,
-      error: KaloriColors.error,
-      onError: KaloriColors.onError,
-      errorContainer: KaloriColors.errorContainer,
-      onErrorContainer: KaloriColors.onErrorContainer,
-      surface: KaloriColors.surface,
-      onSurface: KaloriColors.onSurface,
-      surfaceContainerHighest: KaloriColors.surfaceContainerHighest,
-      onSurfaceVariant: KaloriColors.onSurfaceVariant,
-      outline: KaloriColors.outline,
-      outlineVariant: KaloriColors.outlineVariant,
-      inverseSurface: KaloriColors.inverseSurface,
-      onInverseSurface: KaloriColors.inverseOnSurface,
-      inversePrimary: KaloriColors.inversePrimary,
-      surfaceTint: KaloriColors.surfaceTint,
+  static ThemeData get light => _build(KaloriPalette.light);
+
+  static ThemeData get dark => _build(KaloriPalette.dark);
+
+  static ThemeData _build(KaloriPalette p) {
+    final isDark = p.isDark;
+    final colorScheme = ColorScheme(
+      brightness: p.brightness,
+      primary: p.primary,
+      onPrimary: p.onPrimary,
+      primaryContainer: p.primaryContainer,
+      onPrimaryContainer: p.onPrimaryContainer,
+      secondary: p.secondary,
+      onSecondary: p.onSecondary,
+      secondaryContainer: p.secondaryContainer,
+      onSecondaryContainer: p.onSecondaryContainer,
+      tertiary: p.tertiary,
+      onTertiary: p.onTertiary,
+      tertiaryContainer: p.tertiaryContainer,
+      onTertiaryContainer: p.onTertiaryContainer,
+      error: p.error,
+      onError: p.onError,
+      errorContainer: p.errorContainer,
+      onErrorContainer: p.onErrorContainer,
+      surface: p.surface,
+      onSurface: p.onSurface,
+      surfaceContainerLowest: p.surfaceContainerLowest,
+      surfaceContainerLow: p.surfaceContainerLow,
+      surfaceContainer: p.surfaceContainer,
+      surfaceContainerHigh: p.surfaceContainerHigh,
+      surfaceContainerHighest: p.surfaceContainerHighest,
+      onSurfaceVariant: p.onSurfaceVariant,
+      outline: p.outline,
+      outlineVariant: p.outlineVariant,
+      inverseSurface: p.inverseSurface,
+      onInverseSurface: p.inverseOnSurface,
+      inversePrimary: p.inversePrimary,
+      surfaceTint: p.surfaceTint,
+      scrim: p.scrim,
     );
+    final text = KaloriTextExtension.forPalette(p);
+    final overlay = isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
 
     return ThemeData(
       useMaterial3: true,
+      brightness: p.brightness,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: KaloriColors.background,
+      scaffoldBackgroundColor: p.background,
+      canvasColor: p.background,
       fontFamily: KaloriTypography.fontFamily,
-      textTheme: const TextTheme(
-        displayLarge: KaloriTypography.displayNum,
-        headlineLarge: KaloriTypography.headlineLg,
-        headlineMedium: KaloriTypography.headlineLgMobile,
-        headlineSmall: KaloriTypography.headlineMd,
-        bodyLarge: KaloriTypography.bodyLg,
-        bodyMedium: KaloriTypography.bodySm,
-        labelSmall: KaloriTypography.labelCaps,
+      textTheme: TextTheme(
+        displayLarge: text.displayNum,
+        headlineLarge: text.headlineLg,
+        headlineMedium: text.headlineLgMobile,
+        headlineSmall: text.headlineMd,
+        titleLarge: text.headlineMd,
+        bodyLarge: text.bodyLg,
+        bodyMedium: text.bodySm,
+        labelSmall: text.labelCaps,
       ),
-      // Cards & Containers (Level 1: Pure White, Rounded-lg: 16px, subtle soft shadow)
+      appBarTheme: AppBarTheme(
+        backgroundColor: p.background,
+        foregroundColor: p.onSurface,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        systemOverlayStyle: overlay,
+      ),
+      iconTheme: IconThemeData(color: p.onSurface),
+      dividerTheme: DividerThemeData(color: p.borderSlate),
+      dialogTheme: DialogThemeData(
+        backgroundColor: p.surfaceContainerLowest,
+        surfaceTintColor: Colors.transparent,
+        titleTextStyle: text.headlineMd.copyWith(fontWeight: FontWeight.w700),
+        contentTextStyle: text.bodySm,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: p.background,
+        surfaceTintColor: Colors.transparent,
+        modalBarrierColor: p.scrim,
+      ),
+      datePickerTheme: DatePickerThemeData(
+        backgroundColor: p.surfaceContainerLowest,
+        surfaceTintColor: Colors.transparent,
+        headerForegroundColor: p.onSurface,
+      ),
+      popupMenuTheme: PopupMenuThemeData(
+        color: p.surfaceContainerLowest,
+        surfaceTintColor: Colors.transparent,
+        textStyle: text.bodyLg.copyWith(color: p.onSurface),
+      ),
+      textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: p.primary)),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected) ? Colors.white : p.outline,
+        ),
+        trackColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected) ? p.successGreen : p.surfaceContainerHigh,
+        ),
+        trackOutlineColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected) ? Colors.transparent : p.outline,
+        ),
+      ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(color: p.primary),
+      snackBarTheme: SnackBarThemeData(backgroundColor: p.inverseSurface),
+      // Cards & containers: level 1, rounded-lg 16px, 1px border.
       cardTheme: CardThemeData(
-        color: KaloriColors.surfaceContainerLowest,
+        color: p.surfaceContainerLowest,
         elevation: 0,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(KaloriRadius.lg),
-          side: const BorderSide(color: KaloriColors.borderSlate),
+          side: BorderSide(color: p.borderSlate),
         ),
       ),
-      // Primary Call-to-Actions (Buttons: rounded-xl 24px, min height 48px, Success Green)
+      // Primary call to action: success green, rounded-xl, min height 48.
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: KaloriColors.successGreen,
+          backgroundColor: p.successGreen,
           foregroundColor: Colors.white,
+          disabledBackgroundColor: p.surfaceContainerHigh,
+          disabledForegroundColor: p.outline,
           elevation: 0,
           minimumSize: const Size.fromHeight(48.0),
-          padding: const EdgeInsets.symmetric(
-            horizontal: KaloriSpacing.lg,
-            vertical: KaloriSpacing.sm,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(KaloriRadius.xl),
-          ),
-          textStyle: KaloriTypography.headlineMd.copyWith(
-            color: Colors.white,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: KaloriSpacing.lg, vertical: KaloriSpacing.sm),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(KaloriRadius.xl)),
+          textStyle: text.headlineMd.copyWith(color: Colors.white),
         ),
       ),
-      // Secondary Call-to-Actions (Ghost style, subtle border, rounded-xl)
+      // Secondary call to action: ghost with a subtle border.
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: KaloriColors.neutralSlate,
+          foregroundColor: p.neutralSlate,
           minimumSize: const Size.fromHeight(48.0),
-          padding: const EdgeInsets.symmetric(
-            horizontal: KaloriSpacing.lg,
-            vertical: KaloriSpacing.sm,
-          ),
-          side: const BorderSide(color: KaloriColors.borderSlate),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(KaloriRadius.xl),
-          ),
-          textStyle: KaloriTypography.bodyLg.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: KaloriSpacing.lg, vertical: KaloriSpacing.sm),
+          side: BorderSide(color: p.borderSlate),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(KaloriRadius.xl)),
+          textStyle: text.bodyLg.copyWith(fontWeight: FontWeight.w600),
         ),
       ),
-      // Input Fields (Search bars: rounded-xl 24px, light grey/blue background)
+      // Inputs: rounded-xl, tinted fill.
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: KaloriColors.surfaceContainerLow,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: KaloriSpacing.md,
-          vertical: KaloriSpacing.sm,
-        ),
+        fillColor: p.surfaceContainerLow,
+        contentPadding: const EdgeInsets.symmetric(horizontal: KaloriSpacing.md, vertical: KaloriSpacing.sm),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(KaloriRadius.xl),
-          borderSide: const BorderSide(color: KaloriColors.borderSlate),
+          borderSide: BorderSide(color: p.borderSlate),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(KaloriRadius.xl),
-          borderSide: const BorderSide(color: KaloriColors.borderSlate),
+          borderSide: BorderSide(color: p.borderSlate),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(KaloriRadius.xl),
-          borderSide: const BorderSide(color: KaloriColors.primary, width: 1.5),
+          borderSide: BorderSide(color: p.primary, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(KaloriRadius.xl),
-          borderSide: const BorderSide(color: KaloriColors.error),
+          borderSide: BorderSide(color: p.error),
         ),
-        hintStyle: KaloriTypography.bodyLg.copyWith(
-          color: KaloriColors.outline,
-        ),
+        hintStyle: text.bodyLg.copyWith(color: p.outline),
+        suffixStyle: text.bodyLg.copyWith(color: p.outline),
+        helperStyle: text.bodySm.copyWith(fontSize: 12.0, color: p.onSurfaceVariant),
       ),
-      // Chips (Dietary tags with label-caps and subtle tint)
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: p.primary,
+        selectionHandleColor: p.primary,
+        selectionColor: p.primary.withValues(alpha: 0.3),
+      ),
       chipTheme: ChipThemeData(
-        backgroundColor: KaloriColors.surfaceContainerLow,
-        labelStyle: KaloriTypography.labelCaps,
+        backgroundColor: p.surfaceContainerLow,
+        labelStyle: text.labelCaps,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(KaloriRadius.defaultRadius),
-          side: const BorderSide(color: KaloriColors.borderSlate),
+          side: BorderSide(color: p.borderSlate),
         ),
-        padding: const EdgeInsets.symmetric(
-          horizontal: KaloriSpacing.xs,
-          vertical: KaloriSpacing.base,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: KaloriSpacing.xs, vertical: KaloriSpacing.base),
       ),
-      extensions: const [
-        KaloriColorExtension.light,
-        KaloriTextExtension.standard,
+      extensions: [
+        KaloriColorExtension(p),
+        text,
         KaloriSpacingExtension.standard,
       ],
     );
   }
 }
 
-/// Convenient extensions on [BuildContext] to access Kalori theme extensions
-/// directly without boilerplate `Theme.of(context).extension<...>()`.
+/// Shortcuts for the Kalori theme extensions.
 extension KaloriThemeContext on BuildContext {
-  /// Access semantic and specialized colors from [KaloriColorExtension].
-  KaloriColorExtension get colors {
-    return Theme.of(this).extension<KaloriColorExtension>() ??
-        KaloriColorExtension.light;
-  }
+  /// The palette of the theme this widget is built under.
+  KaloriPalette get colors => (Theme.of(this).extension<KaloriColorExtension>() ?? KaloriColorExtension.light).palette;
 
-  /// Access specialized typography styles from [KaloriTextExtension].
-  KaloriTextExtension get typography {
-    return Theme.of(this).extension<KaloriTextExtension>() ??
-        KaloriTextExtension.standard;
-  }
+  KaloriTextExtension get typography =>
+      Theme.of(this).extension<KaloriTextExtension>() ?? KaloriTextExtension.standard;
 
-  /// Access spacing and corner radii from [KaloriSpacingExtension].
-  KaloriSpacingExtension get spacing {
-    return Theme.of(this).extension<KaloriSpacingExtension>() ??
-        KaloriSpacingExtension.standard;
-  }
+  KaloriSpacingExtension get spacing =>
+      Theme.of(this).extension<KaloriSpacingExtension>() ?? KaloriSpacingExtension.standard;
 
-  /// Shortcut for checking if the current theme is dark mode.
   bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
 }

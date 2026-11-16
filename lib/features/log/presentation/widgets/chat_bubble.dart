@@ -18,9 +18,9 @@ class ChatBubble extends StatelessWidget {
             horizontal: 18.0,
             vertical: 14.0,
           ),
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: KaloriColors.successGreen,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(18.0),
               bottomLeft: Radius.circular(18.0),
               bottomRight: Radius.circular(18.0),
@@ -30,7 +30,7 @@ class ChatBubble extends StatelessWidget {
           child: Text(
             message.text,
             style: context.typography.bodyLg.copyWith(
-              color: const Color(0xFF0D1C2F),
+              color: KaloriColors.onSuccessGreen,
               fontWeight: FontWeight.w500,
               height: 1.4,
             ),
@@ -55,11 +55,11 @@ class ChatBubble extends StatelessWidget {
               topLeft: Radius.circular(4.0),
             ),
             border: Border.all(color: KaloriColors.borderSlate),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: Color(0x0A0D1C2F),
+                color: KaloriColors.cardShadow,
                 blurRadius: 10.0,
-                offset: Offset(0, 2),
+                offset: const Offset(0, 2),
               ),
             ],
           ),

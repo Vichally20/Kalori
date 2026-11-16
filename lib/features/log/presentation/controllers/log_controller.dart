@@ -1,13 +1,17 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kalori/core/services/user_profile_service.dart';
 import 'package:kalori/core/utilities/app_logger.dart';
+import 'package:kalori/features/history/domain/entities/day_summary.dart';
+import 'package:kalori/features/history/presentation/utils/history_format.dart';
 import 'package:kalori/features/log/domain/entities/chat_message.dart';
 import 'package:kalori/features/log/domain/entities/food_item.dart';
 import 'package:kalori/features/log/domain/entities/meal_log_entry.dart';
 import 'package:kalori/features/log/domain/usecases/get_frequent_meals.dart';
 import 'package:kalori/features/log/domain/usecases/log_meal.dart';
 import 'package:kalori/features/log/domain/usecases/watch_meals.dart';
+import 'package:kalori/features/profile/domain/entities/daily_targets.dart';
 import 'package:kalori/shared/shared.dart';
 
 class LogController extends GetxController {
@@ -18,24 +22,21 @@ class LogController extends GetxController {
   final RxBool isMealBreakdownExpanded = true.obs;
   final RxBool showMealBreakdown = true.obs;
   final TextEditingController inputController = TextEditingController();  
-  final RxList<ChatMessage> chatMessages = <ChatMessage>[
-    ChatMessage(
-      text: 'I had two eggs and a piece of whole grain toast',
-      isUser: true,
-    ),
-    ChatMessage(
-      text:
-          "Got it! That's approximately 240 calories. You have 1,460 kcal remaining today. You're on track!",
-      isUser: false,
-    ),
-  ].obs;
+  final RxList<ChatMessage> chatMessages = <ChatMessage>[].obs;
   final RxList<MealLogEntry> mealEntries = <MealLogEntry>[].obs;
   final RxList<FoodItem> frequentSuggestions = <FoodItem>[].obs;
   
-  // Dynamic Macro Calculations
+  /// Today's entries (any status), oldest first. The breakdown card and totals use these.
+  List<MealLogEntry> get todayEntries {
+    final today = DateTime.now().dateOnly;
+    return mealEntries.where((e) => e.createdAt.dateOnly == today).toList()
+      ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+  }
+
+  // Today's totals
   int get totalCalories {
     int total = 0;
-    for (var entry in mealEntries) {
+    for (var entry in todayEntries) {
       if (entry.foodItem != null) {
         total += entry.foodItem!.nutritionalInfo.calories;
       }
@@ -45,7 +46,7 @@ class LogController extends GetxController {
 
   int get totalCarbs {
     int total = 0;
-    for (var entry in mealEntries) {
+    for (var entry in todayEntries) {
       if (entry.foodItem != null) {
         total += entry.foodItem!.nutritionalInfo.carbs;
       }
@@ -55,7 +56,7 @@ class LogController extends GetxController {
 
   int get totalProtein {
     int total = 0;
-    for (var entry in mealEntries) {
+    for (var entry in todayEntries) {
       if (entry.foodItem != null) {
         total += entry.foodItem!.nutritionalInfo.protein;
       }
@@ -65,7 +66,7 @@ class LogController extends GetxController {
 
   int get totalFat {
     int total = 0;
-    for (var entry in mealEntries) {
+    for (var entry in todayEntries) {
       if (entry.foodItem != null) {
         total += entry.foodItem!.nutritionalInfo.fat;
       }
@@ -145,7 +146,7 @@ class LogController extends GetxController {
       final calories = result.foodItem?.nutritionalInfo.calories ?? food.nutritionalInfo.calories;
       chatMessages.add(
         ChatMessage(
-          text: "Got it! That's approximately $calories calories. You have ${1700 - totalCalories} kcal remaining today. You're on track!",
+          text: _loggedReply(calories),
           isUser: false,
         ),
       );
@@ -159,7 +160,7 @@ class LogController extends GetxController {
       );
     } catch (e) {
       chatMessages.removeLast(); // Remove loading message
-      chatMessages.add(ChatMessage(text: 'Sorry, I couldn\'t process that. Please try again.', isUser: false));
+      chatMessages.add(const ChatMessage(text: 'Sorry, I couldn\'t process that. Please try again.', isUser: false));
     }
   }
 
@@ -191,7 +192,7 @@ class LogController extends GetxController {
         final calories = result.foodItem?.nutritionalInfo.calories ?? 0;
         chatMessages.add(
           ChatMessage(
-            text: "Got it! That's approximately $calories calories. You have ${1700 - totalCalories} kcal remaining today. You're on track!",
+            text: _loggedReply(calories),
             isUser: false,
           ),
         );
@@ -200,7 +201,7 @@ class LogController extends GetxController {
         isMealBreakdownExpanded.value = true;
       } catch (e) {
         chatMessages.removeLast(); // Remove loading message
-        chatMessages.add(ChatMessage(text: 'Sorry, I couldn\'t process that. Please try again.', isUser: false));
+        chatMessages.add(const ChatMessage(text: 'Sorry, I couldn\'t process that. Please try again.', isUser: false));
       }
     }
   }
@@ -220,6 +221,19 @@ class LogController extends GetxController {
     super.onClose();
   }
   
+  /// Reply after a meal is logged, based on today's total and the profile's target.
+  String _loggedReply(int calories) {
+    final target = Get.isRegistered<UserProfileService>()
+        ? Get.find<UserProfileService>().targets.value.calories
+        : DailyTargets.fallback.calories;
+    final remaining = target - totalCalories;
+    final base = "Got it! That's approximately ${HistoryFormat.number(calories)} calories.";
+    if (remaining >= 0) {
+      return '$base You have ${HistoryFormat.number(remaining)} kcal left today.';
+    }
+    return "$base You're ${HistoryFormat.number(-remaining)} kcal over today's target.";
+  }
+
   Future<void> _loadFrequentMeals() async {
     final frequent = await getFrequentMealsUseCase.execute(limit: 4);
     frequentSuggestions.assignAll(frequent);

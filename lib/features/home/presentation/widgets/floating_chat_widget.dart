@@ -14,11 +14,11 @@ class FloatingChatWidget extends StatelessWidget {
         color: KaloriColors.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(28.0),
         border: Border.all(color: KaloriColors.borderSlate),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x1F0D1C2F),
+            color: KaloriColors.elevatedShadow,
             blurRadius: 24.0,
-            offset: Offset(0, 8),
+            offset: const Offset(0, 8),
           ),
         ],
       ),
@@ -26,7 +26,7 @@ class FloatingChatWidget extends StatelessWidget {
       child: Row(
         children: [
           // Microphone Icon
-          const Icon(
+          Icon(
             Icons.mic_none,
             color: KaloriColors.outline,
             size: 24.0,

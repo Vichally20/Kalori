@@ -1,93 +1,93 @@
 import 'package:flutter/material.dart';
 import 'package:kalori/core/theme/app_colors.dart';
 
-/// Static typography definitions strictly reflecting the `typography` specs in [DESIGN.md].
+/// Typography specs from DESIGN.md §3 (Inter).
 ///
-/// Uses the **Inter** font family (`fontFamily: 'Inter'`), calibrated with exact
-/// fontSize, fontWeight, lineHeight (as `height`), and letterSpacing.
+/// Sizes and weights are fixed; colours come from a [KaloriPalette], so each theme
+/// (light / dark) gets correctly coloured styles. The static getters use the active
+/// palette; widgets normally read the theme's copy via `context.typography`.
 class KaloriTypography {
   KaloriTypography._();
 
   static const String fontFamily = 'Inter';
 
-  /// `display-num`
-  /// fontFamily: Inter, fontSize: 48px, fontWeight: 700, lineHeight: 56px, letterSpacing: -0.02em (-0.96px)
-  /// Data-First: Used for the main calorie counter.
-  static const TextStyle displayNum = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 48.0,
-    fontWeight: FontWeight.w700,
-    height: 56.0 / 48.0,
-    letterSpacing: -0.96, // -0.02 * 48
-    color: KaloriColors.onSurface,
-  );
+  /// `display-num` 48/56, 700, -0.02em. The single hero number per screen.
+  static TextStyle displayNumFor(KaloriPalette p) => TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 48.0,
+        fontWeight: FontWeight.w700,
+        height: 56.0 / 48.0,
+        letterSpacing: -0.96,
+        color: p.onSurface,
+      );
 
-  /// `headline-lg`
-  /// fontFamily: Inter, fontSize: 30px, fontWeight: 700, lineHeight: 38px, letterSpacing: -0.01em (-0.30px)
-  static const TextStyle headlineLg = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 30.0,
-    fontWeight: FontWeight.w700,
-    height: 38.0 / 30.0,
-    letterSpacing: -0.30, // -0.01 * 30
-    color: KaloriColors.onSurface,
-  );
+  /// `headline-lg` 30/38, 700, -0.01em.
+  static TextStyle headlineLgFor(KaloriPalette p) => TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 30.0,
+        fontWeight: FontWeight.w700,
+        height: 38.0 / 30.0,
+        letterSpacing: -0.30,
+        color: p.onSurface,
+      );
 
-  /// `headline-lg-mobile`
-  /// fontFamily: Inter, fontSize: 24px, fontWeight: 700, lineHeight: 32px
-  static const TextStyle headlineLgMobile = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 24.0,
-    fontWeight: FontWeight.w700,
-    height: 32.0 / 24.0,
-    color: KaloriColors.onSurface,
-  );
+  /// `headline-lg-mobile` 24/32, 700.
+  static TextStyle headlineLgMobileFor(KaloriPalette p) => TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 24.0,
+        fontWeight: FontWeight.w700,
+        height: 32.0 / 24.0,
+        color: p.onSurface,
+      );
 
-  /// `headline-md`
-  /// fontFamily: Inter, fontSize: 20px, fontWeight: 600, lineHeight: 28px
-  static const TextStyle headlineMd = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 20.0,
-    fontWeight: FontWeight.w600,
-    height: 28.0 / 20.0,
-    color: KaloriColors.onSurface,
-  );
+  /// `headline-md` 20/28, 600.
+  static TextStyle headlineMdFor(KaloriPalette p) => TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 20.0,
+        fontWeight: FontWeight.w600,
+        height: 28.0 / 20.0,
+        color: p.onSurface,
+      );
 
-  /// `body-lg`
-  /// fontFamily: Inter, fontSize: 16px, fontWeight: 400, lineHeight: 24px
-  static const TextStyle bodyLg = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 16.0,
-    fontWeight: FontWeight.w400,
-    height: 24.0 / 16.0,
-    color: KaloriColors.neutralSlate,
-  );
+  /// `body-lg` 16/24, 400.
+  static TextStyle bodyLgFor(KaloriPalette p) => TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+        height: 24.0 / 16.0,
+        color: p.neutralSlate,
+      );
 
-  /// `body-sm`
-  /// fontFamily: Inter, fontSize: 14px, fontWeight: 400, lineHeight: 20px
-  static const TextStyle bodySm = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 14.0,
-    fontWeight: FontWeight.w400,
-    height: 20.0 / 14.0,
-    color: KaloriColors.neutralSlate,
-  );
+  /// `body-sm` 14/20, 400.
+  static TextStyle bodySmFor(KaloriPalette p) => TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 14.0,
+        fontWeight: FontWeight.w400,
+        height: 20.0 / 14.0,
+        color: p.neutralSlate,
+      );
 
-  /// `label-caps`
-  /// fontFamily: Inter, fontSize: 12px, fontWeight: 700, lineHeight: 16px, letterSpacing: 0.05em (0.60px)
-  /// Hierarchy: Used for category headers (e.g., PROTEIN, CARBS, FATS).
-  static const TextStyle labelCaps = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 12.0,
-    fontWeight: FontWeight.w700,
-    height: 16.0 / 12.0,
-    letterSpacing: 0.60, // 0.05 * 12
-    color: KaloriColors.onSurfaceVariant,
-  );
+  /// `label-caps` 12/16, 700, +0.05em. Category headers (PROTEIN, CARBS, FAT).
+  static TextStyle labelCapsFor(KaloriPalette p) => TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 12.0,
+        fontWeight: FontWeight.w700,
+        height: 16.0 / 12.0,
+        letterSpacing: 0.60,
+        color: p.onSurfaceVariant,
+      );
+
+  // Active-palette shortcuts.
+  static TextStyle get displayNum => displayNumFor(KaloriColors.current);
+  static TextStyle get headlineLg => headlineLgFor(KaloriColors.current);
+  static TextStyle get headlineLgMobile => headlineLgMobileFor(KaloriColors.current);
+  static TextStyle get headlineMd => headlineMdFor(KaloriColors.current);
+  static TextStyle get bodyLg => bodyLgFor(KaloriColors.current);
+  static TextStyle get bodySm => bodySmFor(KaloriColors.current);
+  static TextStyle get labelCaps => labelCapsFor(KaloriColors.current);
 }
 
-/// [ThemeExtension] providing exact text style tokens from [DESIGN.md] so that
-/// widgets can access them seamlessly via `Theme.of(context).extension<KaloriTextExtension>()`.
+/// [ThemeExtension] carrying the Kalori text styles for one palette (`context.typography`).
 class KaloriTextExtension extends ThemeExtension<KaloriTextExtension> {
   final TextStyle displayNum;
   final TextStyle headlineLg;
@@ -107,16 +107,18 @@ class KaloriTextExtension extends ThemeExtension<KaloriTextExtension> {
     required this.labelCaps,
   });
 
-  /// Standard typography extension matching exact [DESIGN.md] specifications.
-  static const KaloriTextExtension standard = KaloriTextExtension(
-    displayNum: KaloriTypography.displayNum,
-    headlineLg: KaloriTypography.headlineLg,
-    headlineLgMobile: KaloriTypography.headlineLgMobile,
-    headlineMd: KaloriTypography.headlineMd,
-    bodyLg: KaloriTypography.bodyLg,
-    bodySm: KaloriTypography.bodySm,
-    labelCaps: KaloriTypography.labelCaps,
-  );
+  factory KaloriTextExtension.forPalette(KaloriPalette p) => KaloriTextExtension(
+        displayNum: KaloriTypography.displayNumFor(p),
+        headlineLg: KaloriTypography.headlineLgFor(p),
+        headlineLgMobile: KaloriTypography.headlineLgMobileFor(p),
+        headlineMd: KaloriTypography.headlineMdFor(p),
+        bodyLg: KaloriTypography.bodyLgFor(p),
+        bodySm: KaloriTypography.bodySmFor(p),
+        labelCaps: KaloriTypography.labelCapsFor(p),
+      );
+
+  /// Styles for the active palette (fallback when no theme extension is found).
+  static KaloriTextExtension get standard => KaloriTextExtension.forPalette(KaloriColors.current);
 
   @override
   ThemeExtension<KaloriTextExtension> copyWith({
@@ -140,10 +142,7 @@ class KaloriTextExtension extends ThemeExtension<KaloriTextExtension> {
   }
 
   @override
-  ThemeExtension<KaloriTextExtension> lerp(
-    covariant ThemeExtension<KaloriTextExtension>? other,
-    double t,
-  ) {
+  ThemeExtension<KaloriTextExtension> lerp(covariant ThemeExtension<KaloriTextExtension>? other, double t) {
     if (other is! KaloriTextExtension) {
       return this;
     }

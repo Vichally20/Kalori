@@ -24,8 +24,8 @@ class HistoryCard extends StatelessWidget {
         color: KaloriColors.surfaceContainerLowest,
         borderRadius: KaloriRadius.borderLg,
         border: Border.all(color: KaloriColors.borderSlate),
-        boxShadow: const [
-          BoxShadow(color: KaloriColors.cardShadow, blurRadius: 20.0, offset: Offset(0, 4)),
+        boxShadow: [
+          BoxShadow(color: KaloriColors.cardShadow, blurRadius: 20.0, offset: const Offset(0, 4)),
         ],
       ),
       child: child,
@@ -102,8 +102,8 @@ class HistoryRangeSwitch extends StatelessWidget {
               color: selected ? KaloriColors.surfaceContainerLowest : Colors.transparent,
               borderRadius: KaloriRadius.borderFull,
               boxShadow: selected
-                  ? const [
-                      BoxShadow(color: Color(0x1A334155), blurRadius: 8.0, offset: Offset(0, 2)),
+                  ? [
+                      BoxShadow(color: KaloriColors.cardShadow, blurRadius: 8.0, offset: const Offset(0, 2)),
                     ]
                   : const [],
             ),
@@ -131,7 +131,7 @@ class HistoryPeriodStepper extends StatelessWidget {
   final String nextLabel;
 
   /// Fill of the enabled arrow buttons. Use [KaloriColors.surfaceContainerLow] inside a white card.
-  final Color buttonColor;
+  final Color? buttonColor;
 
   const HistoryPeriodStepper({
     super.key,
@@ -141,7 +141,7 @@ class HistoryPeriodStepper extends StatelessWidget {
     required this.previousLabel,
     required this.nextLabel,
     this.subtitle,
-    this.buttonColor = KaloriColors.surfaceContainerLowest,
+    this.buttonColor,
   });
 
   @override
@@ -180,7 +180,7 @@ class HistoryPeriodStepper extends StatelessWidget {
       enabled: enabled,
       label: label,
       child: Material(
-        color: enabled ? buttonColor : KaloriColors.surfaceContainerLow,
+        color: enabled ? (buttonColor ?? KaloriColors.surfaceContainerLowest) : KaloriColors.surfaceContainerLow,
         shape: const CircleBorder(),
         child: InkWell(
           customBorder: const CircleBorder(),
@@ -261,13 +261,13 @@ class HistoryStatTile extends StatelessWidget {
 class HistoryProgressBar extends StatelessWidget {
   final double value;
   final Color color;
-  final Color trackColor;
+  final Color? trackColor;
 
   const HistoryProgressBar({
     super.key,
     required this.value,
     required this.color,
-    this.trackColor = KaloriColors.surfaceContainer,
+    this.trackColor,
   });
 
   @override
@@ -277,7 +277,7 @@ class HistoryProgressBar extends StatelessWidget {
       child: LinearProgressIndicator(
         value: value.clamp(0.0, 1.0),
         minHeight: 6.0,
-        backgroundColor: trackColor,
+        backgroundColor: trackColor ?? KaloriColors.surfaceContainer,
         valueColor: AlwaysStoppedAnimation<Color>(color),
       ),
     );

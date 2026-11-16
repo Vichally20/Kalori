@@ -5,6 +5,7 @@ import 'package:kalori/core/routes/modules/log_routes.dart';
 import 'package:kalori/core/routes/modules/notifications_routes.dart';
 import 'package:kalori/core/routes/modules/onboarding_routes.dart';
 import 'package:kalori/core/routes/modules/profile_routes.dart';
+import 'package:kalori/core/routes/modules/water_routes.dart';
 
 class AppPages {
   static final List<GetPage<dynamic>> pages = [
@@ -14,5 +15,6 @@ class AppPages {
     ...NotificationsRoutes.routes,
     ...HistoryRoutes.routes,
     ...OnboardingRoutes.routes,
+    ...WaterRoutes.routes,
   ];
 }

@@ -163,7 +163,7 @@ class GenericCalorieRingWidget extends StatelessWidget {
         // Optional Macros / Secondary Metrics Breakdown
         if (resolvedMacros.isNotEmpty) ...[
           const SizedBox(height: KaloriSpacing.lg),
-          const Divider(color: KaloriColors.borderSlate, height: 1.0),
+          Divider(color: KaloriColors.borderSlate, height: 1.0),
           const SizedBox(height: KaloriSpacing.md),
           Row(
             children: resolvedMacros.asMap().entries.map((entry) {
@@ -192,11 +192,11 @@ class GenericCalorieRingWidget extends StatelessWidget {
         color: KaloriColors.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(KaloriRadius.lg),
         border: Border.all(color: KaloriColors.borderSlate),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
             color: KaloriColors.cardShadow,
             blurRadius: 20.0,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),

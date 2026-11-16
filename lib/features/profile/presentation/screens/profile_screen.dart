@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kalori/core/theme/app_theme.dart';
@@ -9,6 +7,7 @@ import 'package:kalori/features/onboarding/presentation/controllers/onboarding_c
 import 'package:kalori/features/profile/domain/entities/daily_targets.dart';
 import 'package:kalori/features/profile/domain/entities/user_profile.dart';
 import 'package:kalori/features/profile/presentation/controllers/profile_controller.dart';
+import 'package:kalori/features/profile/presentation/widgets/weight_sparkline.dart';
 
 /// Profile tab: identity, habits, weight goal, daily targets and settings.
 class ProfileView extends GetView<ProfileController> {
@@ -71,9 +70,9 @@ class ProfileView extends GetView<ProfileController> {
                 ],
               ),
               const SizedBox(height: KaloriSpacing.md),
-              _WeightCard(profile: profile, onLog: controller.logWeight),
-              const SizedBox(height: KaloriSpacing.md),
               _TargetsCard(targets: targets, onEdit: () => controller.editStep(OnboardingStep.goal)),
+              const SizedBox(height: KaloriSpacing.md),
+              _WeightCard(profile: profile, onLog: controller.openWeightLog),
               const _SectionLabel('BODY & GOAL'),
               _SettingsGroup(
                 children: [
@@ -110,10 +109,18 @@ class ProfileView extends GetView<ProfileController> {
                     onChanged: controller.setMealReminders,
                   ),
                   _SettingsRow(
+                    icon: Icons.dark_mode_outlined,
+                    iconColor: KaloriColors.onSurfaceVariant,
+                    title: 'Appearance',
+                    value: controller.appearanceLabel,
+                    onTap: controller.chooseAppearance,
+                  ),
+                  _SettingsRow(
                     icon: Icons.water_drop_outlined,
                     iconColor: KaloriColors.tertiary,
                     title: 'Water tracker',
-                    onTap: () => controller.comingSoon('Water tracker'),
+                    value: '${controller.waterToday} of ${controller.waterGoal} today',
+                    onTap: controller.openWater,
                   ),
                   _SettingsRow(
                     icon: Icons.monitor_heart_outlined,
@@ -225,7 +232,7 @@ class _IdentityRow extends StatelessWidget {
             backgroundColor: KaloriColors.surfaceContainerHigh,
             fixedSize: const Size(44.0, 44.0),
           ),
-          icon: const Icon(Icons.edit_outlined, size: 20.0, color: KaloriColors.onSurface),
+          icon: Icon(Icons.edit_outlined, size: 20.0, color: KaloriColors.onSurface),
         ),
       ],
     );
@@ -290,7 +297,7 @@ class _WeightCard extends StatelessWidget {
         color: KaloriColors.surfaceContainerLowest,
         borderRadius: KaloriRadius.borderLg,
         border: Border.all(color: KaloriColors.borderSlate),
-        boxShadow: const [BoxShadow(color: KaloriColors.cardShadow, blurRadius: 20.0, offset: Offset(0, 4))],
+        boxShadow: [BoxShadow(color: KaloriColors.cardShadow, blurRadius: 20.0, offset: const Offset(0, 4))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -328,11 +335,7 @@ class _WeightCard extends StatelessWidget {
                 Semantics(
                   label: 'Weight trend from ${ProfileView._kg(points.first.kg)} to ${ProfileView._kg(points.last.kg)}',
                   excludeSemantics: true,
-                  child: SizedBox(
-                    width: 110.0,
-                    height: 56.0,
-                    child: CustomPaint(painter: _SparklinePainter([for (final p in points) p.kg])),
-                  ),
+                  child: WeightSparkline(values: [for (final p in points) p.kg]),
                 ),
             ],
           ),
@@ -344,7 +347,7 @@ class _WeightCard extends StatelessWidget {
                 value: progress,
                 minHeight: 8.0,
                 backgroundColor: KaloriColors.surfaceContainer,
-                valueColor: const AlwaysStoppedAnimation<Color>(KaloriColors.successGreen),
+                valueColor: AlwaysStoppedAnimation<Color>(KaloriColors.successGreen),
               ),
             ),
             const SizedBox(height: 6.0),
@@ -375,51 +378,6 @@ class _WeightCard extends StatelessWidget {
       ),
     );
   }
-}
-
-class _SparklinePainter extends CustomPainter {
-  final List<double> values;
-
-  const _SparklinePainter(this.values);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final lo = values.reduce(math.min);
-    final hi = values.reduce(math.max);
-    final range = (hi - lo).abs() < 0.001 ? 1.0 : hi - lo;
-    const pad = 6.0;
-    final h = size.height - 10.0;
-    Offset at(int i) {
-      final x = pad + (size.width - pad * 2) * (values.length == 1 ? 0 : i / (values.length - 1));
-      final y = pad + (h - pad) * (1 - (values[i] - lo) / range);
-      return Offset(x, y);
-    }
-
-    final path = Path()..moveTo(at(0).dx, at(0).dy);
-    for (var i = 1; i < values.length; i++) {
-      path.lineTo(at(i).dx, at(i).dy);
-    }
-    canvas.drawLine(
-      Offset(0, size.height - 2),
-      Offset(size.width, size.height - 2),
-      Paint()
-        ..color = KaloriColors.borderSlate
-        ..strokeWidth = 1,
-    );
-    canvas.drawPath(
-      path,
-      Paint()
-        ..color = KaloriColors.successGreen
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2.5
-        ..strokeCap = StrokeCap.round
-        ..strokeJoin = StrokeJoin.round,
-    );
-    canvas.drawCircle(at(values.length - 1), 4.0, Paint()..color = KaloriColors.successGreen);
-  }
-
-  @override
-  bool shouldRepaint(covariant _SparklinePainter old) => old.values != values;
 }
 
 class _TargetsCard extends StatelessWidget {
@@ -522,7 +480,7 @@ class _SettingsGroup extends StatelessWidget {
         child: Column(
           children: [
             for (var i = 0; i < children.length; i++) ...[
-              if (i > 0) const Divider(color: KaloriColors.borderSlate, height: 1.0, indent: 16.0, endIndent: 16.0),
+              if (i > 0) Divider(color: KaloriColors.borderSlate, height: 1.0, indent: 16.0, endIndent: 16.0),
               children[i],
             ],
           ],
@@ -569,7 +527,7 @@ class _SettingsRow extends StatelessWidget {
                   ),
                 ),
               const SizedBox(width: 4.0),
-              const Icon(Icons.chevron_right_rounded, color: KaloriColors.outline),
+              Icon(Icons.chevron_right_rounded, color: KaloriColors.outline),
             ],
           ),
         ),

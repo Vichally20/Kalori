@@ -41,11 +41,11 @@ class MealBreakdownCard extends StatelessWidget {
             color: KaloriColors.surfaceContainerLowest,
             borderRadius: BorderRadius.circular(KaloriRadius.xl),
             border: Border.all(color: KaloriColors.borderSlate),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: Color(0x0F0D1C2F),
+                color: KaloriColors.cardShadow,
                 blurRadius: 16.0,
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -58,9 +58,9 @@ class MealBreakdownCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.restaurant_outlined,
-                    color: Color(0xFF855300),
+                    color: KaloriColors.secondary,
                     size: 24.0,
                   ),
                   const SizedBox(width: 8.0),
@@ -76,11 +76,11 @@ class MealBreakdownCard extends StatelessWidget {
               // Far right expand icon
               Container(
                 padding: const EdgeInsets.all(6.0),
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: KaloriColors.surfaceContainerHigh,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.keyboard_arrow_down,
                   size: 20.0,
                   color: KaloriColors.onSurfaceVariant,
@@ -98,11 +98,11 @@ class MealBreakdownCard extends StatelessWidget {
         color: KaloriColors.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(KaloriRadius.xl),
         border: Border.all(color: KaloriColors.borderSlate),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x120D1C2F),
+            color: KaloriColors.cardShadow,
             blurRadius: 24.0,
-            offset: Offset(0, 6),
+            offset: const Offset(0, 6),
           ),
         ],
       ),
@@ -116,9 +116,9 @@ class MealBreakdownCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.restaurant_outlined,
-                    color: Color(0xFF855300),
+                    color: KaloriColors.secondary,
                     size: 24.0,
                   ),
                   const SizedBox(width: 8.0),
@@ -140,13 +140,13 @@ class MealBreakdownCard extends StatelessWidget {
                       vertical: 6.0,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFE6F8F0),
+                      color: KaloriColors.successTint,
                       borderRadius: BorderRadius.circular(KaloriRadius.full),
                     ),
                     child: Text(
                       'LOGGED',
                       style: context.typography.labelCaps.copyWith(
-                        color: const Color(0xFF006C49),
+                        color: KaloriColors.primary,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -158,11 +158,11 @@ class MealBreakdownCard extends StatelessWidget {
                     behavior: HitTestBehavior.opaque,
                     child: Container(
                       padding: const EdgeInsets.all(6.0),
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: KaloriColors.surfaceContainerHigh,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.keyboard_arrow_up,
                         size: 20.0,
                         color: KaloriColors.onSurfaceVariant,
@@ -214,8 +214,8 @@ class MealBreakdownCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 12),
                       if (entry.syncStatus == SyncStatus.pending)
-                        const Padding(
-                          padding: EdgeInsets.only(top: 4.0),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
                           child: SizedBox(
                             width: 16,
                             height: 16,
@@ -243,7 +243,7 @@ class MealBreakdownCard extends StatelessWidget {
                   ),
                 ),
                 if (!isLast)
-                  const Divider(color: KaloriColors.borderSlate, height: 1.0),
+                  Divider(color: KaloriColors.borderSlate, height: 1.0),
               ],
             );
           }),
@@ -258,8 +258,8 @@ class MealBreakdownCard extends StatelessWidget {
                 label: 'CARBS',
                 value: '${carbs}g',
                 icon: Icons.water_drop_outlined,
-                iconColor: const Color(0xFF005AC2),
-                bgColor: const Color(0xFFEFF4FF),
+                iconColor: KaloriColors.tertiary,
+                bgColor: KaloriColors.macroCarbsBg,
                 borderColor: Colors.transparent,
               ),
               const SizedBox(width: KaloriSpacing.gutter),
@@ -268,9 +268,9 @@ class MealBreakdownCard extends StatelessWidget {
                 label: 'PROTEIN',
                 value: '${protein}g',
                 icon: Icons.fitness_center_outlined,
-                iconColor: const Color(0xFF006C49),
-                bgColor: const Color(0xFFF1F5F9),
-                borderColor: const Color(0xFF006C49), // Highlighted border
+                iconColor: KaloriColors.primary,
+                bgColor: KaloriColors.macroProteinBg,
+                borderColor: KaloriColors.primary, // Highlighted border
               ),
               const SizedBox(width: KaloriSpacing.gutter),
               _buildMacroCard(
@@ -278,8 +278,8 @@ class MealBreakdownCard extends StatelessWidget {
                 label: 'FAT',
                 value: '${fat}g',
                 icon: Icons.water_drop,
-                iconColor: const Color(0xFF855300),
-                bgColor: const Color(0xFFFEF3C7),
+                iconColor: KaloriColors.secondary,
+                bgColor: KaloriColors.macroFatBg,
                 borderColor: Colors.transparent,
               ),
             ],
