@@ -133,7 +133,8 @@ class LogController extends GetxController {
     chatMessages.add(loadingMsg);
     
     try {
-      final result = await logMealUseCase.execute(food.title, chatMessages.toList());
+      final history = chatMessages.sublist(0, chatMessages.length - 2);
+      final result = await logMealUseCase.execute(food.title, history);
       chatMessages.removeLast(); // Remove loading message
       
       if (result.needsClarification) {
@@ -178,7 +179,8 @@ class LogController extends GetxController {
       );
       
       try {
-        final result = await logMealUseCase.execute(cleanText, chatMessages.toList());
+        final history = chatMessages.sublist(0, chatMessages.length - 2);
+        final result = await logMealUseCase.execute(cleanText, history);
         chatMessages.removeLast(); // Remove loading message
         
         if (result.needsClarification) {

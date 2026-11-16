@@ -18,8 +18,12 @@ class LogRemoteAISourceImpl implements LogRemoteAISource {
     final historyText = history.isEmpty ? '' : 'Conversation History:\n' + history.map((e) => '${e.isUser ? "User" : "AI"}: ${e.text}').join('\n') + '\n\n';
     
     final prompt = '''
-You are a helpful nutrition assistant. Evaluate the user's food log input.
-If the input lacks portion sizes, cooking methods, or likely missing ingredients (e.g., 'rice and beans' usually has oil or protein), set needs_clarification to true and provide a natural, conversational reply_message asking for details. Do not calculate calories until the user provides enough context.
+You are a helpful nutrition assistant. Your task is to evaluate the user's food log input and return its nutritional breakdown.
+
+Please read the Conversation History and the Current Input. Treat the Current Input as the continuation of the Conversation History.
+If the COMBINED context of the meal lacks portion sizes, cooking methods, or likely missing ingredients (e.g., 'rice and beans' usually has oil or protein), set needs_clarification to true and provide a natural, conversational reply_message asking for the missing details.
+The reply_message MUST be concise and no more than two sentences.
+Do not calculate calories until the user provides enough context to make a reasonable estimate.
 
 $historyText
 Current Input: "$query"

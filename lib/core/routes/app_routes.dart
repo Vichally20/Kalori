@@ -1,7 +1,9 @@
+import 'package:kalori/features/history/presentation/screens/history_day_screen.dart';
 import 'package:kalori/features/history/presentation/screens/history_screen.dart';
 import 'package:kalori/features/home/presentation/screens/home_screen.dart';
 import 'package:kalori/features/log/presentation/screens/log_screen.dart';
 import 'package:kalori/features/notifications/presentation/screens/notifications_screen.dart';
+import 'package:kalori/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:kalori/features/profile/presentation/screens/profile_screen.dart';
 
 abstract class AppRoutes {
@@ -9,7 +11,9 @@ abstract class AppRoutes {
   static String profile = ProfileView.path;
   static String log = LogView.path;
   static String history = HistoryView.path;
+  static String historyDay = HistoryDayView.path;
   static String notifications = NotificationsView.path;
+  static String onboarding = OnboardingView.path;
 
   static const String settings = '/settings';
   static const String helpAndFeedback = '/helpAndFeedback';

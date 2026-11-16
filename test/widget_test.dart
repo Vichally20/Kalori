@@ -4,7 +4,7 @@ import 'package:kalori/main.dart';
 void main() {
   testWidgets('KaloriApp smoke test', (tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const KaloriApp());
+    await tester.pumpWidget(const KaloriApp(initialRoute: '/home'));
     await tester.pumpAndSettle();
 
     // Verify that our home view displays the welcome text.

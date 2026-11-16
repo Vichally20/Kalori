@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:kalori/features/history/presentation/bindings/history_binding.dart';
+import 'package:kalori/features/history/presentation/screens/history_day_screen.dart';
 import 'package:kalori/features/history/presentation/screens/history_screen.dart';
 
 class HistoryRoutes {
@@ -7,6 +8,11 @@ class HistoryRoutes {
     GetPage(
       name: HistoryView.path,
       page: () => const HistoryView(),
+      binding: HistoryBinding(),
+    ),
+    GetPage(
+      name: HistoryDayView.path,
+      page: () => const HistoryDayView(),
       binding: HistoryBinding(),
     ),
   ];

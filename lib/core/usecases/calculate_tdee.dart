@@ -1,5 +1,7 @@
 /// Usecase for calculating Total Daily Energy Expenditure (TDEE)
 class CalculateTDEE {
+  const CalculateTDEE();
+
   double execute({
     required double weightKg,
     required double heightCm,

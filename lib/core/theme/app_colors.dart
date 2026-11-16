@@ -90,6 +90,9 @@ class KaloriColors {
 
   /// Soft Card Shadow - 0px 4px 20px rgba(51, 65, 85, 0.08).
   static const Color cardShadow = Color(0x14334155);
+
+  /// Success Tint (#E6F8F0) - Pale green fill for LOGGED / IN PROGRESS pills and today's cell.
+  static const Color successTint = Color(0xFFE6F8F0);
 }
 
 /// [ThemeExtension] providing specialized and semantic colors defined in the

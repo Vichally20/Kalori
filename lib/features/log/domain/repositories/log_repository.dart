@@ -8,4 +8,7 @@ abstract class LogRepository {
   Future<List<FoodItem>> getFrequentMeals({int limit = 3});
   Future<void> saveMealItem(MealLogEntry item);
   Future<void> deleteMealItem(String id);
+
+  /// Permanently deletes every logged meal.
+  Future<void> clearAll();
 }

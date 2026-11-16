@@ -34,4 +34,7 @@ class LogRepositoryImpl implements LogRepository {
   Future<void> deleteMealItem(String id) async {
     await localDataSource.deleteMealItem(id);
   }
+
+  @override
+  Future<void> clearAll() => localDataSource.clearAll();
 }
